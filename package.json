@@ -1,25 +1,36 @@
 {
   "name": "platespottr-next",
-  "version": "0.1.0",
+  "version": "2025.07.01",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "biome lint ./src",
+    "patch DATE": "npm version patch && npm run update-manifest && git push --follow-tags",
+    "minor MONTH": "npm version minor && npm run update-manifest && git push --follow-tags",
+    "major YEAR": "npm version major && npm run update-manifest && git push --follow-tags",
+    "sync-manifest-version": "node scripts/sync-manifest-version.js",
+    "update-manifest": "npm run sync-manifest-version && git add public/manifest.json && git commit -m \"chore: sync manifest version\""
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/roboto": "^5.2.6",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "next": "15.4.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.1"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@biomejs/biome": "^2.1.1",
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

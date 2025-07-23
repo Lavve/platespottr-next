@@ -1,7 +1,21 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  devIndicators: false,
+  output: 'standalone',
+  headers: async () => {
+    return [
+      {
+        source: '/service-worker.js',
+        headers: [
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
+      },
+    ]
+  },
+}
 
-export default nextConfig;
+export default nextConfig
