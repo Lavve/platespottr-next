@@ -65,7 +65,7 @@ export default function Home() {
             </Grid>
             <Grid size={12}>
               <Button
-                variant='contained'
+                variant='outlined'
                 color='primary'
                 size='large'
                 fullWidth
@@ -79,11 +79,6 @@ export default function Home() {
 
           <RulesDialog open={isRulesDialogOpen} onClose={onCloseRulesDialog} />
           <SettingsDialog open={isSettingsDialogOpen} onClose={() => setIsSettingsDialogOpen(false)} />
-
-          {/* <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Roadsign text='Roadsign' />
-            <Roadsign number='22' text='Roadsign' />
-          </Box> */}
         </Container>
       </GameProvider>
     </MuiThemeProvider>

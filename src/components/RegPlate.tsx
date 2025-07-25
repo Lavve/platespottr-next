@@ -2,9 +2,6 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
-import { useEffect, useState } from 'react'
-import { useGame } from '@/providers/gameProvider'
-import { generateRandomLetters } from '@/utils/generatePlateLetters'
 
 const fontTratex = localFont({
   src: [
@@ -16,14 +13,7 @@ const fontTratex = localFont({
   ],
 })
 
-const RegPlate = () => {
-  const { game } = useGame()
-  const [letters, setLetters] = useState('')
-
-  useEffect(() => {
-    setLetters(generateRandomLetters())
-  }, [])
-
+const RegPlate = ({ letters, number }: { letters: string; number: number }) => {
   return (
     <Card
       sx={{
@@ -35,9 +25,6 @@ const RegPlate = () => {
         background: 'var(--regplate-gradient)',
         border: '4px solid #000',
         userSelect: 'none',
-      }}
-      onClick={() => {
-        setLetters(generateRandomLetters())
       }}
     >
       <Box
@@ -99,7 +86,7 @@ const RegPlate = () => {
                 color: 'regplate.contrastText',
               }}
             >
-              {game.currentPlate.toString().padStart(3, '0')}
+              {number.toString().padStart(3, '0')}
             </Typography>
           </>
         )}

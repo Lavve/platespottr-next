@@ -5,7 +5,17 @@ import Roadsign from '../Roadsign'
 import { ThemeToggle } from '../ThemeToggle'
 
 const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const { game, setGame } = useGame()
+  const { game, saveGame } = useGame()
+
+  const handleResetLastPlate = () => {
+    const newGame = {
+      ...game,
+      currentPlate: game.currentPlate === 1 ? 1 : game.currentPlate - 1,
+      findings: game.findings?.filter(finding => finding.plate !== game.currentPlate),
+    }
+
+    saveGame(newGame)
+  }
 
   return (
     <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
@@ -27,9 +37,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               color='warning'
               startIcon={<History />}
               fullWidth
-              onClick={() => {
-                setGame({ ...game, currentPlate: game.currentPlate - 1 })
-              }}
+              onClick={handleResetLastPlate}
             >
               Återställ senaste nummer
             </Button>
@@ -39,7 +47,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               startIcon={<Delete />}
               fullWidth
               onClick={() => {
-                setGame({ ...game, currentPlate: 1 })
+                saveGame({ ...game, currentPlate: 1 })
               }}
             >
               Återställ alla nummer
