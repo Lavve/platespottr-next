@@ -11,7 +11,7 @@ const fontTratex = localFont({
   ],
 })
 
-const Roadsign = () => {
+const Roadsign = ({ number, text }: { number?: string; text: string }) => {
   return (
     <Card
       sx={{
@@ -26,8 +26,20 @@ const Roadsign = () => {
         border: '4px solid #fff',
         background: 'var(--roadsign-gradient)',
         textTransform: 'uppercase',
+        userSelect: 'none',
       }}
     >
+      {number && (
+        <Typography
+          variant='h6'
+          sx={{
+            fontFamily: fontTratex.style.fontFamily,
+            color: 'roadsign.contrastText',
+          }}
+        >
+          {number}
+        </Typography>
+      )}
       <Typography
         variant='h6'
         sx={{
@@ -35,16 +47,7 @@ const Roadsign = () => {
           color: 'roadsign.contrastText',
         }}
       >
-        22
-      </Typography>
-      <Typography
-        variant='h6'
-        sx={{
-          fontFamily: fontTratex.style.fontFamily,
-          color: 'roadsign.contrastText',
-        }}
-      >
-        Roadsign
+        {text}
       </Typography>
     </Card>
   )

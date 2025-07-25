@@ -5,8 +5,8 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Container } from '@mui/material'
-import { ThemeProvider } from '@/providers/ThemeProvider'
 import '@/style/globals.css'
+import { SettingsProvider } from '@/providers/settingsProvider'
 
 export const metadata: Metadata = {
   title: 'Platespottr',
@@ -32,9 +32,9 @@ export default function RootLayout({
   return (
     <html lang='sv'>
       <body style={{ background: 'var(--background-gradient)' }}>
-        <Container>
-          <ThemeProvider>{children}</ThemeProvider>
-        </Container>
+        <SettingsProvider>
+          <Container>{children}</Container>
+        </SettingsProvider>
       </body>
     </html>
   )

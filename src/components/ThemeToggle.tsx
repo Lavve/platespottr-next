@@ -1,20 +1,29 @@
 'use client'
 
 import { Button, ButtonGroup } from '@mui/material'
-import { useThemeContext } from '@/providers/ThemeProvider'
+import { useSettings } from '@/providers/settingsProvider'
 
 export const ThemeToggle = () => {
-  const { themeMode, setTheme } = useThemeContext()
+  const { settings, setThemeChoice } = useSettings()
 
   return (
-    <ButtonGroup variant='outlined' size='small'>
-      <Button onClick={() => setTheme('light')} variant={themeMode === 'light' ? 'contained' : 'outlined'}>
+    <ButtonGroup variant='outlined' size='small' fullWidth>
+      <Button
+        onClick={() => setThemeChoice('light')}
+        variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
+      >
         Ljust
       </Button>
-      <Button onClick={() => setTheme('dark')} variant={themeMode === 'dark' ? 'contained' : 'outlined'}>
+      <Button
+        onClick={() => setThemeChoice('dark')}
+        variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
+      >
         Mörkt
       </Button>
-      <Button onClick={() => setTheme('system')} variant={themeMode === 'system' ? 'contained' : 'outlined'}>
+      <Button
+        onClick={() => setThemeChoice('system')}
+        variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
+      >
         System
       </Button>
     </ButtonGroup>

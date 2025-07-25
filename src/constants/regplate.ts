@@ -1,4 +1,4 @@
-export const alphabet = 'ABCDEFGHJKLMNOPRSTUWXYZ'
+export const alphabet = 'ABCDEFGHJKLMNOPRSTUXYZ'
 export const inappropriateWords = [
   'APA',
   'ARG',
@@ -17,6 +17,7 @@ export const inappropriateWords = [
   'FEM',
   'FES',
   'FET',
+  'FIS',
   'FNL',
   'FUC',
   'FUK',
@@ -35,6 +36,7 @@ export const inappropriateWords = [
   'HOT',
   'KGB',
   'KKK',
+  'KOR',
   'KUC',
   'KUF',
   'KUG',
@@ -44,6 +46,7 @@ export const inappropriateWords = [
   'LAT',
   'LEM',
   'LOJ',
+  'LOL',
   'LSD',
   'LUS',
   'MAD',
@@ -79,6 +82,7 @@ export const inappropriateWords = [
   'SUP',
   'SUR',
   'TBC',
+  'TEA',
   'TIO',
   'TOA',
   'TOK',

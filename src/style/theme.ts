@@ -46,8 +46,8 @@ const generalColors = {
   gradients: {
     backgroundLight: 'radial-gradient(circle, #fff 0%, #efefef 100%)',
     backgroundDark: 'radial-gradient(circle, #333 50%, #000 100%)',
-    roadsign: 'linear-gradient(135deg, #3385c7 0%, #0067a6 100%)',
-    regplate: 'linear-gradient(135deg, #fff 0%, #cdcdcd 100%)',
+    roadsign: 'linear-gradient(135deg, #015E97 0%, #3385c7 100%)',
+    regplate: 'linear-gradient(135deg, #dedede 30%, #fff 70%, #999 100%)',
   },
 } as const
 
