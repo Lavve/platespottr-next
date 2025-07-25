@@ -46,8 +46,8 @@ const generalColors = {
   gradients: {
     backgroundLight: 'radial-gradient(circle, #fff 0%, #efefef 100%)',
     backgroundDark: 'radial-gradient(circle, #333 50%, #000 100%)',
-    roadsign: 'linear-gradient(135deg, #015E97 0%, #3385c7 100%)',
-    regplate: 'linear-gradient(135deg, #dedede 30%, #fff 70%, #999 100%)',
+    roadsign: 'linear-gradient(135deg, #1365a7 0%, #3385c7 100%)',
+    regplate: 'linear-gradient(135deg, #ededed 30%, #fff 70%, #d0d0d0 100%)',
   },
 } as const
 
@@ -59,7 +59,7 @@ const theme = createTheme({
   palette: {
     mode: 'light', // Default mode
     background: {
-      default: '#ffffff',
+      default: '#e1e1e1',
       paper: '#f5f5f5',
     },
     text: {
@@ -119,7 +119,7 @@ export const darkTheme = createTheme({
       paper: '#1e1e1e',
     },
     text: {
-      primary: '#ffffff',
+      primary: '#e1e1e1',
       secondary: '#b0b0b0',
     },
     primary: {
@@ -132,13 +132,13 @@ export const darkTheme = createTheme({
       main: '#0067a6',
       light: '#3385c7',
       dark: '#004d7a',
-      contrastText: '#fff',
+      contrastText: '#e1e1e1',
     },
     accent: {
       main: '#ff6b35',
       light: '#ff8a5c',
       dark: '#e55a2b',
-      contrastText: '#fff',
+      contrastText: '#e1e1e1',
     },
     roadsign: {
       ...generalColors.roadsign,
