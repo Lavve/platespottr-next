@@ -22,7 +22,6 @@ const Streak = () => {
         flexDirection: 'column',
         width: '100%',
       }}
-      elevation={8}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, textAlign: 'center' }}>
         <LocalFireDepartment color='warning' fontSize='large' />

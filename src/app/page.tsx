@@ -66,10 +66,7 @@ export default function Home() {
     <MuiThemeProvider theme={currentTheme}>
       <CssBaseline />
       <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
-        <Paper
-          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}
-          elevation={8}
-        >
+        <Paper sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}>
           <Logo size={50} />
           <Typography
             component='h1'

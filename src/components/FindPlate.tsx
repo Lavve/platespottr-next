@@ -68,7 +68,7 @@ const FindPlate = () => {
   if (!user) return null
 
   return (
-    <Paper sx={{ borderRadius: 2 }}>
+    <Paper sx={{ borderRadius: 2 }} elevation={8}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
         <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
         <RegPlate letters={letters} number={user.plates.length + 1} />
