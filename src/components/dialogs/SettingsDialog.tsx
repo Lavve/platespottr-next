@@ -91,6 +91,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Typography variant='h6'>{t('settings.title')}</Typography>
                 <Typography>{t('settings.appearance')}</Typography>
                 <ButtonGroup variant='outlined' fullWidth>
                   <Button
@@ -165,7 +166,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Card>
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography>{t('settings.resetting')}</Typography>
+              <Typography variant='h6'>{t('settings.resetting')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
@@ -178,7 +179,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               </Button>
               <Button
                 variant='outlined'
-                color='secondary'
+                color='error'
                 startIcon={<Delete />}
                 fullWidth
                 disabled={!user?.plates?.length}
@@ -190,25 +191,35 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Card>
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography>{t('settings.account')}</Typography>
-              <Button
-                variant='contained'
-                color='secondary'
-                startIcon={<Logout />}
-                fullWidth
-                onClick={() => setConfirmLogoutUserDialogOpen(true)}
-              >
-                {t('settings.logout')}
-              </Button>
-              <Button
-                variant='outlined'
-                color='error'
-                startIcon={<Delete />}
-                fullWidth
-                onClick={() => setConfirmDeleteUserDialogOpen(true)}
-              >
-                {t('settings.delete_account')}
-              </Button>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant='h6'>{t('settings.account')}</Typography>
+                <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                  {t.rich('settings.logged_in_as', {
+                    name: user.name,
+                    strong: chunks => <b>{chunks}</b>,
+                  })}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  variant='contained'
+                  color='secondary'
+                  startIcon={<Logout />}
+                  fullWidth
+                  onClick={() => setConfirmLogoutUserDialogOpen(true)}
+                >
+                  {t('settings.logout')}
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='error'
+                  startIcon={<Delete />}
+                  fullWidth
+                  onClick={() => setConfirmDeleteUserDialogOpen(true)}
+                >
+                  {t('settings.delete_account')}
+                </Button>
+              </Box>
             </CardContent>
           </Card>
         </DialogContent>

@@ -52,7 +52,7 @@
     "add": "Add friend",
     "remove": "Remove friend",
     "show_my_qr": "Show my QR code",
-    "your_friend_code": "Your friend code",
+    "your_platespottr_code": "Your Platespottr code",
     "friends_requests": "Friend requests",
     "my_friends": "My friends"
   },
@@ -111,6 +111,7 @@
     "reset_last_plate": "Reset last number",
     "reset_all_data": "Reset all data",
     "account": "Account",
+    "logged_in_as": "You are logged in as <strong>{name}</strong>",
     "logout": "Log out",
     "delete_account": "Delete account"
   }

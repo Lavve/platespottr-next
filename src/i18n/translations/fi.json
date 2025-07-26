@@ -52,7 +52,7 @@
     "add": "Lisää ystävä",
     "remove": "Poista ystävä",
     "show_my_qr": "Näytä QR-koodini",
-    "your_friend_code": "Ystäväkoodisi",
+    "your_platespottr_code": "Platespottr-koodisi",
     "friends_requests": "Ystäväpyynnöt",
     "my_friends": "Omat ystävät"
   },
@@ -111,6 +111,7 @@
     "reset_last_plate": "Nollaa viimeinen numero",
     "reset_all_data": "Nollaa kaikki tiedot",
     "account": "Tili",
+    "logged_in_as": "Olet kirjautunut sisään nimellä <strong>{name}</strong>",
     "logout": "Kirjaudu ulos",
     "delete_account": "Poista tili"
   }

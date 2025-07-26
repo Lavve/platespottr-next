@@ -43,7 +43,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
           }}
         >
           <Typography variant='body2' sx={{ textAlign: 'center' }}>
-            {t('friends.your_friend_code')}
+            {t('friends.your_platespottr_code')}
           </Typography>
           <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }} fontWeight='bold'>
             {user?.slug}

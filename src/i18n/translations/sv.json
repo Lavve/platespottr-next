@@ -52,7 +52,7 @@
     "add": "Lägg till vän",
     "remove": "Ta bort vän",
     "show_my_qr": "Visa min QR-kod",
-    "your_friend_code": "Din vän-kod",
+    "your_platespottr_code": "Din Platespottr-kod",
     "friends_requests": "Vänförfrågningar",
     "my_friends": "Mina vänner"
   },
@@ -74,7 +74,7 @@
       "real_plates": "Verkliga registreringsskyltar",
       "real_plates_description": "Numret måste ses på en riktig, svensk registreringsskylt i verkligheten, inte på TV, mobil, affisch eller andra bilder.",
       "number_format": "Nummerformat",
-      "number_format_description": "Endast nummer utan bokstav i slutet räknas. Exempel: ABC123 är giltigt, men ABC12A är inte giltigt. Personliga registernummer räknas alltså inte.",
+      "number_format_description": "Endast nummer utan bokstav i slutet räknas. Exempel: ABC 123 är giltigt, men ABC 12A är inte giltigt. Personliga registernummer räknas alltså inte.",
       "traffic_safety": "Säkerhet i trafiken",
       "traffic_safety_description": "Var alltid försiktig när du letar efter nummer i trafiken. Din säkerhet går före spelet."
     },
@@ -90,7 +90,7 @@
       "rule_3": "Använd säkra platser som parkeringar och busshållplatser",
       "rule_4": "Var uppmärksam på din omgivning när du rör dig i trafiken",
       "rule_5": "Respektera andra människors egendom och integritet",
-      "remember_safety": "Kom ihåg: Säkerheten går alltid före spelet. Var ansvarsfull!",
+      "remember_safety": "OBS! Säkerheten går alltid före spelet. Var ansvarsfull!",
       "understood": "Ja, jag har läst och förstått reglerna"
     }
   },
@@ -111,6 +111,7 @@
     "reset_last_plate": "Återställ senaste nummer",
     "reset_all_data": "Återställ all data",
     "account": "Konto",
+    "logged_in_as": "Du är inloggad som <strong>{name}</strong>",
     "logout": "Logga ut",
     "delete_account": "Radera konto"
   }

@@ -1,5 +1,6 @@
 import { Check, Close, HelpCenter, Info, Warning } from '@mui/icons-material'
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -15,13 +16,16 @@ import {
   List,
   ListItem,
   ListItemText,
+  Paper,
   Typography,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import Logo from '@/components/Logo'
 import Roadsign from '@/components/Roadsign'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
+import packageJson from '../../../package.json'
 
 const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
@@ -90,11 +94,11 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Close sx={{ color: 'error.main', mr: 1 }} />
-                <ListItemText primary='EFG 12A' secondary={t('rules.examples.invalid')} />
+                <ListItemText primary='GHJ 12K' secondary={t('rules.examples.invalid')} />
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Check sx={{ color: 'success.main', mr: 1 }} />
-                <ListItemText primary='XYZ 999' secondary={t('rules.examples.valid')} />
+                <ListItemText primary='DEF 999' secondary={t('rules.examples.valid')} />
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Close sx={{ color: 'error.main', mr: 1 }} />
@@ -140,11 +144,33 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
                 <ListItemText primary={t('rules.important_safety_rules.rule_5')} />
               </ListItem>
             </List>
-            <Typography sx={{ mt: 2, fontWeight: 'bold' }}>
+            <Typography sx={{ mt: 2, fontWeight: 'bold', textAlign: 'center' }}>
               {t('rules.important_safety_rules.remember_safety')}
             </Typography>
           </CardContent>
         </Card>
+        <Paper sx={{ overflow: 'visible' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Logo size={40} />
+              <Typography
+                component='h1'
+                variant='h6'
+                sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
+              >
+                latespottr
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+              <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
+                v.{packageJson.version}
+              </Typography>
+              <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
+                @ {new Date().getFullYear()}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Paper>
         {settings.initialRulesDialogOpen && (
           <>
             <Divider sx={{ my: 2 }} />

@@ -1,21 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { defaultUser } from '@/constants/user'
 import type { IUser, IUserContext } from '@/types/user'
-import { generateSlug } from '@/utils/generateSlug'
-
-const defaultUser: IUser = {
-  name: 'Magnus',
-  plates: [
-    Date.now(),
-    Date.now() - 1000 * 60 * 60 * 24,
-    Date.now() - 1000 * 60 * 60 * 24 * 2,
-    Date.now() - 1000 * 60 * 60 * 24 * 3,
-    Date.now() - 1000 * 60 * 60 * 24 * 4,
-    Date.now() - 1000 * 60 * 60 * 24 * 5,
-    Date.now() - 1000 * 60 * 60 * 24 * 7,
-  ],
-  slug: generateSlug(),
-  requesting: false,
-}
 
 const UserContext = createContext<IUserContext | undefined>(undefined)
 
