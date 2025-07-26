@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { ISettings, ISettingsContext, Language, ThemeMode } from '@/types/settings'
+import type { ISettings, ISettingsContext, ThemeMode } from '@/types/settings'
 import { generateSlug } from '@/utils/generateSlug'
 
 const defaultSettings: ISettings = {

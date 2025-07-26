@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { formatDateToYYYYMMDD, getWeekNumber } from '@/utils/dates'
+import { getWeekNumber } from '@/utils/dates'
 
 export const useStatistics = (findings?: number[]) => {
   const getFindingsByWeek = useCallback((findings: number[]): Map<number, number> => {
