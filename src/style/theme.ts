@@ -81,6 +81,12 @@ const theme = createTheme({
       dark: '#000',
       contrastText: '#f7f7f7',
     },
+    success: {
+      main: '#008000',
+      light: '#00b300',
+      dark: '#006600',
+      contrastText: '#f7f7f7',
+    },
     warning: {
       main: '#8B6E36',
       light: '#9E773D',

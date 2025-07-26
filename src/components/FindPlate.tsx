@@ -1,6 +1,7 @@
 'use client'
 
 import { Box, Button, CardContent, LinearProgress, Paper, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import RegPlate from '@/components/RegPlate'
 import { useUser } from '@/providers/userProvider'
@@ -8,6 +9,7 @@ import { generateRandomLetters } from '@/utils/generatePlateLetters'
 import { vibrate } from '@/utils/vibrate'
 
 const FindPlate = () => {
+  const t = useTranslations()
   const { user, saveUser } = useUser()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -42,7 +44,7 @@ const FindPlate = () => {
 
     timeoutRef.current = setTimeout(() => {
       saveUser({ ...user, plates: [...user.plates, Date.now()] })
-      vibrate()
+      vibrate(60)
       endHold()
       setLetters(generateRandomLetters())
     }, holdDuration)
@@ -68,7 +70,7 @@ const FindPlate = () => {
   return (
     <Paper sx={{ borderRadius: 2 }}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
-        <Typography variant='h6'>Nästa nummer att hitta</Typography>
+        <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
         <RegPlate letters={letters} number={user.plates.length + 1} />
         <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
           <Button
@@ -80,8 +82,9 @@ const FindPlate = () => {
             onMouseLeave={endHold}
             onTouchStart={startHold}
             onTouchEnd={endHold}
+            sx={{ userSelect: 'none' }}
           >
-            Hittad!
+            {t('common.found')}
           </Button>
           {isHolding && (
             <Box
@@ -112,7 +115,7 @@ const FindPlate = () => {
           )}
         </Box>
         <Typography variant='body2' color='text.secondary'>
-          Håll inne knappen i 1.5 sekunder för att registrera numret
+          {t('app.press_for_seconds', { seconds: holdDuration / 1000 })}
         </Typography>
       </CardContent>
     </Paper>

@@ -1,0 +1,111 @@
+{
+  "common": {
+    "done": "Done!",
+    "close": "Close",
+    "cancel": "Cancel",
+    "found": "Found!",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "app": {
+    "next_number_to_find": "Next number to find",
+    "press_for_seconds": "Hold the button for {seconds} seconds to register the number",
+    "statistics": "Statistics",
+    "friends": "Friends",
+    "toplist": "Toplist",
+    "rules": "Rules",
+    "settings": "Settings",
+    "plate_lang": "S"
+  },
+  "completed": {
+    "title": "You did it!",
+    "description": "You've found all license plates! Great job!"
+  },
+  "confirm": {
+    "confirm": "Confirm",
+    "remove_title": "Remove?",
+    "remove_content": "Are you sure you want to remove {name}?",
+    "reset_all_data_title": "Reset all numbers",
+    "reset_all_data_content": "Are you sure you want to reset all numbers?",
+    "logout_title": "Log out",
+    "logout_content": "Are you sure you want to log out?",
+    "delete_account_title": "Delete account",
+    "delete_account_content": "Are you sure you want to delete your account? This action cannot be undone."
+  },
+  "statistics": {
+    "title": "Statistics",
+    "current_streak": "Current streak",
+    "streaks_days_in_a_row": "{streak} days in a row",
+    "numbers_per_week": "Numbers per week:",
+    "latest_found_number": "Latest found number:"
+  },
+  "friends": {
+    "title": "Friends",
+    "description": "Friends",
+    "add": "Add friend",
+    "remove": "Remove friend",
+    "show_my_qr": "Show my QR code",
+    "your_friend_code": "Your friend code",
+    "friends_requests": "Friend requests",
+    "my_friends": "My friends"
+  },
+  "toplist": {
+    "title": "Toplist",
+    "number": "Number",
+    "number_description": "Total number of found plates",
+    "streak": "Streak",
+    "streak_description": "Most streaks",
+    "you": "You",
+    "toplist_tagline": "Can you reach the top before reaching the final number?"
+  },
+  "rules": {
+    "title": "Rules",
+    "game_rules": {
+      "title": "Game rules",
+      "order": "Order",
+      "order_description": "You must find all numbers in order from 001 to 999. You can't skip or 'save' numbers for later.",
+      "real_plates": "Real license plates",
+      "real_plates_description": "The number must be seen on a real Swedish license plate in real life—not on TV, phone, poster, or other images.",
+      "number_format": "Number format",
+      "number_format_description": "Only numbers without a letter at the end count. Example: ABC123 is valid, but ABC12A is not. Personalized plates do not count.",
+      "traffic_safety": "Traffic safety",
+      "traffic_safety_description": "Always be careful when searching for numbers in traffic. Your safety comes before the game."
+    },
+    "examples": {
+      "title": "Example numbers",
+      "valid": "Valid",
+      "invalid": "Invalid"
+    },
+    "important_safety_rules": {
+      "title": "Important safety rules",
+      "rule_1": "Never drive while looking for numbers",
+      "rule_2": "As a passenger – help the driver focus on the road",
+      "rule_3": "Use safe places like parking lots and bus stops",
+      "rule_4": "Be aware of your surroundings when moving in traffic",
+      "rule_5": "Respect other people's property and privacy",
+      "remember_safety": "Remember: Safety always comes before the game. Be responsible!",
+      "understood": "Yes, I have read and understood the rules"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "dark": "Dark",
+    "light": "Light",
+    "auto": "Automatic",
+    "language": "Language",
+    "swedish": "Swedish",
+    "english": "English",
+    "resetting": "Resetting",
+    "reset_last_plate": "Reset last number",
+    "reset_all_data": "Reset all data",
+    "account": "Account",
+    "logout": "Log out",
+    "delete_account": "Delete account"
+  }
+}

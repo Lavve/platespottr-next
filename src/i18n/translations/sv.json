@@ -1,0 +1,111 @@
+{
+  "common": {
+    "done": "Klart!",
+    "close": "Stäng",
+    "cancel": "Avbryt",
+    "found": "Hittad!",
+    "save": "Spara",
+    "delete": "Radera",
+    "edit": "Redigera",
+    "add": "Lägg till",
+    "remove": "Ta bort",
+    "today": "Idag",
+    "yesterday": "I går"
+  },
+  "app": {
+    "next_number_to_find": "Nästa nummer att hitta",
+    "press_for_seconds": "Håll inne knappen i {seconds} sekunder för att registrera numret",
+    "statistics": "Statistik",
+    "friends": "Vänner",
+    "toplist": "Topplista",
+    "rules": "Regler",
+    "settings": "Inställningar",
+    "plate_lang": "S"
+  },
+  "completed": {
+    "title": "Du har klarat det!",
+    "description": "Du har klarat av alla registreringsnummer! Bra jobbat!"
+  },
+  "confirm": {
+    "confirm": "Bekräfta",
+    "remove_title": "Ta bort?",
+    "remove_content": "Är du säker på att du vill ta bort {name}?",
+    "reset_all_data_title": "Återställ alla nummer",
+    "reset_all_data_content": "Är du säker på att du vill återställa alla nummer?",
+    "logout_title": "Logga ut",
+    "logout_content": "Är du säker på att du vill logga ut?",
+    "delete_account_title": "Radera konto",
+    "delete_account_content": "Är du säker på att du vill radera ditt konto? Detta kan inte ångras."
+  },
+  "statistics": {
+    "title": "Statistik",
+    "current_streak": "Aktuell streak",
+    "streaks_days_in_a_row": "{streak} dagar i rad",
+    "numbers_per_week": "Nummer per vecka:",
+    "latest_found_number": "Senaste hittade nummer:"
+  },
+  "friends": {
+    "title": "Vänner",
+    "description": "Vänner",
+    "add": "Lägg till vän",
+    "remove": "Ta bort vän",
+    "show_my_qr": "Visa min QR-kod",
+    "your_friend_code": "Din vän-kod",
+    "friends_requests": "Vänförfrågningar",
+    "my_friends": "Mina vänner"
+  },
+  "toplist": {
+    "title": "Topplista",
+    "number": "Nummer",
+    "number_description": "Totalt antal hittade nummer",
+    "streak": "Streak",
+    "streak_description": "Flest streaks",
+    "you": "Du",
+    "toplist_tagline": "Lyckas du komma till toppen innan du kommer till mål?"
+  },
+  "rules": {
+    "title": "Regler",
+    "game_rules": {
+      "title": "Spelregler",
+      "order": "Ordningsföljd",
+      "order_description": "Du måste hitta alla nummer i ordning från 001 till 999. Du kan inte hoppa över nummer eller \"spara\" ett nummer till senare.",
+      "real_plates": "Verkliga registreringsskyltar",
+      "real_plates_description": "Numret måste ses på en riktig, svensk registreringsskylt i verkligheten, inte på TV, mobil, affisch eller andra bilder.",
+      "number_format": "Nummerformat",
+      "number_format_description": "Endast nummer utan bokstav i slutet räknas. Exempel: ABC123 är giltigt, men ABC12A är inte giltigt. Personliga registernummer räknas alltså inte.",
+      "traffic_safety": "Säkerhet i trafiken",
+      "traffic_safety_description": "Var alltid försiktig när du letar efter nummer i trafiken. Din säkerhet går före spelet."
+    },
+    "examples": {
+      "title": "Exempel på nummer",
+      "valid": "Giltigt",
+      "invalid": "Ogiltigt"
+    },
+    "important_safety_rules": {
+      "title": "Viktiga säkerhetsråd",
+      "rule_1": "Kör aldrig bil samtidigt som du letar efter nummer",
+      "rule_2": "Som passagerare - hjälp föraren att koncentrera sig på körningen",
+      "rule_3": "Använd säkra platser som parkeringar och busshållplatser",
+      "rule_4": "Var uppmärksam på din omgivning när du rör dig i trafiken",
+      "rule_5": "Respektera andra människors egendom och integritet",
+      "remember_safety": "Kom ihåg: Säkerheten går alltid före spelet. Var ansvarsfull!",
+      "understood": "Ja, jag har läst och förstått reglerna"
+    }
+  },
+  "settings": {
+    "title": "Inställningar",
+    "appearance": "Utseende",
+    "dark": "Mörk",
+    "light": "Ljust",
+    "auto": "Automatiskt",
+    "language": "Språk",
+    "swedish": "Svenska",
+    "english": "Engelska",
+    "resetting": "Återställning",
+    "reset_last_plate": "Återställ senaste nummer",
+    "reset_all_data": "Återställ all data",
+    "account": "Konto",
+    "logout": "Logga ut",
+    "delete_account": "Radera konto"
+  }
+}

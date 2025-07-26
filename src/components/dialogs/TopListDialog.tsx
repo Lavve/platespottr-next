@@ -1,4 +1,5 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import Roadsign from '@/components/Roadsign'
 import User from '@/components/User'
@@ -8,6 +9,7 @@ import { useUser } from '@/providers/userProvider'
 import { getDaysBetween } from '@/utils/dates'
 
 const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const [sortBy, setSortBy] = useState<'plates' | 'streak' | 'percentage'>('plates')
   const { friendList } = useFriends()
   const { calculateMaxStreak } = useStatistics()
@@ -42,20 +44,20 @@ const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
   return (
     <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Roadsign text='Topplista' />
+        <Roadsign text={t('toplist.title')} />
       </DialogTitle>
       <DialogContent>
         <Tabs value={sortBy} variant='fullWidth' onChange={(_, value) => setSortBy(value)} sx={{ mb: 2 }}>
-          <Tab label='Nummer' value='plates' />
-          <Tab label='Streak' value='streak' />
+          <Tab label={t('toplist.number')} value='plates' />
+          <Tab label={t('toplist.streak')} value='streak' />
           {/* <Tab label='Procent' value='percentage' /> */}
         </Tabs>
         <Typography variant='h6' sx={{ textAlign: 'center' }}>
           {sortBy === 'plates'
-            ? 'Totalt antal hittade nummer'
+            ? t('toplist.number_description')
             : sortBy === 'streak'
-              ? 'Flest streaks'
-              : 'Nummer per dag'}
+              ? t('toplist.streak_description')
+              : t('toplist.percentage_description')}
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
           {toplist.map((friend, place) => (
@@ -63,12 +65,12 @@ const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
           ))}
         </Box>
         <Typography variant='body1' sx={{ textAlign: 'center', mt: 2, textWrap: 'pretty' }}>
-          Lyckas du komma i topp innan du kommer till mål?
+          {t('toplist.toplist_tagline')}
         </Typography>
       </DialogContent>
       <DialogActions>
         <Button variant='contained' color='primary' onClick={onClose}>
-          Stäng
+          {t('common.close')}
         </Button>
       </DialogActions>
     </Dialog>

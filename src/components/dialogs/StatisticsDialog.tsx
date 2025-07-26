@@ -1,11 +1,13 @@
 import { CalendarMonth, LocalFireDepartment, Timeline } from '@mui/icons-material'
 import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import Roadsign from '@/components/Roadsign'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
 import { relativeDays } from '@/utils/dates'
 
 const StatisticsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const { user } = useUser()
   const { maxStreak, latestFinding, findingsByWeek } = useStatistics(user?.plates || [])
   const maxWeek = Math.max(...Array.from(findingsByWeek?.values() ?? []))
@@ -15,7 +17,7 @@ const StatisticsDialog = ({ open, onClose }: { open: boolean; onClose: () => voi
   return (
     <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Roadsign text='Statistik' />
+        <Roadsign text={t('statistics.title')} />
       </DialogTitle>
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {maxStreak > 1 && (
@@ -30,15 +32,15 @@ const StatisticsDialog = ({ open, onClose }: { open: boolean; onClose: () => voi
             }}
           >
             <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <LocalFireDepartment color='warning' /> Nuvarande streak:
+              <LocalFireDepartment color='warning' /> {t('statistics.current_streak')}
             </Typography>
-            <Typography variant='h5'>{maxStreak} dagar i rad</Typography>
+            <Typography variant='h6'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
           </Card>
         )}
         {findingsByWeek && (
           <Card sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-            <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Timeline color='success' /> Hittade nummer per vecka:
+            <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Timeline color='success' /> {t('statistics.numbers_per_week')}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
               {findingsByWeek &&
@@ -101,15 +103,15 @@ const StatisticsDialog = ({ open, onClose }: { open: boolean; onClose: () => voi
             }}
           >
             <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CalendarMonth color='info' /> Senaste hittade nummer:
+              <CalendarMonth color='info' /> {t('statistics.latest_found_number')}
             </Typography>
-            <Typography variant='h5'>{relativeDays(new Date(latestFinding))}</Typography>
+            <Typography variant='h6'>{relativeDays(new Date(latestFinding))}</Typography>
           </Card>
         )}
       </DialogContent>
       <DialogActions>
         <Button variant='contained' size='large' onClick={onClose} color='primary'>
-          Stäng
+          {t('common.close')}
         </Button>
       </DialogActions>
     </Dialog>

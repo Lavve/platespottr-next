@@ -1,10 +1,12 @@
 'use client'
 
 import { Box, Dialog, DialogContent, Paper, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import QRCode from 'react-qr-code'
 import { useUser } from '@/providers/userProvider'
 
 const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const { user } = useUser()
 
   if (!open) return null
@@ -41,7 +43,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
           }}
         >
           <Typography variant='body2' sx={{ textAlign: 'center' }}>
-            Din vänkod:
+            {t('friends.your_friend_code')}
           </Typography>
           <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }} fontWeight='bold'>
             {user?.slug}

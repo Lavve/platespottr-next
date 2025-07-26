@@ -1,11 +1,13 @@
 import { Bookmark, Check, Close, EmojiEvents, LocalFireDepartment, WorkspacePremium } from '@mui/icons-material'
 import { Avatar, Box, Button, Paper, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
 import type { IUserProps } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 
 const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
+  const t = useTranslations()
   const { user } = useUser()
   const { maxStreak } = useStatistics(friend.plates)
   const isSelf = user?.name === friend.name
@@ -42,13 +44,13 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
           <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>{friend.name.slice(0, 2)}</Avatar>
         )}
         <Box>
-          <Typography variant='h6'>{isSelf ? 'Du' : friend.name}</Typography>
+          <Typography variant='h6'>{isSelf ? t('toplist.you') : friend.name}</Typography>
           {!friend.requesting && !place && (
             <Typography variant='body2'>{relativeDays(new Date(friend.friendSince ?? 0))}</Typography>
           )}
         </Box>
       </Box>
-      <Box sx={{ width: '20%' }}>
+      <Box sx={{ width: '15%' }}>
         <Typography variant='body1' sx={{ fontWeight: 700, whiteSpace: 'nowrap', textAlign: 'center' }}>
           {friend.plates.length}
         </Typography>
@@ -76,7 +78,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         </Box>
       ) : (
         <>
-          <Box sx={{ ml: 'auto' }}>
+          <Box sx={{ width: '15%', ml: 'auto' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0 }}>
               <LocalFireDepartment color='warning' />
               <Typography variant='body2'>{maxStreak}</Typography>
@@ -87,7 +89,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
               variant='contained'
               color='error'
               size='small'
-              sx={{ minWidth: 40 }}
+              sx={{ minWidth: 40, ml: 'auto' }}
               onClick={() => onRemoveFriend?.(friend)}
             >
               <Close />

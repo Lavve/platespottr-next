@@ -1,9 +1,11 @@
 'use client'
 
 import { BarChart, EmojiEvents, Help, People, Settings } from '@mui/icons-material'
-import { Badge, Box, Button, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material'
+import { Badge, Button, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material'
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import CompleteDialog from '@/components/dialogs/CompleteDialog'
 import FriendsDialog from '@/components/dialogs/FriendsDialog'
 import RulesDialog from '@/components/dialogs/RulesDialog'
 import SettingsDialog from '@/components/dialogs/SettingsDialog'
@@ -16,8 +18,10 @@ import { useFriends } from '@/providers/friendsProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import theme, { darkTheme } from '@/style/theme'
+import { vibrate } from '@/utils/vibrate'
 
 export default function Home() {
+  const t = useTranslations()
   const { user } = useUser()
   const { settings, saveSettings } = useSettings()
   const { friendList, friendRequests } = useFriends()
@@ -26,6 +30,7 @@ export default function Home() {
   const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false)
   const [isStatisticsDialogOpen, setIsStatisticsDialogOpen] = useState(false)
   const [isTopListDialogOpen, setIsTopListDialogOpen] = useState(false)
+  const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
   const currentTheme = useMemo(() => (settings.theme === 'dark' ? darkTheme : theme), [settings.theme])
   const initialRuleTimer = useRef<NodeJS.Timeout | null>(null)
 
@@ -51,13 +56,26 @@ export default function Home() {
     setIsRulesDialogOpen(false)
   }
 
+  useEffect(() => {
+    if (user?.plates.length === 999) {
+      setIsCompleteDialogOpen(true)
+    }
+  }, [user?.plates])
+
   return (
     <MuiThemeProvider theme={currentTheme}>
       <CssBaseline />
       <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
-        <Paper sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}>
+        <Paper
+          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}
+          elevation={8}
+        >
           <Logo size={50} />
-          <Typography component='h1' variant='h4' sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100 }}>
+          <Typography
+            component='h1'
+            variant='h5'
+            sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
+          >
             latespottr
           </Typography>
         </Paper>
@@ -75,9 +93,12 @@ export default function Home() {
               fullWidth
               disabled={user?.plates.length === 1}
               startIcon={<BarChart />}
-              onClick={() => setIsStatisticsDialogOpen(true)}
+              onClick={() => {
+                vibrate()
+                setIsStatisticsDialogOpen(true)
+              }}
             >
-              Statistik
+              {t('app.statistics')}
             </Button>
           </Grid>
           <Grid size={4}>
@@ -88,10 +109,13 @@ export default function Home() {
               fullWidth
               startIcon={<People />}
               disabled={friendList.length + friendRequests.length === 0}
-              onClick={() => setIsFriendsDialogOpen(true)}
+              onClick={() => {
+                vibrate()
+                setIsFriendsDialogOpen(true)
+              }}
             >
               <Badge badgeContent={friendRequests.length} color='secondary'>
-                Vänner
+                {t('app.friends')}
               </Badge>
             </Button>
           </Grid>
@@ -103,9 +127,12 @@ export default function Home() {
               disabled={friendList.length === 0}
               fullWidth
               startIcon={<EmojiEvents />}
-              onClick={() => setIsTopListDialogOpen(true)}
+              onClick={() => {
+                vibrate()
+                setIsTopListDialogOpen(true)
+              }}
             >
-              Topplista
+              {t('app.toplist')}
             </Button>
           </Grid>
           <Grid size={6}>
@@ -115,9 +142,12 @@ export default function Home() {
               size='large'
               fullWidth
               startIcon={<Help />}
-              onClick={() => setIsRulesDialogOpen(true)}
+              onClick={() => {
+                vibrate()
+                setIsRulesDialogOpen(true)
+              }}
             >
-              Regler
+              {t('app.rules')}
             </Button>
           </Grid>
           <Grid size={6}>
@@ -127,18 +157,58 @@ export default function Home() {
               size='large'
               fullWidth
               startIcon={<Settings />}
-              onClick={() => setIsSettingsDialogOpen(true)}
+              onClick={() => {
+                vibrate()
+                setIsSettingsDialogOpen(true)
+              }}
             >
-              Inställningar
+              {t('app.settings')}
             </Button>
           </Grid>
         </Grid>
 
-        <FriendsDialog open={isFriendsDialogOpen} onClose={() => setIsFriendsDialogOpen(false)} />
-        <StatisticsDialog open={isStatisticsDialogOpen} onClose={() => setIsStatisticsDialogOpen(false)} />
-        <RulesDialog open={isRulesDialogOpen} onClose={onCloseRulesDialog} />
-        <SettingsDialog open={isSettingsDialogOpen} onClose={() => setIsSettingsDialogOpen(false)} />
-        <TopListDialog open={isTopListDialogOpen} onClose={() => setIsTopListDialogOpen(false)} />
+        <StatisticsDialog
+          open={isStatisticsDialogOpen}
+          onClose={() => {
+            vibrate()
+            setIsStatisticsDialogOpen(false)
+          }}
+        />
+        <FriendsDialog
+          open={isFriendsDialogOpen}
+          onClose={() => {
+            vibrate()
+            setIsFriendsDialogOpen(false)
+          }}
+        />
+        <TopListDialog
+          open={isTopListDialogOpen}
+          onClose={() => {
+            vibrate()
+            setIsTopListDialogOpen(false)
+          }}
+        />
+        <RulesDialog
+          open={isRulesDialogOpen}
+          onClose={() => {
+            vibrate()
+            onCloseRulesDialog()
+          }}
+        />
+        <SettingsDialog
+          open={isSettingsDialogOpen}
+          onClose={() => {
+            vibrate()
+            setIsSettingsDialogOpen(false)
+          }}
+        />
+        <CompleteDialog
+          open={isCompleteDialogOpen}
+          onClose={() => {
+            vibrate()
+            setIsCompleteDialogOpen(false)
+          }}
+        />
       </Container>
     </MuiThemeProvider>
   )

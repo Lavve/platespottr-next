@@ -11,15 +11,19 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Roadsign from '@/components/Roadsign'
+import type { Locale } from '@/i18n/config'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import type { Language } from '@/types/settings'
 import type { IUser } from '@/types/user'
+import { setUserLocale } from '@/utils/locale'
 
 const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const { user, saveUser } = useUser()
   const { settings, saveSettings, setTheme } = useSettings()
   const [confirmResetAllDialogOpen, setConfirmResetAllDialogOpen] = useState(false)
@@ -39,6 +43,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
 
   const handleChangeLanguage = (language: Language) => {
     saveSettings({ ...settings, language })
+    setUserLocale(language as Locale)
   }
 
   const handleResetAllPlates = () => {
@@ -59,53 +64,53 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     <>
       <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Roadsign text='Inställningar' />
+          <Roadsign text={t('settings.title')} />
         </DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography>Utseende</Typography>
+                <Typography>{t('settings.appearance')}</Typography>
                 <ButtonGroup variant='outlined' fullWidth>
                   <Button
                     onClick={() => setTheme('light')}
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
                   >
-                    Ljust
+                    {t('settings.light')}
                   </Button>
                   <Button
                     onClick={() => setTheme('dark')}
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
                   >
-                    Mörkt
+                    {t('settings.dark')}
                   </Button>
                   <Button
                     onClick={() => setTheme('system')}
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
                   >
-                    System
+                    {t('settings.auto')}
                   </Button>
                 </ButtonGroup>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography>Språk</Typography>
+                <Typography>{t('settings.language')}</Typography>
                 <ButtonGroup variant='outlined' fullWidth>
                   <Button
                     variant={settings.language === 'sv' ? 'contained' : 'outlined'}
                     color={settings.language === 'sv' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeLanguage('sv')}
                   >
-                    Svenska
+                    {t('settings.swedish')}
                   </Button>
                   <Button
                     variant={settings.language === 'en' ? 'contained' : 'outlined'}
                     color={settings.language === 'en' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeLanguage('en')}
                   >
-                    English
+                    {t('settings.english')}
                   </Button>
                 </ButtonGroup>
               </Box>
@@ -113,7 +118,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Card>
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography>Återställning</Typography>
+              <Typography>{t('settings.resetting')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
@@ -122,7 +127,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 disabled={!user?.plates?.length}
                 onClick={handleResetLastPlate}
               >
-                Återställ senaste nummer
+                {t('settings.reset_last_plate')}
               </Button>
               <Button
                 variant='outlined'
@@ -132,13 +137,13 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 disabled={!user?.plates?.length}
                 onClick={() => setConfirmResetAllDialogOpen(true)}
               >
-                Återställ alla nummer
+                {t('settings.reset_all_data')}
               </Button>
             </CardContent>
           </Card>
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography>Konto</Typography>
+              <Typography>{t('settings.account')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
@@ -146,7 +151,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 fullWidth
                 onClick={() => setConfirmLogoutUserDialogOpen(true)}
               >
-                Logga ut
+                {t('settings.logout')}
               </Button>
               <Button
                 variant='outlined'
@@ -155,38 +160,38 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 fullWidth
                 onClick={() => setConfirmDeleteUserDialogOpen(true)}
               >
-                Radera konto
+                {t('settings.delete_account')}
               </Button>
             </CardContent>
           </Card>
         </DialogContent>
         <DialogActions>
           <Button variant='contained' size='large' onClick={onClose} color='primary'>
-            Stäng
+            {t('common.close')}
           </Button>
         </DialogActions>
       </Dialog>
 
       <ConfirmDialog
         open={confirmResetAllDialogOpen}
-        title='Återställ alla nummer'
-        content='Är du säker på att du vill återställa alla nummer?'
+        title={t('confirm.reset_all_data_title')}
+        content={t('confirm.reset_all_data_content')}
         onClose={() => setConfirmResetAllDialogOpen(false)}
         onConfirm={handleResetAllPlates}
       />
 
       <ConfirmDialog
         open={confirmLogoutUserDialogOpen}
-        title='Logga ut'
-        content='Är du säker på att du vill logga ut?'
+        title={t('confirm.logout_title')}
+        content={t('confirm.logout_content')}
         onClose={() => setConfirmLogoutUserDialogOpen(false)}
         onConfirm={handleLogoutUser}
       />
 
       <ConfirmDialog
         open={confirmDeleteUserDialogOpen}
-        title='Radera konto'
-        content='Är du säker på att du vill radera ditt konto? Detta kan inte ångras.'
+        title={t('confirm.delete_account_title')}
+        content={t('confirm.delete_account_content')}
         onClose={() => setConfirmDeleteUserDialogOpen(false)}
         onConfirm={handleDeleteUser}
       />

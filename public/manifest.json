@@ -10,6 +10,9 @@
   "start_url": "/?v=2025.7.4",
   "scope": "/",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay"
+  ],
   "orientation": "portrait",
   "theme_color": "#335577",
   "background_color": "#1a1c1f",

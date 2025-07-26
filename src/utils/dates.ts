@@ -31,9 +31,6 @@ export const relativeDays = (date: Date): string => {
   if (diffDays === 1) {
     return 'Igår'
   }
-  if (diffDays === 2) {
-    return '2 dagar'
-  }
 
   return formatDateToYYYYMMDD(date)
 }

@@ -2,6 +2,7 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
+import { useTranslations } from 'next-intl'
 import type { IPlateProps } from '@/types/common'
 
 const fontTratex = localFont({
@@ -15,6 +16,8 @@ const fontTratex = localFont({
 })
 
 const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
+  const t = useTranslations()
+
   return (
     <Card
       sx={{
@@ -56,7 +59,7 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
           }}
         ></Box>
         <Box sx={{ color: 'regplate.light', fontWeight: 300, lineHeight: 1, fontFamily: fontTratex.style.fontFamily }}>
-          S
+          {t('app.plate_lang')}
         </Box>
       </Box>
       <Box
@@ -78,6 +81,7 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
               sx={{
                 fontFamily: fontTratex.style.fontFamily,
                 color: 'regplate.contrastText',
+                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
               }}
             >
               {letters}
@@ -87,6 +91,7 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
               sx={{
                 fontFamily: fontTratex.style.fontFamily,
                 color: 'regplate.contrastText',
+                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
               }}
             >
               {number.toString().padStart(3, '0')}

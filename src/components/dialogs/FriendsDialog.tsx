@@ -1,7 +1,18 @@
 'use client'
 
 import { QrCode } from '@mui/icons-material'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Typography } from '@mui/material'
+import {
+  Badge,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Typography,
+} from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import QrDialog from '@/components/dialogs/QrDialog'
@@ -11,6 +22,7 @@ import { useFriends } from '@/providers/friendsProvider'
 import type { IUser } from '@/types/user'
 
 const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
   const { friendRequests, friendList, addFriend, removeFriend } = useFriends()
   const [qrOpen, setQrOpen] = useState(false)
@@ -36,7 +48,7 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
     <>
       <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Roadsign text='Vänner' />
+          <Roadsign text={t('friends.title')} />
         </DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -49,12 +61,16 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
                 startIcon={<QrCode />}
                 onClick={() => setQrOpen(!qrOpen)}
               >
-                Visa min QR-kod
+                {t('friends.show_my_qr')}
               </Button>
             </Box>
             {friendRequests.length > 0 && (
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography variant='h6'>Vänförfrågningar ({friendRequests.length})</Typography>
+                <Typography variant='h6'>
+                  <Badge badgeContent={friendRequests.length} color='primary'>
+                    {t('friends.friends_requests')}
+                  </Badge>
+                </Typography>
                 {friendRequests.map(friend => (
                   <User
                     key={friend.name}
@@ -67,7 +83,11 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
             )}
             {friendRequests.length > 0 && friendList.length > 0 && <Divider sx={{ mt: 2 }} />}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography variant='h6'>Mina vänner ({friendList.length})</Typography>
+              <Typography variant='h6'>
+                <Badge badgeContent={friendList.length} color='primary'>
+                  {t('friends.my_friends')}
+                </Badge>
+              </Typography>
               {friendList.map(friend => (
                 <User key={friend.name} friend={friend} onRemoveFriend={() => handleRemoveFriend(friend)} />
               ))}
@@ -76,7 +96,7 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
         </DialogContent>
         <DialogActions>
           <Button variant='contained' color='primary' size='large' onClick={onClose}>
-            Stäng
+            {t('common.close')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -87,8 +107,8 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
         open={confirmOpen}
         onClose={() => setConfirmOpen(false)}
         onConfirm={handleConfirmRemoveFriend}
-        title='Ta bort?'
-        content={`Är du säker på att du vill ta bort ${friendToRemove?.name}?`}
+        title={t('confirm.remove_title')}
+        content={t('confirm.remove_content', { name: friendToRemove?.name ?? '' })}
       />
     </>
   )

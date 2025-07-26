@@ -6,6 +6,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Container } from '@mui/material'
 import '@/style/globals.css'
+import { getLocale, getMessages } from 'next-intl/server'
 import Providers from '@/providers'
 
 export const metadata: Metadata = {
@@ -24,18 +25,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang='sv'>
+    <html lang={locale}>
       <head>
         <link rel='icon' href='/icons/logo.svg' sizes='any' />
       </head>
-      <body style={{ background: 'var(--background-gradient)' }}>
-        <Providers>
+      <body style={{ background: 'var(--background-gradient)', userSelect: 'none' }}>
+        <Providers messages={messages} locale={locale}>
           <Container>{children}</Container>
         </Providers>
       </body>

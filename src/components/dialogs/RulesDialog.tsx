@@ -17,11 +17,14 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import Roadsign from '@/components/Roadsign'
 import { useSettings } from '@/providers/settingsProvider'
+import { vibrate } from '@/utils/vibrate'
 
 const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const t = useTranslations()
   const { settings } = useSettings()
   const [understood, setUnderstood] = useState(false)
 
@@ -39,65 +42,63 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
       }}
     >
       <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Roadsign text='Regler' />
+        <Roadsign text={t('rules.title')} />
       </DialogTitle>
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <Card sx={{ overflow: 'visible' }}>
           <CardContent>
             <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <HelpCenter color='success' /> Spelregler
+              <HelpCenter color='success' /> {t('rules.game_rules.title')}
             </Typography>
             <List>
               <ListItem sx={{ py: 0 }}>
                 <ListItemText
-                  primary='Ordningsföljd'
-                  secondary='Du måste hitta alla nummer i ordning från 001 till 999. Du kan inte hoppa över nummer eller "spara" ett nummer till senare.'
+                  primary={t('rules.game_rules.order')}
+                  secondary={t('rules.game_rules.order_description')}
                 />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <ListItemText
-                  primary='Verkliga registreringsskyltar'
-                  secondary='Numret måste ses på en riktig, svensk registreringsskylt i verkligheten, inte på TV, mobil, affisch eller andra bilder. '
+                  primary={t('rules.game_rules.real_plates')}
+                  secondary={t('rules.game_rules.real_plates_description')}
                 />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <ListItemText
-                  primary='Nummerformat'
-                  secondary='Endast nummer utan bokstav i slutet räknas. Exempel: ABC123 är giltigt, men ABC12A är inte giltigt. Personliga registernummer räknas alltså inte.'
+                  primary={t('rules.game_rules.number_format')}
+                  secondary={t('rules.game_rules.number_format_description')}
                 />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <ListItemText
-                  primary='Säkerhet i trafiken'
-                  secondary='Var alltid försiktig när du letar efter nummer i trafiken. Din säkerhet går före spelet.'
+                  primary={t('rules.game_rules.traffic_safety')}
+                  secondary={t('rules.game_rules.traffic_safety_description')}
                 />
               </ListItem>
-              <ListItem></ListItem>
             </List>
-            <Typography></Typography>
           </CardContent>
         </Card>
         <Card sx={{ overflow: 'visible' }}>
           <CardContent>
             <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Info color='info' /> Exempel på nummer
+              <Info color='info' /> {t('rules.examples.title')}
             </Typography>
             <Grid container spacing={2}>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Check sx={{ color: 'success.main', mr: 1 }} />
-                <ListItemText primary='ABC 012' secondary='Giltigt' />
+                <ListItemText primary='ABC 012' secondary={t('rules.examples.valid')} />
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Close sx={{ color: 'error.main', mr: 1 }} />
-                <ListItemText primary='EFG 12A' secondary='Ogiltigt' />
+                <ListItemText primary='EFG 12A' secondary={t('rules.examples.invalid')} />
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Check sx={{ color: 'success.main', mr: 1 }} />
-                <ListItemText primary='XYZ 999' secondary='Giltigt' />
+                <ListItemText primary='XYZ 999' secondary={t('rules.examples.valid')} />
               </Grid>
               <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Close sx={{ color: 'error.main', mr: 1 }} />
-                <ListItemText primary='PLSPTR2' secondary='Ogiltigt' />
+                <ListItemText primary='PLSPTR2' secondary={t('rules.examples.invalid')} />
               </Grid>
             </Grid>
           </CardContent>
@@ -105,42 +106,42 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
         <Card sx={{ overflow: 'visible' }}>
           <CardContent>
             <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Warning color='error' /> Viktiga säkerhetsråd
+              <Warning color='error' /> {t('rules.important_safety_rules.title')}
             </Typography>
             <List>
               <ListItem sx={{ py: 0 }}>
                 <Typography variant='body2' sx={{ mr: 2 }}>
                   1.
                 </Typography>
-                <ListItemText primary='Kör aldrig bil samtidigt som du letar efter nummer' />
+                <ListItemText primary={t('rules.important_safety_rules.rule_1')} />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <Typography variant='body2' sx={{ mr: 2 }}>
                   2.
                 </Typography>
-                <ListItemText primary='Som passagerare - hjälp föraren att koncentrera sig på körningen' />
+                <ListItemText primary={t('rules.important_safety_rules.rule_2')} />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <Typography variant='body2' sx={{ mr: 2 }}>
                   3.
                 </Typography>
-                <ListItemText primary='Använd säkra platser som parkeringar och busshållplatser' />
+                <ListItemText primary={t('rules.important_safety_rules.rule_3')} />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <Typography variant='body2' sx={{ mr: 2 }}>
                   4.
                 </Typography>
-                <ListItemText primary='Var uppmärksam på din omgivning när du rör dig i trafiken' />
+                <ListItemText primary={t('rules.important_safety_rules.rule_4')} />
               </ListItem>
               <ListItem sx={{ py: 0 }}>
                 <Typography variant='body2' sx={{ mr: 2 }}>
                   5.
                 </Typography>
-                <ListItemText primary='Respektera andra människors egendom och integritet' />
+                <ListItemText primary={t('rules.important_safety_rules.rule_5')} />
               </ListItem>
             </List>
             <Typography sx={{ mt: 2, fontWeight: 'bold' }}>
-              Kom ihåg: Säkerheten går alltid före spelet. Var ansvarsfull!
+              {t('rules.important_safety_rules.remember_safety')}
             </Typography>
           </CardContent>
         </Card>
@@ -149,8 +150,15 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
             <Divider sx={{ my: 2 }} />
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox onChange={() => setUnderstood(!understood)} />}
-                label='Ja, jag har läst och förstått reglerna'
+                control={
+                  <Checkbox
+                    onChange={() => {
+                      setUnderstood(!understood)
+                      vibrate()
+                    }}
+                  />
+                }
+                label={t('rules.important_safety_rules.understood')}
               />
             </FormGroup>
           </>
@@ -164,7 +172,7 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
           disabled={!understood && settings.initialRulesDialogOpen}
           color='primary'
         >
-          Stäng
+          {t('common.close')}
         </Button>
       </DialogActions>
     </Dialog>
