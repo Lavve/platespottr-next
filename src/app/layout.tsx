@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'default',
     title: 'Plate spottr',
-    startupImage: '/assets/logo_x512.png',
+    startupImage: '/icons/logo_x512.png',
   },
   icons: {
-    icon: '/assets/logo_x192.png',
-    apple: '/assets/logo_x192.png',
+    icon: '/icons/logo_x192.png',
+    apple: '/icons/logo_x192.png',
   },
 }
 
