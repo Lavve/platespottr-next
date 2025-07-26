@@ -77,7 +77,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
       ) : (
         <>
           <Box sx={{ ml: 'auto' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0 }}>
               <LocalFireDepartment color='warning' />
               <Typography variant='body2'>{maxStreak}</Typography>
             </Box>

@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart, EmojiEvents, Help, People, Settings } from '@mui/icons-material'
-import { Badge, Box, Button, Container, CssBaseline, Grid, Typography } from '@mui/material'
+import { Badge, Box, Button, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material'
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import FriendsDialog from '@/components/dialogs/FriendsDialog'
@@ -55,12 +55,12 @@ export default function Home() {
     <MuiThemeProvider theme={currentTheme}>
       <CssBaseline />
       <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
+        <Paper sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}>
           <Logo size={50} />
-          <Typography component='h1' variant='h3' sx={{ textAlign: 'center', m: 0, p: 0 }}>
-            late spottr
+          <Typography component='h1' variant='h4' sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100 }}>
+            latespottr
           </Typography>
-        </Box>
+        </Paper>
 
         <FindPlate />
 

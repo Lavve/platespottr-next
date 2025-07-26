@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs, Typography } from '@mui/material'
 import { useMemo, useState } from 'react'
 import Roadsign from '@/components/Roadsign'
 import User from '@/components/User'
@@ -45,29 +45,11 @@ const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
         <Roadsign text='Topplista' />
       </DialogTitle>
       <DialogContent>
-        <ButtonGroup fullWidth variant='outlined' sx={{ mb: 2 }}>
-          <Button
-            variant={sortBy === 'plates' ? 'contained' : 'outlined'}
-            color={sortBy === 'plates' ? 'primary' : 'secondary'}
-            onClick={() => setSortBy('plates')}
-          >
-            Nummer
-          </Button>
-          <Button
-            variant={sortBy === 'streak' ? 'contained' : 'outlined'}
-            color={sortBy === 'streak' ? 'primary' : 'secondary'}
-            onClick={() => setSortBy('streak')}
-          >
-            Streak
-          </Button>
-          {/* <Button
-            variant={sortBy === 'percentage' ? 'contained' : 'outlined'}
-            color={sortBy === 'percentage' ? 'primary' : 'secondary'}
-            onClick={() => setSortBy('percentage')}
-          >
-            Procent
-          </Button> */}
-        </ButtonGroup>
+        <Tabs value={sortBy} variant='fullWidth' onChange={(_, value) => setSortBy(value)} sx={{ mb: 2 }}>
+          <Tab label='Nummer' value='plates' />
+          <Tab label='Streak' value='streak' />
+          {/* <Tab label='Procent' value='percentage' /> */}
+        </Tabs>
         <Typography variant='h6' sx={{ textAlign: 'center' }}>
           {sortBy === 'plates'
             ? 'Totalt antal hittade nummer'
