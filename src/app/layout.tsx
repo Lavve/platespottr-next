@@ -6,21 +6,21 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Container } from '@mui/material'
 import '@/style/globals.css'
-import { SettingsProvider } from '@/providers/settingsProvider'
+import Providers from '@/providers'
 
 export const metadata: Metadata = {
-  title: 'Platespottr',
-  description: 'Hitta alla registreringsnummer!',
+  title: 'Plate spottr',
+  description: 'Kan du hitta alla registreringsnummer?',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Platespottr',
-    startupImage: '/assets/icon_x512.png',
+    title: 'Plate spottr',
+    startupImage: '/assets/logo_x512.png',
   },
   icons: {
-    icon: '/assets/icon_x192.png',
-    apple: '/assets/icon_x192.png',
+    icon: '/assets/logo_x192.png',
+    apple: '/assets/logo_x192.png',
   },
 }
 
@@ -31,10 +31,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='sv'>
+      <head>
+        <link rel='icon' href='/icons/logo.svg' sizes='any' />
+      </head>
       <body style={{ background: 'var(--background-gradient)' }}>
-        <SettingsProvider>
+        <Providers>
           <Container>{children}</Container>
-        </SettingsProvider>
+        </Providers>
       </body>
     </html>
   )

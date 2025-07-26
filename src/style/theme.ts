@@ -31,11 +31,17 @@ declare module '@mui/material/Button' {
   }
 }
 
-// Base-konfiguration för custom färger som används i båda temana
-const generalColors = {
+// Base-konfiguration för custom färger som används i båda teman
+const base = {
+  defaults: {
+    direction: 'ltr',
+    typography: {
+      fontFamily: 'Roboto, Arial, sans-serif',
+    },
+  },
   roadsign: {
     main: '#0067a6',
-    contrastText: '#fff',
+    contrastText: '#f7f7f7',
   },
   regplate: {
     main: '#efefef',
@@ -44,62 +50,87 @@ const generalColors = {
     contrastText: '#111',
   },
   gradients: {
-    backgroundLight: 'radial-gradient(circle, #fff 0%, #efefef 100%)',
-    backgroundDark: 'radial-gradient(circle, #333 50%, #000 100%)',
+    backgroundLight: 'radial-gradient(circle, #fff 0%, #aaa 100%)',
+    backgroundDark: 'radial-gradient(circle, #333 0%, #000 100%)',
     roadsign: 'linear-gradient(135deg, #1365a7 0%, #3385c7 100%)',
     regplate: 'linear-gradient(135deg, #ededed 30%, #fff 70%, #d0d0d0 100%)',
   },
 } as const
 
 const theme = createTheme({
-  direction: 'ltr',
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-  },
+  ...base.defaults,
   palette: {
-    mode: 'light', // Default mode
+    mode: 'light',
     background: {
       default: '#e1e1e1',
-      paper: '#f5f5f5',
+      paper: '#f7f7f7',
     },
     text: {
-      primary: '#000000',
-      secondary: '#666666',
+      primary: '#111',
+      secondary: '#444',
     },
     primary: {
-      main: '#333',
-      light: '#666',
-      dark: '#000',
-      contrastText: '#fff',
-    },
-    secondary: {
       main: '#0067a6',
       light: '#3385c7',
       dark: '#004d7a',
-      contrastText: '#fff',
+      contrastText: '#f7f7f7',
+    },
+    secondary: {
+      main: '#333',
+      light: '#666',
+      dark: '#000',
+      contrastText: '#f7f7f7',
+    },
+    warning: {
+      main: '#8B6E36',
+      light: '#9E773D',
+      dark: '#6E551E',
+      contrastText: '#f7f7f7',
+    },
+    error: {
+      main: '#973838',
+      light: '#993838',
+      dark: '#591919',
+      contrastText: '#f7f7f7',
     },
     accent: {
       main: '#ff6b35',
       light: '#ff8a5c',
       dark: '#e55a2b',
-      contrastText: '#fff',
+      contrastText: '#f7f7f7',
     },
     roadsign: {
-      ...generalColors.roadsign,
+      ...base.roadsign,
     },
     regplate: {
-      ...generalColors.regplate,
+      ...base.regplate,
     },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         ':root': {
-          '--background-gradient': generalColors.gradients.backgroundLight,
-          '--roadsign-gradient': generalColors.gradients.roadsign,
-          '--regplate-gradient': generalColors.gradients.regplate,
-          '--regplate-secondary': generalColors.regplate.secondary,
-          '--roadsign-secondary': generalColors.roadsign.main,
+          '--background-gradient': base.gradients.backgroundLight,
+          '--roadsign-gradient': base.gradients.roadsign,
+          '--regplate-gradient': base.gradients.regplate,
+          '--regplate-secondary': base.regplate.secondary,
+          '--roadsign-secondary': base.roadsign.main,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundImage: 'none',
+          backgroundColor: '#f0f0f0',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+          backgroundColor: '#fefefe',
         },
       },
     },
@@ -108,10 +139,7 @@ const theme = createTheme({
 
 // Skapa mörkt tema
 export const darkTheme = createTheme({
-  direction: 'ltr',
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-  },
+  ...base.defaults,
   palette: {
     mode: 'dark',
     background: {
@@ -123,15 +151,21 @@ export const darkTheme = createTheme({
       secondary: '#b0b0b0',
     },
     primary: {
+      main: '#0067a6',
+      light: '#3385c7',
+      dark: '#004d7a',
+      contrastText: '#f7f7f7',
+    },
+    secondary: {
       main: '#fff',
       light: '#e0e0e0',
       dark: '#ccc',
       contrastText: '#000',
     },
-    secondary: {
-      main: '#0067a6',
-      light: '#3385c7',
-      dark: '#004d7a',
+    warning: {
+      main: '#8B6E36',
+      light: '#9E773D',
+      dark: '#6E551E',
       contrastText: '#e1e1e1',
     },
     accent: {
@@ -140,22 +174,44 @@ export const darkTheme = createTheme({
       dark: '#e55a2b',
       contrastText: '#e1e1e1',
     },
+    error: {
+      main: '#973838',
+      light: '#993838',
+      dark: '#952929',
+      contrastText: '#fff',
+    },
     roadsign: {
-      ...generalColors.roadsign,
+      ...base.roadsign,
     },
     regplate: {
-      ...generalColors.regplate,
+      ...base.regplate,
     },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         ':root': {
-          '--background-gradient': generalColors.gradients.backgroundDark,
-          '--roadsign-gradient': generalColors.gradients.roadsign,
-          '--regplate-gradient': generalColors.gradients.regplate,
-          '--regplate-secondary': generalColors.regplate.secondary,
-          '--roadsign-secondary': generalColors.roadsign.main,
+          '--background-gradient': base.gradients.backgroundDark,
+          '--roadsign-gradient': base.gradients.roadsign,
+          '--regplate-gradient': base.gradients.regplate,
+          '--regplate-secondary': base.regplate.secondary,
+          '--roadsign-secondary': base.roadsign.main,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundImage: 'none',
+          backgroundColor: '#181818',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+          backgroundColor: '#121212',
         },
       },
     },

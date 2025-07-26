@@ -14,3 +14,26 @@ export const getWeekNumber = (date: Date): number => {
 
   return weekNumber
 }
+
+export const getDaysBetween = (date: Date): number => {
+  const diffTime = Date.now() - date.getTime()
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+}
+
+export const relativeDays = (date: Date): string => {
+  const today = new Date()
+  const diffTime = today.getTime() - date.getTime()
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+
+  if (diffDays === 0) {
+    return 'Idag'
+  }
+  if (diffDays === 1) {
+    return 'Igår'
+  }
+  if (diffDays === 2) {
+    return '2 dagar'
+  }
+
+  return formatDateToYYYYMMDD(date)
+}

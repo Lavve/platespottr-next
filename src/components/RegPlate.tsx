@@ -2,6 +2,7 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
+import type { IPlateProps } from '@/types/common'
 
 const fontTratex = localFont({
   src: [
@@ -13,7 +14,7 @@ const fontTratex = localFont({
   ],
 })
 
-const RegPlate = ({ letters, number }: { letters: string; number: number }) => {
+const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
   return (
     <Card
       sx={{
@@ -21,16 +22,17 @@ const RegPlate = ({ letters, number }: { letters: string; number: number }) => {
         width: 380,
         height: 76,
         borderRadius: 2,
+        whiteSpace: 'nowrap',
         textTransform: 'uppercase',
-        background: 'var(--regplate-gradient)',
         border: '4px solid #000',
         userSelect: 'none',
+        transform: `scale(${scale})`,
       }}
     >
       <Box
         sx={{
           display: 'flex',
-          width: '40px',
+          width: '10%',
           height: '100%',
           flexGrow: 1,
           flexDirection: 'column',
@@ -66,9 +68,10 @@ const RegPlate = ({ letters, number }: { letters: string; number: number }) => {
           gap: 2,
           alignItems: 'center',
           justifyContent: 'center',
+          background: 'var(--regplate-gradient)',
         }}
       >
-        {letters && (
+        {letters && number && (
           <>
             <Typography
               variant='h2'

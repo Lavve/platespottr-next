@@ -1,21 +1,20 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { ISettings, ISettingsContext, ThemeMode } from '@/types/settings'
+import type { ISettings, ISettingsContext, Language, ThemeMode } from '@/types/settings'
+import { generateSlug } from '@/utils/generateSlug'
 
 const defaultSettings: ISettings = {
   theme: 'light',
   themeChoice: 'system',
+  language: 'sv',
   initialRulesDialogOpen: true,
+  slug: generateSlug(),
 }
 
-const SettingsContext = createContext<ISettingsContext>({
-  settings: defaultSettings,
-  saveSettings: () => {},
-  setThemeChoice: () => {},
-})
+const SettingsContext = createContext<ISettingsContext | undefined>(undefined)
 
-export const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
+const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = useState<ISettings>(defaultSettings)
 
   const saveSettings = useCallback((newSettings: ISettings) => {
@@ -23,7 +22,7 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
     localStorage.setItem('PS_settings', JSON.stringify(newSettings))
   }, [])
 
-  const setThemeChoice = useCallback((choice: ThemeMode) => {
+  const setTheme = useCallback((choice: ThemeMode) => {
     setSettings(prev => {
       let newTheme = choice
 
@@ -49,9 +48,10 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
     if (storedSettings) {
       const parsedSettings = JSON.parse(storedSettings)
       initialSettings = { ...defaultSettings, ...parsedSettings }
+    } else {
+      localStorage.setItem('PS_settings', JSON.stringify(initialSettings))
     }
 
-    // If themeChoice is 'system', determine the actual theme based on system preference
     if (initialSettings.themeChoice === 'system') {
       initialSettings.theme = mediaQuery.matches ? 'dark' : 'light'
     }
@@ -71,7 +71,7 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
-  const value = useMemo(() => ({ settings, saveSettings, setThemeChoice }), [settings, saveSettings, setThemeChoice])
+  const value = useMemo(() => ({ settings, saveSettings, setTheme }), [settings, saveSettings, setTheme])
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>
 }
@@ -84,4 +84,4 @@ export const useSettings = () => {
   return context
 }
 
-export default SettingsContext
+export default SettingsProvider

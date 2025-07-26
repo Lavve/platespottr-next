@@ -18,12 +18,14 @@ import {
   Typography,
 } from '@mui/material'
 import { useState } from 'react'
+import Roadsign from '@/components/Roadsign'
 import { useSettings } from '@/providers/settingsProvider'
-import Roadsign from '../Roadsign'
 
 const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const { settings } = useSettings()
   const [understood, setUnderstood] = useState(false)
+
+  if (!open) return null
 
   return (
     <Dialog
@@ -58,12 +60,6 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
                   secondary='Numret måste ses på en riktig, svensk registreringsskylt i verkligheten, inte på TV, mobil, affisch eller andra bilder. '
                 />
               </ListItem>
-              {/* <ListItem sx={{ py: 0 }}>
-                <ListItemText
-                  primary='Typer av fordon'
-                  secondary='Personbilar, lastbilar, motorcyklar, bussar, EPA-traktorer, mopeder, fyrhjulingar, taxi, beskickningsfordon, släp, etc.'
-                />
-              </ListItem> */}
               <ListItem sx={{ py: 0 }}>
                 <ListItemText
                   primary='Nummerformat'
@@ -166,7 +162,7 @@ const RulesDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) 
           size='large'
           onClick={onClose}
           disabled={!understood && settings.initialRulesDialogOpen}
-          color='secondary'
+          color='primary'
         >
           Stäng
         </Button>

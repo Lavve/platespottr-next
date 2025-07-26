@@ -1,13 +1,17 @@
 export type ThemeMode = 'light' | 'dark' | 'system'
 
+export type Language = 'sv' | 'en'
+
 export type ISettings = {
   theme: ThemeMode
-  themeChoice: ThemeMode // User's explicit choice
+  language: Language
+  themeChoice: ThemeMode
   initialRulesDialogOpen?: boolean | undefined
+  slug: string
 }
 
 export type ISettingsContext = {
   settings: ISettings
   saveSettings: (settings: ISettings) => void
-  setThemeChoice: (choice: ThemeMode) => void
+  setTheme: (choice: ThemeMode) => void
 }

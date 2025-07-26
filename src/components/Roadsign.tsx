@@ -1,5 +1,6 @@
 import { Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
+import type { IRoadsignProps } from '@/types/common'
 
 const fontTratex = localFont({
   src: [
@@ -11,7 +12,7 @@ const fontTratex = localFont({
   ],
 })
 
-const Roadsign = ({ number, text }: { number?: string; text: string }) => {
+const Roadsign = ({ number, text }: IRoadsignProps) => {
   return (
     <Card
       sx={{
@@ -27,6 +28,7 @@ const Roadsign = ({ number, text }: { number?: string; text: string }) => {
         background: 'var(--roadsign-gradient)',
         textTransform: 'uppercase',
         userSelect: 'none',
+        boxShadow: '2px 4px 4px 0 rgba(0, 0, 0, 0.2)',
       }}
     >
       {number && (

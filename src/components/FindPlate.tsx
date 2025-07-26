@@ -1,15 +1,14 @@
 'use client'
 
-import { Box, Button, Card, CardContent, LinearProgress, Typography } from '@mui/material'
+import { Box, Button, CardContent, LinearProgress, Paper, Typography } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import RegPlate from '@/components/RegPlate'
-import { useGame } from '@/providers/gameProvider'
+import { useUser } from '@/providers/userProvider'
 import { generateRandomLetters } from '@/utils/generatePlateLetters'
 import { vibrate } from '@/utils/vibrate'
-import Streak from './Streak'
 
 const FindPlate = () => {
-  const { game, saveGame } = useGame()
+  const { user, saveUser } = useUser()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -27,6 +26,8 @@ const FindPlate = () => {
     setIsHolding(true)
     setProgress(0)
 
+    if (!user) return
+
     intervalRef.current = setInterval(() => {
       setProgress(prev => {
         const newProgress = prev + (updateInterval / holdDuration) * 100
@@ -40,11 +41,7 @@ const FindPlate = () => {
     }, updateInterval)
 
     timeoutRef.current = setTimeout(() => {
-      saveGame({
-        ...game,
-        currentPlate: game.currentPlate + 1,
-        findings: [...(game.findings || []), { plate: game.currentPlate, foundAt: Date.now() }],
-      })
+      saveUser({ ...user, plates: [...user.plates, Date.now()] })
       vibrate()
       endHold()
       setLetters(generateRandomLetters())
@@ -66,16 +63,18 @@ const FindPlate = () => {
     }
   }
 
+  if (!user) return null
+
   return (
-    <Card sx={{ borderRadius: 3 }} raised>
+    <Paper sx={{ borderRadius: 2 }}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
         <Typography variant='h6'>Nästa nummer att hitta</Typography>
-        <RegPlate letters={letters} number={game.currentPlate} />
+        <RegPlate letters={letters} number={user.plates.length + 1} />
         <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
           <Button
             variant='contained'
             size='large'
-            color='secondary'
+            color='primary'
             onMouseDown={startHold}
             onMouseUp={endHold}
             onMouseLeave={endHold}
@@ -98,7 +97,7 @@ const FindPlate = () => {
               <LinearProgress
                 variant='determinate'
                 value={progress}
-                color='secondary'
+                color='primary'
                 sx={{
                   height: 10,
                   borderRadius: 1,
@@ -112,10 +111,11 @@ const FindPlate = () => {
             </Box>
           )}
         </Box>
-        <Typography variant='body2'>Håll inne knappen i 1.5 sekunder för att registrera numret</Typography>
-        <Streak />
+        <Typography variant='body2' color='text.secondary'>
+          Håll inne knappen i 1.5 sekunder för att registrera numret
+        </Typography>
       </CardContent>
-    </Card>
+    </Paper>
   )
 }
 
