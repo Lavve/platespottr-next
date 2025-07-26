@@ -1,10 +1,11 @@
 export type ThemeMode = 'light' | 'dark' | 'system'
-
-export type Language = 'sv' | 'en'
+export type Language = 'sv' | 'en' | 'fi'
+export type Country = 'se' | 'fi'
 
 export type ISettings = {
   theme: ThemeMode
   language: Language
+  country: Country
   themeChoice: ThemeMode
   initialRulesDialogOpen?: boolean | undefined
   slug: string

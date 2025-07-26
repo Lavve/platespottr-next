@@ -35,7 +35,9 @@
     "logout_title": "Log out",
     "logout_content": "Are you sure you want to log out?",
     "delete_account_title": "Delete account",
-    "delete_account_content": "Are you sure you want to delete your account? This action cannot be undone."
+    "delete_account_content": "Are you sure you want to delete your account? This action cannot be undone.",
+    "change_country_title": "Change country",
+    "change_country_content": "Are you sure you want to change country? This action will reset all your numbers and cannot be undone."
   },
   "statistics": {
     "title": "Statistics",
@@ -99,8 +101,12 @@
     "light": "Light",
     "auto": "Automatic",
     "language": "Language",
-    "swedish": "Swedish",
+    "swedish": "Svenska",
     "english": "English",
+    "finnish": "Suomi",
+    "country": "Country",
+    "sweden": "Sweden",
+    "finland": "Finland",
     "resetting": "Resetting",
     "reset_last_plate": "Reset last number",
     "reset_all_data": "Reset all data",

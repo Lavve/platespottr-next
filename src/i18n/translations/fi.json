@@ -1,0 +1,117 @@
+{
+  "common": {
+    "done": "Valmis!",
+    "close": "Sulje",
+    "cancel": "Peruuta",
+    "found": "Löytyi!",
+    "save": "Tallenna",
+    "delete": "Poista",
+    "edit": "Muokkaa",
+    "add": "Lisää",
+    "remove": "Poista",
+    "today": "Tänään",
+    "yesterday": "Eilen"
+  },
+  "app": {
+    "next_number_to_find": "Seuraava numero löydettäväksi",
+    "press_for_seconds": "Pidä painiketta painettuna {seconds} sekuntia rekisteröidäksesi numeron",
+    "statistics": "Tilastot",
+    "friends": "Ystävät",
+    "toplist": "Toplista",
+    "rules": "Säännöt",
+    "settings": "Asetukset",
+    "plate_lang": "FI"
+  },
+  "completed": {
+    "title": "Onnistuit!",
+    "description": "Olet löytänyt kaikki rekisterinumerot! Hienoa työtä!"
+  },
+  "confirm": {
+    "confirm": "Vahvista",
+    "remove_title": "Poistetaanko?",
+    "remove_content": "Haluatko varmasti poistaa {name}?",
+    "reset_all_data_title": "Nollaa kaikki numerot",
+    "reset_all_data_content": "Haluatko varmasti nollata kaikki numerot?",
+    "logout_title": "Kirjaudu ulos",
+    "logout_content": "Haluatko varmasti kirjautua ulos?",
+    "delete_account_title": "Poista tili",
+    "delete_account_content": "Haluatko varmasti poistaa tilisi? Tätä ei voi perua.",
+    "change_country_title": "Vaihda maa",
+    "change_country_content": "Haluatko varmasti vaihtaa maata? Tämä nollaa kaikki numerot ja ei voi perua."
+  },
+  "statistics": {
+    "title": "Tilastot",
+    "current_streak": "Nykyinen putki",
+    "streaks_days_in_a_row": "{streak} päivää peräkkäin",
+    "numbers_per_week": "Numeroita per viikko:",
+    "latest_found_number": "Viimeisin löydetty numero:"
+  },
+  "friends": {
+    "title": "Ystävät",
+    "description": "Ystävät",
+    "add": "Lisää ystävä",
+    "remove": "Poista ystävä",
+    "show_my_qr": "Näytä QR-koodini",
+    "your_friend_code": "Ystäväkoodisi",
+    "friends_requests": "Ystäväpyynnöt",
+    "my_friends": "Omat ystävät"
+  },
+  "toplist": {
+    "title": "Huippulista",
+    "number": "Määrä",
+    "number_description": "Yhteensä löydettyjä numeroita",
+    "streak": "Putki",
+    "streak_description": "Eniten putkia",
+    "you": "Sinä",
+    "toplist_tagline": "Pääsetkö huipulle ennen maalia?"
+  },
+  "rules": {
+    "title": "Säännöt",
+    "game_rules": {
+      "title": "Pelisäännöt",
+      "order": "Järjestys",
+      "order_description": "Sinun on löydettävä kaikki numerot järjestyksessä 001:stä 999:ään. Et voi hypätä numeroiden yli tai \"säästää\" niitä myöhempää varten.",
+      "real_plates": "Oikeat rekisterikilvet",
+      "real_plates_description": "Numeron on oltava nähty oikeassa ruotsalaisessa rekisterikilvessä todellisuudessa – ei TV:ssä, puhelimessa, julisteessa tai kuvissa.",
+      "number_format": "Numeroformaatti",
+      "number_format_description": "Vain numerot ilman kirjainta lopussa lasketaan. Esimerkiksi: ABC123 on kelvollinen, mutta ABC12A ei ole. Henkilökohtaiset kilvet eivät kelpaa.",
+      "traffic_safety": "Liikenneturvallisuus",
+      "traffic_safety_description": "Ole aina varovainen etsiessäsi numeroita liikenteessä. Turvallisuutesi on tärkeämpää kuin peli."
+    },
+    "examples": {
+      "title": "Esimerkkinumeroita",
+      "valid": "Kelvollinen",
+      "invalid": "Epäkelpo"
+    },
+    "important_safety_rules": {
+      "title": "Tärkeät turvallisuusohjeet",
+      "rule_1": "Älä koskaan aja autoa samalla kun etsit numeroita",
+      "rule_2": "Matkustajana – auta kuljettajaa keskittymään ajamiseen",
+      "rule_3": "Käytä turvallisia paikkoja, kuten pysäköintialueita ja bussipysäkkejä",
+      "rule_4": "Ole tarkkaavainen ympäristöstäsi liikenteessä liikkuessasi",
+      "rule_5": "Kunnioita muiden omaisuutta ja yksityisyyttä",
+      "remember_safety": "Muista: Turvallisuus menee aina pelin edelle. Ole vastuullinen!",
+      "understood": "Kyllä, olen lukenut ja ymmärtänyt säännöt"
+    }
+  },
+  "settings": {
+    "title": "Asetukset",
+    "appearance": "Ulkoasu",
+    "dark": "Tumma",
+    "light": "Kevyt",
+    "auto": "Automaattinen",
+    "language": "Kieli",
+    "swedish": "Svenska",
+    "english": "English",
+    "finnish": "Suomi",
+    "country": "Maa",
+    "sweden": "Ruotsi",
+    "finland": "Suomi",
+    "resetting": "Nollaus",
+    "reset_last_plate": "Nollaa viimeinen numero",
+    "reset_all_data": "Nollaa kaikki tiedot",
+    "account": "Tili",
+    "logout": "Kirjaudu ulos",
+    "delete_account": "Poista tili"
+  }
+}

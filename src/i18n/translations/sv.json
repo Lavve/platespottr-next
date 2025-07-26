@@ -35,7 +35,9 @@
     "logout_title": "Logga ut",
     "logout_content": "Är du säker på att du vill logga ut?",
     "delete_account_title": "Radera konto",
-    "delete_account_content": "Är du säker på att du vill radera ditt konto? Detta kan inte ångras."
+    "delete_account_content": "Är du säker på att du vill radera ditt konto? Detta kan inte ångras.",
+    "change_country_title": "Ändra land",
+    "change_country_content": "Är du säker på att du vill ändra land? Detta kommer att återställa alla dina nummer och kan inte ångras."
   },
   "statistics": {
     "title": "Statistik",
@@ -101,6 +103,10 @@
     "language": "Språk",
     "swedish": "Svenska",
     "english": "Engelska",
+    "finnish": "Suomi",
+    "country": "Land",
+    "sweden": "Sverige",
+    "finland": "Finland",
     "resetting": "Återställning",
     "reset_last_plate": "Återställ senaste nummer",
     "reset_all_data": "Återställ all data",

@@ -8,6 +8,7 @@ const defaultSettings: ISettings = {
   theme: 'light',
   themeChoice: 'system',
   language: 'sv',
+  country: 'se',
   initialRulesDialogOpen: true,
   slug: generateSlug(),
 }
