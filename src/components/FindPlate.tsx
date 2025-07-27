@@ -69,9 +69,11 @@ const FindPlate = () => {
 
   return (
     <Paper sx={{ borderRadius: 2 }} elevation={8}>
-      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', textAlign: 'center' }}>
         <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
+
         <RegPlate letters={letters} number={user.plates.length + 1} />
+
         <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
           <Button
             variant='contained'
@@ -82,7 +84,7 @@ const FindPlate = () => {
             onMouseLeave={endHold}
             onTouchStart={startHold}
             onTouchEnd={endHold}
-            sx={{ userSelect: 'none' }}
+            sx={{ fontSize: { xs: '1.5rem', md: '1.75rem' } }}
           >
             {t('common.found')}
           </Button>
@@ -114,7 +116,7 @@ const FindPlate = () => {
             </Box>
           )}
         </Box>
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>
           {t('app.press_for_seconds', { seconds: holdDuration / 1000 })}
         </Typography>
       </CardContent>

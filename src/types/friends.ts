@@ -11,6 +11,7 @@ export interface IFriendsContext {
   friends: IUser[]
   friendRequests: IUser[]
   friendList: IUser[]
-  addFriend?: (friend: IUser) => void
-  removeFriend?: (id: string) => void
+  addFriend: (friend: IUser) => void
+  removeFriend: (id: string) => void
+  resetFriends: () => void
 }

@@ -34,7 +34,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
         <Paper
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             gap: 1,

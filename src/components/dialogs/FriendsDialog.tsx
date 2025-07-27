@@ -29,7 +29,7 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const handleAddFriend = (friend: IUser) => {
-    addFriend?.(friend)
+    addFriend(friend)
   }
 
   const handleRemoveFriend = (friend: IUser) => {
@@ -38,7 +38,7 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
   }
 
   const handleConfirmRemoveFriend = () => {
-    removeFriend?.(friendToRemove?.name as string)
+    removeFriend(friendToRemove?.name as string)
     setConfirmOpen(false)
   }
 

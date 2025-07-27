@@ -30,6 +30,8 @@
     "confirm": "Confirm",
     "remove_title": "Remove?",
     "remove_content": "Are you sure you want to remove {name}?",
+    "reset_last_plate_title": "Reset last number",
+    "reset_last_plate_content": "Are you sure you want to reset to number {number}?",
     "reset_all_data_title": "Reset all numbers",
     "reset_all_data_content": "Are you sure you want to reset all numbers?",
     "logout_title": "Log out",
@@ -52,7 +54,7 @@
     "add": "Add friend",
     "remove": "Remove friend",
     "show_my_qr": "Show my QR code",
-    "your_platespottr_code": "Your Platespottr code",
+    "your_platespottr_code": "Your personal Platespottr code",
     "friends_requests": "Friend requests",
     "my_friends": "My friends"
   },

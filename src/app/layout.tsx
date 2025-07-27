@@ -34,13 +34,20 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html lang={locale} style={{ userSelect: 'none', overscrollBehavior: 'none' }}>
       <head>
         <link rel='icon' href='/icons/logo.svg' sizes='any' />
       </head>
-      <body style={{ background: 'var(--background-gradient)', userSelect: 'none' }}>
+      <body
+        style={{
+          background: 'var(--background-gradient)',
+          userSelect: 'none',
+          overscrollBehavior: 'none',
+          textWrap: 'pretty',
+        }}
+      >
         <Providers messages={messages} locale={locale}>
-          <Container>{children}</Container>
+          <Container sx={{ px: { xs: 0, md: 2 } }}>{children}</Container>
         </Providers>
       </body>
     </html>

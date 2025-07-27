@@ -1,21 +1,13 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { defaultSettings } from '@/constants/settings'
+import type { IProviderProps } from '@/types/common'
 import type { ISettings, ISettingsContext, ThemeMode } from '@/types/settings'
-import { generateSlug } from '@/utils/generateSlug'
-
-const defaultSettings: ISettings = {
-  theme: 'light',
-  themeChoice: 'system',
-  language: 'sv',
-  country: 'se',
-  initialRulesDialogOpen: true,
-  slug: generateSlug(),
-}
 
 const SettingsContext = createContext<ISettingsContext | undefined>(undefined)
 
-const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
+const SettingsProvider = ({ children }: IProviderProps) => {
   const [settings, setSettings] = useState<ISettings>(defaultSettings)
 
   const saveSettings = useCallback((newSettings: ISettings) => {
@@ -72,7 +64,22 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
-  const value = useMemo(() => ({ settings, saveSettings, setTheme }), [settings, saveSettings, setTheme])
+  const resetSettings = useCallback(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const newSettings = {
+      ...defaultSettings,
+      initialRulesDialogOpen: false,
+      theme: mediaQuery.matches ? 'dark' : 'light',
+      themeChoice: 'system',
+    }
+    setSettings(newSettings as ISettings)
+    localStorage.setItem('PS_settings', JSON.stringify(newSettings))
+  }, [])
+
+  const value = useMemo(
+    () => ({ settings, saveSettings, setTheme, resetSettings }),
+    [settings, saveSettings, setTheme, resetSettings]
+  )
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>
 }

@@ -1,7 +1,6 @@
 export interface IPlateProps {
   letters: string
   number: number
-  scale?: number
 }
 
 export interface IRoadsignProps {
@@ -15,4 +14,8 @@ export interface IConfirmDialogProps {
   content: string
   onClose: () => void
   onConfirm: () => void
+}
+
+export interface IProviderProps {
+  children: React.ReactNode
 }

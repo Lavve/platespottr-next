@@ -9,9 +9,20 @@ export const defaultFriends: IUser[] = [
     slug: generateSlug(),
   },
   {
-    name: 'Ylva',
-    plates: [Date.now(), Date.now() - 1000 * 60 * 60 * 24, Date.now() - 1000 * 60 * 60 * 24 * 2],
+    name: 'Doris',
+    plates: [Date.now() - 1000 * 60 * 60 * 24 * 4, Date.now() - 1000 * 60 * 60 * 24 * 22],
     requesting: true,
+    slug: generateSlug(),
+  },
+  {
+    name: 'Ylva',
+    plates: [
+      Date.now(),
+      Date.now() - 1000 * 60 * 60 * 24 * 2,
+      Date.now() - 1000 * 60 * 60 * 24 * 5,
+      Date.now() - 1000 * 60 * 60 * 24 * 5,
+    ],
+    friendSince: Date.now() - 1000 * 60 * 60 * 24 * 24,
     slug: generateSlug(),
   },
   {
@@ -28,21 +39,13 @@ export const defaultFriends: IUser[] = [
       Date.now() - 1000 * 60 * 60 * 24 * 32,
       Date.now() - 1000 * 60 * 60 * 24 * 56,
     ],
-    friendSince: Date.now() - 1000 * 60 * 60 * 24 * 24,
-    requesting: false,
-    slug: generateSlug(),
-  },
-  {
-    name: 'Doris',
-    plates: [Date.now() - 1000 * 60 * 60 * 24 * 4, Date.now() - 1000 * 60 * 60 * 24 * 22],
-    friendSince: Date.now() - 1000 * 60 * 60 * 24 * 10,
-    requesting: false,
+    friendSince: Date.now() - 1000 * 60 * 60 * 24 * 677,
     slug: generateSlug(),
   },
   {
     name: 'Roland',
     plates: [Date.now() - 1000 * 60 * 60 * 24 * 2, Date.now() - 1000 * 60 * 60 * 24 * 3],
-    requesting: true,
+    friendSince: Date.now() - 1000 * 60 * 60 * 24 * 105,
     slug: generateSlug(),
   },
 ]

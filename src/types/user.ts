@@ -2,8 +2,8 @@ export interface IUser {
   name: string
   plates: number[]
   friendSince?: number
-  requesting: boolean
-  slug: string
+  requesting?: boolean
+  slug?: string
 }
 
 export interface IUserProps {
@@ -16,4 +16,5 @@ export interface IUserProps {
 export interface IUserContext {
   user: IUser | null
   saveUser: (user: IUser) => void
+  resetUser: () => void
 }

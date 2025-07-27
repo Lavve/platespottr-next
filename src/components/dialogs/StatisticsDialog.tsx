@@ -37,7 +37,7 @@ const StatisticsDialog = ({ open, onClose }: { open: boolean; onClose: () => voi
             <Typography variant='h6'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
           </Card>
         )}
-        {findingsByWeek && (
+        {findingsByWeek && user?.plates?.length && user.plates.length > 1 && (
           <Card sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
             <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Timeline color='success' /> {t('statistics.numbers_per_week')}

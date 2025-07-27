@@ -129,6 +129,7 @@ const theme = createTheme({
         paper: {
           backgroundImage: 'none',
           backgroundColor: '#f0f0f0',
+          border: '1px solid #fff',
         },
       },
     },
@@ -210,6 +211,7 @@ export const darkTheme = createTheme({
         paper: {
           backgroundImage: 'none',
           backgroundColor: '#181818',
+          border: '1px solid #333',
         },
       },
     },

@@ -16,6 +16,9 @@ export const wordList1 = [
   'supersnygg',
   'trekantig',
   'trevlig',
+  'kaffesugen',
+  'sömnig',
+  'nyvaken',
 ]
 export const wordList2 = [
   'apelsinklyfta',
@@ -45,6 +48,7 @@ export const wordList2 = [
   'telefon',
   'zebraöga',
   'äpplekärna',
+  'strumpa',
 ]
 export const wordList3 = [
   'badar',

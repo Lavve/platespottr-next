@@ -9,7 +9,7 @@ const Streak = () => {
   const { user } = useUser()
   const { maxStreak } = useStatistics(user?.plates || [])
 
-  if (!maxStreak || !user) return null
+  if (maxStreak < 2 || !user) return null
 
   return (
     <Paper

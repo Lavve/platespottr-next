@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { defaultFriends } from '@/constants/friends'
+import type { IProviderProps } from '@/types/common'
 import type { IFriendsContext } from '@/types/friends'
 import type { IUser } from '@/types/user'
 
 const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
-const FriendsProvider = ({ children }: { children: React.ReactNode }) => {
+const FriendsProvider = ({ children }: IProviderProps) => {
   const [friends, setFriends] = useState<IUser[]>(defaultFriends)
 
   const friendRequests = useMemo(
@@ -46,9 +47,14 @@ const FriendsProvider = ({ children }: { children: React.ReactNode }) => {
     [friends]
   )
 
+  const resetFriends = useCallback(() => {
+    setFriends(defaultFriends)
+    localStorage.setItem('PS_friends', JSON.stringify(defaultFriends))
+  }, [])
+
   const value = useMemo(
-    () => ({ friends, friendRequests, friendList, addFriend, removeFriend }),
-    [friends, friendRequests, friendList, addFriend, removeFriend]
+    () => ({ friends, friendRequests, friendList, addFriend, removeFriend, resetFriends }),
+    [friends, friendRequests, friendList, addFriend, removeFriend, resetFriends]
   )
 
   return <FriendsContext.Provider value={value}>{children}</FriendsContext.Provider>

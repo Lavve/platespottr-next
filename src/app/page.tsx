@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart, EmojiEvents, Help, People, Settings } from '@mui/icons-material'
-import { Badge, Button, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material'
+import { Badge, Box, Button, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material'
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -65,7 +65,17 @@ export default function Home() {
   return (
     <MuiThemeProvider theme={currentTheme}>
       <CssBaseline />
-      <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
+      <Container
+        maxWidth='sm'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: 2,
+          py: 2,
+          height: '100vh',
+        }}
+      >
         <Paper sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}>
           <Logo size={50} />
           <Typography
@@ -77,9 +87,10 @@ export default function Home() {
           </Typography>
         </Paper>
 
-        <FindPlate />
-
-        <Streak />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <FindPlate />
+          <Streak />
+        </Box>
 
         <Grid container rowSpacing={1} columnSpacing={1} sx={{ mt: 2 }}>
           <Grid size={4}>
@@ -88,7 +99,7 @@ export default function Home() {
               color='primary'
               size='large'
               fullWidth
-              disabled={user?.plates.length === 1}
+              disabled={user?.plates.length === 0}
               startIcon={<BarChart />}
               onClick={() => {
                 vibrate()

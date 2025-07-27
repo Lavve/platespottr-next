@@ -1,4 +1,4 @@
-import { Delete, History, Logout } from '@mui/icons-material'
+import { Delete, History, Logout, RestartAltOutlined } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import { useState } from 'react'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Roadsign from '@/components/Roadsign'
 import type { Locale } from '@/i18n/config'
+import { useFriends } from '@/providers/friendsProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import type { Country, Language } from '@/types/settings'
@@ -25,13 +26,16 @@ import { vibrate } from '@/utils/vibrate'
 
 const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
-  const { user, saveUser } = useUser()
-  const { settings, saveSettings, setTheme } = useSettings()
+  const { user, saveUser, resetUser } = useUser()
+  const { resetFriends } = useFriends()
+  const { settings, saveSettings, setTheme, resetSettings } = useSettings()
   const [country, setCountry] = useState<Country>(settings.country)
   const [confirmResetAllDialogOpen, setConfirmResetAllDialogOpen] = useState(false)
+  const [confirmResetLastDialogOpen, setConfirmResetLastDialogOpen] = useState(false)
   const [confirmDeleteUserDialogOpen, setConfirmDeleteUserDialogOpen] = useState(false)
   const [confirmLogoutUserDialogOpen, setConfirmLogoutUserDialogOpen] = useState(false)
   const [confirmChangeCountryDialogOpen, setConfirmChangeCountryDialogOpen] = useState(false)
+  const [confirmResetAccountDialogOpen, setConfirmResetAccountDialogOpen] = useState(false)
 
   if (!open || !user) return null
 
@@ -43,6 +47,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     } as IUser
 
     saveUser(newUser)
+    setConfirmResetLastDialogOpen(false)
   }
 
   const handleChangeLanguage = (language: Language) => {
@@ -74,11 +79,22 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     vibrate()
     saveUser({ ...user, plates: [] })
     setConfirmDeleteUserDialogOpen(false)
+    onClose()
   }
 
   const handleLogoutUser = () => {
     vibrate()
     setConfirmLogoutUserDialogOpen(false)
+    onClose()
+  }
+
+  const handleResetAccount = () => {
+    vibrate()
+    resetUser()
+    resetFriends()
+    resetSettings()
+    setConfirmResetAccountDialogOpen(false)
+    onClose()
   }
 
   return (
@@ -147,9 +163,9 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 <Typography>{t('settings.country')}</Typography>
                 <ButtonGroup variant='outlined' fullWidth>
                   <Button
-                    variant={settings.country === 'se' ? 'contained' : 'outlined'}
-                    color={settings.country === 'se' ? 'primary' : 'secondary'}
-                    onClick={() => handleChangeCountry('se')}
+                    variant={settings.country === 's' ? 'contained' : 'outlined'}
+                    color={settings.country === 's' ? 'primary' : 'secondary'}
+                    onClick={() => handleChangeCountry('s')}
                   >
                     {t('settings.sweden')}
                   </Button>
@@ -173,7 +189,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 startIcon={<History />}
                 fullWidth
                 disabled={!user?.plates?.length}
-                onClick={handleResetLastPlate}
+                onClick={() => setConfirmResetLastDialogOpen(true)}
               >
                 {t('settings.reset_last_plate')}
               </Button>
@@ -186,6 +202,16 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 onClick={() => setConfirmResetAllDialogOpen(true)}
               >
                 {t('settings.reset_all_data')}
+              </Button>
+              <Button
+                variant='outlined'
+                color='warning'
+                startIcon={<RestartAltOutlined color='secondary' />}
+                endIcon={<RestartAltOutlined color='secondary' />}
+                fullWidth
+                onClick={() => setConfirmResetAccountDialogOpen(true)}
+              >
+                - Nollställ testkontot -
               </Button>
             </CardContent>
           </Card>
@@ -210,7 +236,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 >
                   {t('settings.logout')}
                 </Button>
-                <Button
+                {/* <Button
                   variant='outlined'
                   color='error'
                   startIcon={<Delete />}
@@ -218,7 +244,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   onClick={() => setConfirmDeleteUserDialogOpen(true)}
                 >
                   {t('settings.delete_account')}
-                </Button>
+                </Button> */}
               </Box>
             </CardContent>
           </Card>
@@ -229,6 +255,14 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ConfirmDialog
+        open={confirmResetLastDialogOpen}
+        title={t('confirm.reset_last_plate_title')}
+        content={t('confirm.reset_last_plate_content', { number: user.plates.length - 1 })}
+        onClose={() => setConfirmResetLastDialogOpen(false)}
+        onConfirm={handleResetLastPlate}
+      />
 
       <ConfirmDialog
         open={confirmResetAllDialogOpen}
@@ -260,6 +294,14 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         content={t('confirm.change_country_content')}
         onClose={() => setConfirmChangeCountryDialogOpen(false)}
         onConfirm={() => handleConfirmChangeCountry(country)}
+      />
+
+      <ConfirmDialog
+        open={confirmResetAccountDialogOpen}
+        title='Nollställa testkontot'
+        content='Är du säker på att du vill nollställa testkontot?'
+        onClose={() => setConfirmResetAccountDialogOpen(false)}
+        onConfirm={handleResetAccount}
       />
     </>
   )

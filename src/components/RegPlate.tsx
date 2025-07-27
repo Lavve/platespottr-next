@@ -2,7 +2,7 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
-import { useTranslations } from 'next-intl'
+import { useSettings } from '@/providers/settingsProvider'
 import type { IPlateProps } from '@/types/common'
 
 const fontTratex = localFont({
@@ -15,21 +15,20 @@ const fontTratex = localFont({
   ],
 })
 
-const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
-  const t = useTranslations()
+const RegPlate = ({ letters, number }: IPlateProps) => {
+  const { settings } = useSettings()
 
   return (
     <Card
       sx={{
         display: 'flex',
-        width: 380,
-        height: 76,
+        width: { xs: 280, sm: 380 },
+        height: { xs: 60, sm: 76 },
         borderRadius: 2,
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
         border: '4px solid #000',
         userSelect: 'none',
-        transform: `scale(${scale})`,
       }}
     >
       <Box
@@ -58,17 +57,26 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
             textAlign: 'center',
           }}
         ></Box>
-        <Box sx={{ color: 'regplate.light', fontWeight: 300, lineHeight: 1, fontFamily: fontTratex.style.fontFamily }}>
-          {t('app.plate_lang')}
+        <Box
+          sx={{
+            color: 'regplate.light',
+            fontWeight: 300,
+            fontSize: { xs: '0.70rem', sm: '1rem' },
+            lineHeight: 1,
+            textTransform: 'uppercase',
+            fontFamily: fontTratex.style.fontFamily,
+          }}
+        >
+          {/* {t('app.plate_lang')} */}
+          {settings.country}
         </Box>
       </Box>
       <Box
         sx={{
           display: 'flex',
           width: '100%',
-          px: 2,
-          py: 0.5,
-          gap: 2,
+          p: 0,
+          gap: { xs: 1, sm: 2 },
           alignItems: 'center',
           justifyContent: 'center',
           background: 'var(--regplate-gradient)',
@@ -79,6 +87,7 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
             <Typography
               variant='h2'
               sx={{
+                fontSize: { xs: '2.75rem', sm: '3.75rem' },
                 fontFamily: fontTratex.style.fontFamily,
                 color: 'regplate.contrastText',
                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
@@ -89,6 +98,7 @@ const RegPlate = ({ letters, number, scale = 1 }: IPlateProps) => {
             <Typography
               variant='h2'
               sx={{
+                fontSize: { xs: '2.75rem', sm: '3.75rem' },
                 fontFamily: fontTratex.style.fontFamily,
                 color: 'regplate.contrastText',
                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',

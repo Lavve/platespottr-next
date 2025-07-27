@@ -16,7 +16,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
     <Paper
       key={friend.name}
       sx={{
-        px: 2,
+        px: { xs: 1, md: 2 },
         py: 1,
         display: 'flex',
         alignItems: 'center',
@@ -50,11 +50,21 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
           )}
         </Box>
       </Box>
-      <Box sx={{ width: '15%' }}>
-        <Typography variant='body1' sx={{ fontWeight: 700, whiteSpace: 'nowrap', textAlign: 'center' }}>
-          {friend.plates.length}
-        </Typography>
-      </Box>
+      {!friend.requesting && (
+        <Box sx={{ display: 'flex', width: '20%', ml: place ? 'auto' : 0 }}>
+          <Box sx={{ width: '50%' }}>
+            <Typography variant='body1' sx={{ fontWeight: 700, whiteSpace: 'nowrap', textAlign: 'center' }}>
+              {friend.plates.length}
+            </Typography>
+          </Box>
+          <Box sx={{ width: '50%' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+              <LocalFireDepartment color='warning' />
+              <Typography variant='body2'>{maxStreak}</Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
       {friend.requesting ? (
         <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
           <Button
@@ -77,25 +87,17 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
           </Button>
         </Box>
       ) : (
-        <>
-          <Box sx={{ width: '15%', ml: 'auto' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0 }}>
-              <LocalFireDepartment color='warning' />
-              <Typography variant='body2'>{maxStreak}</Typography>
-            </Box>
-          </Box>
-          {!place && (
-            <Button
-              variant='contained'
-              color='error'
-              size='small'
-              sx={{ minWidth: 40, ml: 'auto' }}
-              onClick={() => onRemoveFriend?.(friend)}
-            >
-              <Close />
-            </Button>
-          )}
-        </>
+        !place && (
+          <Button
+            variant='contained'
+            color='error'
+            size='small'
+            sx={{ minWidth: 40, ml: 'auto' }}
+            onClick={() => onRemoveFriend?.(friend)}
+          >
+            <Close />
+          </Button>
+        )
       )}
     </Paper>
   )

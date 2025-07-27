@@ -1,10 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { defaultUser } from '@/constants/user'
+import type { IProviderProps } from '@/types/common'
 import type { IUser, IUserContext } from '@/types/user'
+import { generateSlug } from '@/utils/generateSlug'
 
 const UserContext = createContext<IUserContext | undefined>(undefined)
 
-const UserProvider = ({ children }: { children: React.ReactNode }) => {
+const UserProvider = ({ children }: IProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null)
 
   useEffect(() => {
@@ -22,7 +24,13 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem('PS_user', JSON.stringify(user))
   }, [])
 
-  const value = useMemo(() => ({ user, saveUser }), [user, saveUser])
+  const resetUser = useCallback(() => {
+    const newUser = { ...defaultUser, slug: generateSlug() }
+    setUser(newUser)
+    localStorage.setItem('PS_user', JSON.stringify(newUser))
+  }, [])
+
+  const value = useMemo(() => ({ user, saveUser, resetUser }), [user, saveUser, resetUser])
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
