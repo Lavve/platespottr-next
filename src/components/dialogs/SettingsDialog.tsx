@@ -39,17 +39,6 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
 
   if (!open || !user) return null
 
-  const handleResetLastPlate = () => {
-    vibrate()
-    const newUser = {
-      ...user,
-      plates: user.plates.length ? user.plates.slice(0, -1) : [],
-    } as IUser
-
-    saveUser(newUser)
-    setConfirmResetLastDialogOpen(false)
-  }
-
   const handleChangeLanguage = (language: Language) => {
     vibrate()
     saveSettings({ ...settings, language })
@@ -67,6 +56,17 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     saveSettings({ ...settings, country })
     saveUser({ ...user, plates: [] })
     setConfirmChangeCountryDialogOpen(false)
+  }
+
+  const handleResetLastPlate = () => {
+    vibrate()
+    const newUser = {
+      ...user,
+      plates: user.plates.length ? user.plates.slice(0, -1) : [],
+    } as IUser
+
+    saveUser(newUser)
+    setConfirmResetLastDialogOpen(false)
   }
 
   const handleResetAllPlates = () => {
@@ -111,21 +111,30 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 <Typography>{t('settings.appearance')}</Typography>
                 <ButtonGroup variant='outlined' fullWidth>
                   <Button
-                    onClick={() => setTheme('light')}
+                    onClick={() => {
+                      vibrate()
+                      setTheme('light')
+                    }}
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
                   >
                     {t('settings.light')}
                   </Button>
                   <Button
-                    onClick={() => setTheme('dark')}
+                    onClick={() => {
+                      vibrate()
+                      setTheme('dark')
+                    }}
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
                   >
                     {t('settings.dark')}
                   </Button>
                   <Button
-                    onClick={() => setTheme('system')}
+                    onClick={() => {
+                      vibrate()
+                      setTheme('system')
+                    }}
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
                   >
@@ -189,7 +198,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 startIcon={<History />}
                 fullWidth
                 disabled={!user?.plates?.length}
-                onClick={() => setConfirmResetLastDialogOpen(true)}
+                onClick={() => {
+                  vibrate()
+                  setConfirmResetLastDialogOpen(true)
+                }}
               >
                 {t('settings.reset_last_plate')}
               </Button>
@@ -199,7 +211,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                 startIcon={<Delete />}
                 fullWidth
                 disabled={!user?.plates?.length}
-                onClick={() => setConfirmResetAllDialogOpen(true)}
+                onClick={() => {
+                  vibrate()
+                  setConfirmResetAllDialogOpen(true)
+                }}
               >
                 {t('settings.reset_all_data')}
               </Button>
@@ -223,7 +238,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   startIcon={<RestartAltOutlined color='secondary' />}
                   endIcon={<RestartAltOutlined color='secondary' />}
                   fullWidth
-                  onClick={() => setConfirmResetAccountDialogOpen(true)}
+                  onClick={() => {
+                    vibrate()
+                    setConfirmResetAccountDialogOpen(true)
+                  }}
                 >
                   - Reset test -
                 </Button>
@@ -232,7 +250,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   color='primary'
                   startIcon={<Logout />}
                   fullWidth
-                  onClick={() => setConfirmLogoutUserDialogOpen(true)}
+                  onClick={() => {
+                    vibrate()
+                    setConfirmLogoutUserDialogOpen(true)
+                  }}
                 >
                   {t('settings.logout')}
                 </Button>
@@ -260,7 +281,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmResetLastDialogOpen}
         title={t('confirm.reset_last_plate_title')}
         content={t('confirm.reset_last_plate_content', { number: user.plates.length - 1 })}
-        onClose={() => setConfirmResetLastDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmResetLastDialogOpen(false)
+        }}
         onConfirm={handleResetLastPlate}
       />
 
@@ -268,7 +292,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmResetAllDialogOpen}
         title={t('confirm.reset_all_data_title')}
         content={t('confirm.reset_all_data_content')}
-        onClose={() => setConfirmResetAllDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmResetAllDialogOpen(false)
+        }}
         onConfirm={handleResetAllPlates}
       />
 
@@ -276,7 +303,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmLogoutUserDialogOpen}
         title={t('confirm.logout_title')}
         content={t('confirm.logout_content')}
-        onClose={() => setConfirmLogoutUserDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmLogoutUserDialogOpen(false)
+        }}
         onConfirm={handleLogoutUser}
       />
 
@@ -284,7 +314,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmDeleteUserDialogOpen}
         title={t('confirm.delete_account_title')}
         content={t('confirm.delete_account_content')}
-        onClose={() => setConfirmDeleteUserDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmDeleteUserDialogOpen(false)
+        }}
         onConfirm={handleDeleteUser}
       />
 
@@ -292,7 +325,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmChangeCountryDialogOpen}
         title={t('confirm.change_country_title')}
         content={t('confirm.change_country_content')}
-        onClose={() => setConfirmChangeCountryDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmChangeCountryDialogOpen(false)
+        }}
         onConfirm={() => handleConfirmChangeCountry(country)}
       />
 
@@ -300,7 +336,10 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         open={confirmResetAccountDialogOpen}
         title='Nollställa testkontot'
         content='Är du säker på att du vill nollställa testkontot? Detta kommer att återställa allt med test-data.'
-        onClose={() => setConfirmResetAccountDialogOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmResetAccountDialogOpen(false)
+        }}
         onConfirm={handleResetAccount}
       />
     </>

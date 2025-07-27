@@ -7,6 +7,7 @@ import { useStatistics } from '@/hooks/useStatistics'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
 import { getDaysBetween } from '@/utils/dates'
+import { vibrate } from '@/utils/vibrate'
 
 const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
@@ -47,7 +48,15 @@ const TopListDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
         <Roadsign text={t('toplist.title')} />
       </DialogTitle>
       <DialogContent>
-        <Tabs value={sortBy} variant='fullWidth' onChange={(_, value) => setSortBy(value)} sx={{ mb: 2 }}>
+        <Tabs
+          value={sortBy}
+          variant='fullWidth'
+          onChange={(_, value) => {
+            setSortBy(value)
+            vibrate()
+          }}
+          sx={{ mb: 2 }}
+        >
           <Tab label={t('toplist.number')} value='plates' />
           <Tab label={t('toplist.streak')} value='streak' />
           {/* <Tab label='Procent' value='percentage' /> */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Dialog, DialogContent, Paper, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import QRCode from 'react-qr-code'
 import { useUser } from '@/providers/userProvider'
@@ -50,6 +50,11 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
           </Typography>
         </Paper>
       </DialogContent>
+      <DialogActions>
+        <Button variant='contained' color='primary' size='large' onClick={onClose}>
+          {t('common.close')}
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }

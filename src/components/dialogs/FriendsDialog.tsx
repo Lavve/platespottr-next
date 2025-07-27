@@ -20,6 +20,7 @@ import Roadsign from '@/components/Roadsign'
 import User from '@/components/User'
 import { useFriends } from '@/providers/friendsProvider'
 import type { IUser } from '@/types/user'
+import { vibrate } from '@/utils/vibrate'
 
 const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
@@ -29,15 +30,18 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const handleAddFriend = (friend: IUser) => {
+    vibrate()
     addFriend(friend)
   }
 
   const handleRemoveFriend = (friend: IUser) => {
+    vibrate()
     setFriendToRemove(friend)
     setConfirmOpen(true)
   }
 
   const handleConfirmRemoveFriend = () => {
+    vibrate()
     removeFriend(friendToRemove?.name as string)
     setConfirmOpen(false)
   }
@@ -59,7 +63,10 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
                 color='primary'
                 size='large'
                 startIcon={<QrCode />}
-                onClick={() => setQrOpen(!qrOpen)}
+                onClick={() => {
+                  vibrate()
+                  setQrOpen(!qrOpen)
+                }}
               >
                 {t('friends.show_my_qr')}
               </Button>
@@ -101,11 +108,20 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
         </DialogActions>
       </Dialog>
 
-      <QrDialog open={qrOpen} onClose={() => setQrOpen(false)} />
+      <QrDialog
+        open={qrOpen}
+        onClose={() => {
+          vibrate()
+          setQrOpen(false)
+        }}
+      />
 
       <ConfirmDialog
         open={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
+        onClose={() => {
+          vibrate()
+          setConfirmOpen(false)
+        }}
         onConfirm={handleConfirmRemoveFriend}
         title={t('confirm.remove_title')}
         content={t('confirm.remove_content', { name: friendToRemove?.name ?? '' })}
