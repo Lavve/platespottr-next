@@ -185,7 +185,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               <Typography variant='h6'>{t('settings.resetting')}</Typography>
               <Button
                 variant='contained'
-                color='secondary'
+                color='primary'
                 startIcon={<History />}
                 fullWidth
                 disabled={!user?.plates?.length}
@@ -203,16 +203,6 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               >
                 {t('settings.reset_all_data')}
               </Button>
-              <Button
-                variant='outlined'
-                color='warning'
-                startIcon={<RestartAltOutlined color='secondary' />}
-                endIcon={<RestartAltOutlined color='secondary' />}
-                fullWidth
-                onClick={() => setConfirmResetAccountDialogOpen(true)}
-              >
-                - Nollställ testkontot -
-              </Button>
             </CardContent>
           </Card>
           <Card>
@@ -228,8 +218,18 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
-                  variant='contained'
-                  color='secondary'
+                  variant='outlined'
+                  color='warning'
+                  startIcon={<RestartAltOutlined color='secondary' />}
+                  endIcon={<RestartAltOutlined color='secondary' />}
+                  fullWidth
+                  onClick={() => setConfirmResetAccountDialogOpen(true)}
+                >
+                  - Reset test -
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='primary'
                   startIcon={<Logout />}
                   fullWidth
                   onClick={() => setConfirmLogoutUserDialogOpen(true)}
@@ -299,7 +299,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
       <ConfirmDialog
         open={confirmResetAccountDialogOpen}
         title='Nollställa testkontot'
-        content='Är du säker på att du vill nollställa testkontot?'
+        content='Är du säker på att du vill nollställa testkontot? Detta kommer att återställa allt med test-data.'
         onClose={() => setConfirmResetAccountDialogOpen(false)}
         onConfirm={handleResetAccount}
       />
