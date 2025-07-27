@@ -1,0 +1,1 @@
+export const SUPPRESS_INSTALL_DURATION_DAYS = 7

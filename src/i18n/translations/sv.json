@@ -20,7 +20,12 @@
     "toplist": "Topplista",
     "rules": "Regler",
     "settings": "Inställningar",
-    "plate_lang": "S"
+    "plate_lang": "S",
+    "add_plate": "Lägg till nummer",
+    "add_plate_description": "Klicka på \"Lägg till\" för att lägga till ett nummer. Glöm inte att kika på topplistan efteråt för att se om du är på väg mot toppen!",
+    "add_plate_description_no_friends": "Klicka på \"Lägg till\" för att lägga till ett nummer.",
+    "add_friend": "Lägg till vän",
+    "add_friend_description": "Lägg till {friendSlug} som vän."
   },
   "completed": {
     "title": "Du har klarat det!",
@@ -93,7 +98,7 @@
       "rule_4": "Var uppmärksam på din omgivning när du rör dig i trafiken",
       "rule_5": "Respektera andra människors egendom och integritet",
       "remember_safety": "OBS! Säkerheten går alltid före spelet. Var ansvarsfull!",
-      "understood": "Ja, jag har läst och förstått reglerna"
+      "understood": "Ja, jag har läst och förstått reglerna, samt att all data hanteras enligt GDPR."
     }
   },
   "settings": {

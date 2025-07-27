@@ -1,5 +1,6 @@
 import { Delete, History, Logout, RestartAltOutlined } from '@mui/icons-material'
 import {
+  Avatar,
   Box,
   Button,
   ButtonGroup,
@@ -109,14 +110,14 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography variant='h6'>{t('settings.title')}</Typography>
                 <Typography>{t('settings.appearance')}</Typography>
-                <ButtonGroup variant='outlined' fullWidth>
+                <ButtonGroup fullWidth>
                   <Button
                     onClick={() => {
                       vibrate()
                       setTheme('light')
                     }}
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
-                    color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
+                    color='primary'
                   >
                     {t('settings.light')}
                   </Button>
@@ -126,7 +127,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                       setTheme('dark')
                     }}
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
-                    color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
+                    color='primary'
                   >
                     {t('settings.dark')}
                   </Button>
@@ -136,7 +137,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                       setTheme('system')
                     }}
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
-                    color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
+                    color='primary'
                   >
                     {t('settings.auto')}
                   </Button>
@@ -144,24 +145,24 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography>{t('settings.language')}</Typography>
-                <ButtonGroup variant='outlined' fullWidth>
+                <ButtonGroup fullWidth>
                   <Button
                     variant={settings.language === 'sv' ? 'contained' : 'outlined'}
-                    color={settings.language === 'sv' ? 'primary' : 'secondary'}
+                    color='primary'
                     onClick={() => handleChangeLanguage('sv')}
                   >
                     {t('settings.swedish')}
                   </Button>
                   <Button
                     variant={settings.language === 'en' ? 'contained' : 'outlined'}
-                    color={settings.language === 'en' ? 'primary' : 'secondary'}
+                    color='primary'
                     onClick={() => handleChangeLanguage('en')}
                   >
                     {t('settings.english')}
                   </Button>
                   <Button
                     variant={settings.language === 'fi' ? 'contained' : 'outlined'}
-                    color={settings.language === 'fi' ? 'primary' : 'secondary'}
+                    color='primary'
                     onClick={() => handleChangeLanguage('fi')}
                   >
                     {t('settings.finnish')}
@@ -170,17 +171,17 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography>{t('settings.country')}</Typography>
-                <ButtonGroup variant='outlined' fullWidth>
+                <ButtonGroup fullWidth>
                   <Button
                     variant={settings.country === 's' ? 'contained' : 'outlined'}
-                    color={settings.country === 's' ? 'primary' : 'secondary'}
+                    color='primary'
                     onClick={() => handleChangeCountry('s')}
                   >
                     {t('settings.sweden')}
                   </Button>
                   <Button
                     variant={settings.country === 'fi' ? 'contained' : 'outlined'}
-                    color={settings.country === 'fi' ? 'primary' : 'secondary'}
+                    color='primary'
                     onClick={() => handleChangeCountry('fi')}
                   >
                     {t('settings.finland')}
@@ -193,7 +194,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Typography variant='h6'>{t('settings.resetting')}</Typography>
               <Button
-                variant='contained'
+                variant='outlined'
                 color='primary'
                 startIcon={<History />}
                 fullWidth
@@ -222,14 +223,28 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Card>
           <Card>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='h6'>{t('settings.account')}</Typography>
-                <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                  {t.rich('settings.logged_in_as', {
-                    name: user.name,
-                    strong: chunks => <b>{chunks}</b>,
-                  })}
-                </Typography>
+              <Typography variant='h6'>{t('settings.account')}</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  p: 2,
+                  mb: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                }}
+              >
+                <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>{user.name.slice(0, 2)}</Avatar>
+                <Box sx={{ width: '100%', ml: 2 }}>
+                  <Typography variant='h6'>{user.name}</Typography>
+                  <Typography
+                    variant='body2'
+                    color='text.secondary'
+                    sx={{ display: 'flex', alignItems: 'center', fontWeight: 700 }}
+                  >
+                    {user.slug}
+                  </Typography>
+                </Box>
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button

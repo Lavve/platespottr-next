@@ -9,7 +9,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
   const t = useTranslations()
   const { user } = useUser()
 
-  if (!open) return null
+  if (!open || !user) return null
 
   return (
     <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
@@ -27,7 +27,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
         >
           <QRCode
             size={250}
-            value={`${process.env.NEXT_PUBLIC_SLUG_URL}${user?.slug}`}
+            value={`${process.env.NEXT_PUBLIC_SLUG_URL}/#add-friend=${user.slug}`}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
           />
         </Box>
@@ -46,7 +46,7 @@ const QrDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => 
             {t('friends.your_platespottr_code')}
           </Typography>
           <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }} fontWeight='bold'>
-            {user?.slug}
+            {user.slug}
           </Typography>
         </Paper>
       </DialogContent>

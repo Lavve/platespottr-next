@@ -15,3 +15,9 @@ export interface IFriendsContext {
   removeFriend: (id: string) => void
   resetFriends: () => void
 }
+
+export interface IAddFriendsDialogProps {
+  friendSlug: string | null
+  open: boolean
+  onClose: () => void
+}

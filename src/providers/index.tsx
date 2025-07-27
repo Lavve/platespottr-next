@@ -3,10 +3,11 @@
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import type { AbstractIntlMessages } from 'next-intl'
 import type { ReactNode } from 'react'
+import { useMemo } from 'react'
 import FriendsProvider from '@/providers/friendsProvider'
-import SettingsProvider from '@/providers/settingsProvider'
+import SettingsProvider, { useSettings } from '@/providers/settingsProvider'
 import UserProvider from '@/providers/userProvider'
-import { darkTheme } from '@/style/theme'
+import theme, { darkTheme } from '@/style/theme'
 import { I18nClientProvider } from './I18nClientProvider'
 
 type IProvidersProps = {
@@ -18,14 +19,23 @@ type IProvidersProps = {
 const Providers = ({ messages, locale, children }: IProvidersProps) => {
   return (
     <I18nClientProvider messages={messages} locale={locale}>
-      <MuiThemeProvider theme={darkTheme}>
-        <SettingsProvider>
-          <UserProvider>
-            <FriendsProvider>{children}</FriendsProvider>
-          </UserProvider>
-        </SettingsProvider>
-      </MuiThemeProvider>
+      <SettingsProvider>
+        <ThemeWrapper>{children}</ThemeWrapper>
+      </SettingsProvider>
     </I18nClientProvider>
+  )
+}
+
+const ThemeWrapper = ({ children }: { children: ReactNode }) => {
+  const { settings } = useSettings()
+  const currentTheme = useMemo(() => (settings.theme === 'dark' ? darkTheme : theme), [settings.theme])
+
+  return (
+    <UserProvider>
+      <FriendsProvider>
+        <MuiThemeProvider theme={currentTheme}>{children}</MuiThemeProvider>
+      </FriendsProvider>
+    </UserProvider>
   )
 }
 

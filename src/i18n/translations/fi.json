@@ -93,7 +93,7 @@
       "rule_4": "Ole tarkkaavainen ympäristöstäsi liikenteessä liikkuessasi",
       "rule_5": "Kunnioita muiden omaisuutta ja yksityisyyttä",
       "remember_safety": "Muista: Turvallisuus menee aina pelin edelle. Ole vastuullinen!",
-      "understood": "Kyllä, olen lukenut ja ymmärtänyt säännöt"
+      "understood": "Kyllä, olen lukenut ja ymmärtänyt säännöt, sekä että kaikki tietoja käsitellään GDPR:n mukaisesti."
     }
   },
   "settings": {
@@ -101,7 +101,7 @@
     "appearance": "Ulkoasu",
     "dark": "Tumma",
     "light": "Kevyt",
-    "auto": "Automaattinen",
+    "auto": "Auto",
     "language": "Kieli",
     "swedish": "Svenska",
     "english": "English",

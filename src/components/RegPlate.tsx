@@ -18,18 +18,21 @@ const fontTratex = localFont({
 const RegPlate = ({ letters, number }: IPlateProps) => {
   const { settings } = useSettings()
 
+  if (!letters || !number) return null
+
   return (
     <Card
       sx={{
         display: 'flex',
-        width: { xs: 280, sm: 380 },
-        height: { xs: 60, sm: 76 },
+        width: { xs: 300, sm: 360 },
+        height: { xs: 65, sm: 76 },
         borderRadius: 2,
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
         border: '4px solid #000',
         userSelect: 'none',
       }}
+      elevation={5}
     >
       <Box
         sx={{
@@ -61,7 +64,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           sx={{
             color: 'regplate.light',
             fontWeight: 300,
-            fontSize: { xs: '0.70rem', sm: '1rem' },
+            fontSize: { xs: '0.75rem', sm: '1rem' },
             lineHeight: 1,
             textTransform: 'uppercase',
             fontFamily: fontTratex.style.fontFamily,
@@ -82,32 +85,28 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           background: 'var(--regplate-gradient)',
         }}
       >
-        {letters && number && (
-          <>
-            <Typography
-              variant='h2'
-              sx={{
-                fontSize: { xs: '2.75rem', sm: '3.75rem' },
-                fontFamily: fontTratex.style.fontFamily,
-                color: 'regplate.contrastText',
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
-              }}
-            >
-              {letters}
-            </Typography>
-            <Typography
-              variant='h2'
-              sx={{
-                fontSize: { xs: '2.75rem', sm: '3.75rem' },
-                fontFamily: fontTratex.style.fontFamily,
-                color: 'regplate.contrastText',
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
-              }}
-            >
-              {number.toString().padStart(3, '0')}
-            </Typography>
-          </>
-        )}
+        <Typography
+          variant='h2'
+          sx={{
+            fontSize: { xs: '3rem', sm: '3.75rem' },
+            fontFamily: fontTratex.style.fontFamily,
+            color: 'regplate.contrastText',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
+          }}
+        >
+          {letters}
+        </Typography>
+        <Typography
+          variant='h2'
+          sx={{
+            fontSize: { xs: '3rem', sm: '3.75rem' },
+            fontFamily: fontTratex.style.fontFamily,
+            color: 'regplate.contrastText',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
+          }}
+        >
+          {number.toString().padStart(3, '0')}
+        </Typography>
       </Box>
     </Card>
   )

@@ -5,7 +5,7 @@ import type { IRoadsignProps } from '@/types/common'
 const fontTratex = localFont({
   src: [
     {
-      path: '../assets/fonts/Tratex.woff2',
+      path: '../assets/fonts/CharlesWright.woff2',
       weight: '400',
       style: 'normal',
     },
@@ -30,6 +30,7 @@ const Roadsign = ({ number, text }: IRoadsignProps) => {
         userSelect: 'none',
         boxShadow: '2px 4px 4px 0 rgba(0, 0, 0, 0.2)',
       }}
+      elevation={5}
     >
       {number && (
         <Typography

@@ -68,7 +68,7 @@ const FindPlate = () => {
   if (!user) return null
 
   return (
-    <Paper sx={{ borderRadius: 2 }} elevation={8}>
+    <Paper sx={{ borderRadius: 2 }} elevation={10}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', textAlign: 'center' }}>
         <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
@@ -84,7 +84,7 @@ const FindPlate = () => {
             onMouseLeave={endHold}
             onTouchStart={startHold}
             onTouchEnd={endHold}
-            sx={{ fontSize: { xs: '1.5rem', md: '1.75rem' } }}
+            sx={{ fontSize: { xs: '1.5rem', sm: '1.75rem' } }}
           >
             {t('common.found')}
           </Button>

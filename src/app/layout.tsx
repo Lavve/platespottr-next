@@ -4,9 +4,10 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import { Container } from '@mui/material'
+import { Container, CssBaseline } from '@mui/material'
 import '@/style/globals.css'
 import { getLocale, getMessages } from 'next-intl/server'
+import ServiceWorkerRegistration from '@/components/common/ServiceWorkerRegistration'
 import Providers from '@/providers'
 
 export const metadata: Metadata = {
@@ -47,7 +48,9 @@ export default async function RootLayout({
         }}
       >
         <Providers messages={messages} locale={locale}>
+          <CssBaseline />
           <Container sx={{ px: { xs: 0, md: 2 } }}>{children}</Container>
+          <ServiceWorkerRegistration />
         </Providers>
       </body>
     </html>

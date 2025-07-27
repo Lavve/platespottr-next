@@ -17,10 +17,21 @@
   "theme_color": "#335577",
   "background_color": "#1a1c1f",
   "url_handlers": {
-    "https://platespottr.vercel.app/*": {
-      "origin": "https://platespottr.vercel.app"
-    }
+    "origin": "https://platespottr.vercel.app"
   },
+  "shortcuts": [
+    {
+      "name": "Lägg till siffra",
+      "url": "/#add-plate",
+      "icons": [
+        {
+          "src": "/icons/logo_x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "/icons/logo_maskable.svg",

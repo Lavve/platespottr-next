@@ -8,6 +8,7 @@ export type ISettings = {
   country: Country
   themeChoice: ThemeMode
   initialRulesDialogOpen?: boolean
+  supressedInstallAt?: number
 }
 
 export type ISettingsContext = {
