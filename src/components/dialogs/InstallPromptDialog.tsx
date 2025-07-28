@@ -1,18 +1,19 @@
 'use client'
 
-import { Box, Button, Fade, Paper, Slide, Stack, Typography } from '@mui/material'
+import { Box, Fade, Paper, Slide, Stack, Typography } from '@mui/material'
 import TrapFocus from '@mui/material/Unstable_TrapFocus'
 import { useCallback, useEffect, useState } from 'react'
-import { SUPPRESS_INSTALL_DURATION_DAYS } from '@/constants/app'
+import VibrateButton from '@/components/common/VibrateButton'
+import Logo from '@/components/Logo'
+import { SUPPRESS_INSTALL_DURATION_DAYS, VIBRATE_ALERT } from '@/constants/app'
 import useInstallPrompt from '@/hooks/useInstallPrompt'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
-import Logo from '../Logo'
 
 export default function InstallPromptDialog() {
   const installPrompt = useInstallPrompt()
   const { settings, saveSettings } = useSettings()
-  const [open, setOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   const shouldShowInstallPrompt = useCallback((): boolean => {
     if (!settings?.supressedInstallAt) return true
@@ -31,13 +32,12 @@ export default function InstallPromptDialog() {
     installPrompt.prompt()
     const result = await installPrompt.userChoice
     console.log('Användarval:', result.outcome)
-    setOpen(false)
+    setIsVisible(false)
   }
 
   const handleDismiss = () => {
     saveSettings({ ...settings, supressedInstallAt: Date.now() })
-    vibrate()
-    setOpen(false)
+    setIsVisible(false)
   }
 
   useEffect(() => {
@@ -45,8 +45,8 @@ export default function InstallPromptDialog() {
       const suppressed = !shouldShowInstallPrompt()
 
       if (installPrompt && !suppressed) {
-        vibrate([20, 100, 20, 100, 20])
-        setOpen(true)
+        vibrate(VIBRATE_ALERT)
+        setIsVisible(true)
       }
     }
 
@@ -55,12 +55,12 @@ export default function InstallPromptDialog() {
     return () => clearTimeout(timer)
   }, [installPrompt, shouldShowInstallPrompt])
 
-  if (!open) return null
+  if (!isVisible) return null
 
   return (
     <TrapFocus open disableAutoFocus disableEnforceFocus>
-      <Slide appear={true} direction='up' in={open}>
-        <Fade appear={false} in={open}>
+      <Slide appear={true} direction='up' in={isVisible}>
+        <Fade appear={false} in={isVisible}>
           <Paper
             role='dialog'
             aria-modal='false'
@@ -99,12 +99,12 @@ export default function InstallPromptDialog() {
                   alignSelf: { xs: 'flex-end', md: 'center' },
                 }}
               >
-                <Button onClick={handleDismiss} variant='outlined' color='primary'>
+                <VibrateButton onClick={handleDismiss} variant='outlined' color='primary'>
                   Nej tack
-                </Button>
-                <Button onClick={handleInstall} variant='contained' color='primary' size='large'>
+                </VibrateButton>
+                <VibrateButton onClick={handleInstall} variant='contained' color='primary' size='large'>
                   Installera
-                </Button>
+                </VibrateButton>
               </Stack>
             </Stack>
           </Paper>

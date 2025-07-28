@@ -2,7 +2,7 @@
 
 import { Box, Container, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import CompleteDialog from '@/components/dialogs/CompleteDialog'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import InstallPromptDialog from '@/components/dialogs/InstallPromptDialog'
@@ -14,7 +14,6 @@ import { useHashNavigation } from '@/hooks/useHashNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
 import { generateSlug } from '@/utils/generateSlug'
-import { vibrate } from '@/utils/vibrate'
 
 export default function HomePage() {
   const t = useTranslations()
@@ -29,21 +28,30 @@ export default function HomePage() {
     }
   }, [user?.plates])
 
-  const handleAddPlate = () => {
-    vibrate()
+  const foundFriend = useMemo(() => {
+    return friends?.find(f => f.slug === friendSlug) || null
+  }, [friends, friendSlug])
+
+  const addPlateContent = useMemo(() => {
+    return friendList.length > 0 ? t('app.add_plate_description') : t('app.add_plate_description_no_friends')
+  }, [friendList.length, t])
+
+  const addFriendContent = useMemo(() => {
+    return t('app.add_friend_description', { friendSlug: friendSlug || '' })
+  }, [friendSlug, t])
+
+  const handleAddPlate = useCallback(() => {
     clearHash()
     if (!user) return
     saveUser({ ...user, plates: [...user.plates, Date.now()] })
-  }
+  }, [clearHash, user, saveUser])
 
-  const handleAddFriend = () => {
-    vibrate()
+  const handleAddFriend = useCallback(() => {
     clearHash()
     if (!friendSlug) return
-    const friend = friends?.find(f => f.slug === friendSlug) || null
-    if (friend) return
+    if (foundFriend) return
     addFriend({ name: 'Stina', slug: generateSlug(), plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
-  }
+  }, [clearHash, friendSlug, foundFriend, addFriend])
 
   return (
     <Container
@@ -80,33 +88,21 @@ export default function HomePage() {
 
       <ConfirmDialog
         title={t('app.add_plate')}
-        content={friendList.length > 0 ? t('app.add_plate_description') : t('app.add_plate_description_no_friends')}
+        content={addPlateContent}
         onConfirm={handleAddPlate}
         open={isAddPlateDialogOpen}
-        onClose={() => {
-          vibrate()
-          clearHash()
-        }}
+        onClose={() => clearHash()}
       />
       <ConfirmDialog
         title={t('app.add_friend')}
-        content={t('app.add_friend_description', { friendSlug: friendSlug || '' })}
+        content={addFriendContent}
         onConfirm={handleAddFriend}
         open={isAddFriendDialogOpen}
-        onClose={() => {
-          vibrate()
-          clearHash()
-        }}
+        onClose={() => clearHash()}
       />
 
       <InstallPromptDialog />
-      <CompleteDialog
-        open={isCompleteDialogOpen}
-        onClose={() => {
-          vibrate()
-          setIsCompleteDialogOpen(false)
-        }}
-      />
+      <CompleteDialog open={isCompleteDialogOpen} onClose={() => setIsCompleteDialogOpen(false)} />
     </Container>
   )
 }

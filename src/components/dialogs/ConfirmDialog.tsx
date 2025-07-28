@@ -1,7 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
+import VibrateButton from '@/components/common/VibrateButton'
+import Roadsign from '@/components/Roadsign'
 import type { IConfirmDialogProps } from '@/types/common'
-import Roadsign from '../Roadsign'
 
 const ConfirmDialog = ({ open, title, content, onClose, onConfirm }: IConfirmDialogProps) => {
   const t = useTranslations()
@@ -26,10 +27,10 @@ const ConfirmDialog = ({ open, title, content, onClose, onConfirm }: IConfirmDia
         <Typography variant='body1'>{content}</Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t('common.cancel')}</Button>
-        <Button onClick={onConfirm} color='primary' variant='contained' autoFocus>
+        <VibrateButton onClick={onClose}>{t('common.cancel')}</VibrateButton>
+        <VibrateButton onClick={onConfirm} color='primary' variant='contained' autoFocus>
           {t('confirm.confirm')}
-        </Button>
+        </VibrateButton>
       </DialogActions>
     </Dialog>
   )

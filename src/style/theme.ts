@@ -151,7 +151,7 @@ export const darkTheme = createTheme({
     mode: 'dark',
     background: {
       default: '#121212',
-      paper: '#1e1e1e',
+      paper: '#222222',
     },
     text: {
       primary: '#e1e1e1',
@@ -220,6 +220,13 @@ export const darkTheme = createTheme({
         root: {
           backgroundImage: 'none',
           backgroundColor: '#121212',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
         },
       },
     },

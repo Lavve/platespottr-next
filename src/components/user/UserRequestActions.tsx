@@ -1,10 +1,11 @@
 import { Check, Close } from '@mui/icons-material'
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
+import VibrateButton from '@/components/common/VibrateButton'
 import type { IRequestActions } from '@/types/user'
 
 const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestActions) => (
   <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
-    <Button
+    <VibrateButton
       variant='contained'
       color='success'
       size='small'
@@ -12,8 +13,8 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
       onClick={() => onAddFriend?.(friend)}
     >
       <Check />
-    </Button>
-    <Button
+    </VibrateButton>
+    <VibrateButton
       variant='contained'
       color='error'
       size='small'
@@ -21,7 +22,7 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
       onClick={() => onRemoveFriend?.(friend)}
     >
       <Close />
-    </Button>
+    </VibrateButton>
   </Box>
 )
 

@@ -1,6 +1,7 @@
 import { ArrowBack } from '@mui/icons-material'
-import { Button, Container, Paper, Typography } from '@mui/material'
+import { Container, Paper, Typography } from '@mui/material'
 import Link from 'next/link'
+import VibrateButton from '@/components/common/VibrateButton'
 
 const NotFound = () => {
   return (
@@ -13,9 +14,9 @@ const NotFound = () => {
           404
         </Typography>
         <Typography sx={{ mb: 2 }}>Sidan du letar efter finns inte eller har tagits bort.</Typography>
-        <Button variant='contained' color='primary' startIcon={<ArrowBack />} component={Link} href='/'>
+        <VibrateButton variant='contained' color='primary' startIcon={<ArrowBack />} component={Link} href='/'>
           Till startsidan
-        </Button>
+        </VibrateButton>
       </Paper>
     </Container>
   )

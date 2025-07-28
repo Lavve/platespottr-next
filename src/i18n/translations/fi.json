@@ -64,6 +64,8 @@
     "number_description": "Yhteensä löydettyjä numeroita",
     "streak": "Putki",
     "streak_description": "Eniten putkia",
+    "percentage": "Prosentti",
+    "percentage_description": "Prosenttia löydetyistä päivistä",
     "you": "Sinä",
     "toplist_tagline": "Pääsetkö huipulle ennen maalia?"
   },

@@ -2,6 +2,7 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
+import { useMemo, useRef } from 'react'
 import { useSettings } from '@/providers/settingsProvider'
 import type { IPlateProps } from '@/types/common'
 
@@ -17,6 +18,37 @@ const fontTratex = localFont({
 
 const RegPlate = ({ letters, number }: IPlateProps) => {
   const { settings } = useSettings()
+  const key = useRef(0)
+
+  const lettersArray = useMemo(() => {
+    return letters.split('')
+  }, [letters])
+
+  const numberArray = useMemo(() => {
+    return number.toString().padStart(3, '0').split('')
+  }, [number])
+
+  const wrappedLetters = useMemo(() => {
+    return lettersArray.map(letter => (
+      <Box
+        key={`${letter}-${key.current++}`}
+        sx={{ display: 'inline-block', minWidth: { xs: '2rem', sm: '2.25rem' }, textAlign: 'center' }}
+      >
+        {letter}
+      </Box>
+    ))
+  }, [lettersArray])
+
+  const wrappedNumbers = useMemo(() => {
+    return numberArray.map(digit => (
+      <Box
+        key={`${digit}-${key.current++}`}
+        sx={{ display: 'inline-block', minWidth: { xs: '1.5rem', sm: '2.25rem' }, textAlign: 'center' }}
+      >
+        {digit}
+      </Box>
+    ))
+  }, [numberArray])
 
   if (!letters || !number) return null
 
@@ -24,7 +56,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
     <Card
       sx={{
         display: 'flex',
-        width: { xs: 300, sm: 360 },
+        width: { xs: 300, sm: 380 },
         height: { xs: 65, sm: 76 },
         borderRadius: 2,
         whiteSpace: 'nowrap',
@@ -94,7 +126,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}
         >
-          {letters}
+          {wrappedLetters}
         </Typography>
         <Typography
           variant='h2'
@@ -105,7 +137,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}
         >
-          {number.toString().padStart(3, '0')}
+          {wrappedNumbers}
         </Typography>
       </Box>
     </Card>

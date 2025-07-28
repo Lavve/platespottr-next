@@ -1,7 +1,8 @@
 import { BarChart, CalendarMonth, LocalFireDepartment, Timeline } from '@mui/icons-material'
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import VibrateButton from '@/components/common/VibrateButton'
 import Roadsign from '@/components/Roadsign'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
@@ -13,33 +14,39 @@ const StatisticsDialog = () => {
   const { user } = useUser()
   const { maxStreak, latestFinding, findingsByWeek } = useStatistics(user?.plates || [])
   const [dialogOpen, setDialogOpen] = useState(false)
-  const maxWeek = Math.max(...Array.from(findingsByWeek?.values() ?? []))
+
+  const maxWeek = useMemo(() => {
+    if (!findingsByWeek || findingsByWeek.size === 0) return 0
+    return Math.max(...Array.from(findingsByWeek.values()))
+  }, [findingsByWeek])
+
+  const handleCloseDialog = () => {
+    vibrate()
+    setDialogOpen(false)
+  }
 
   return (
     <>
-      <Button
+      <VibrateButton
         variant='contained'
         color='primary'
         size='large'
         fullWidth
         disabled={user?.plates.length === 0 || !user}
         startIcon={<BarChart />}
-        onClick={() => {
-          vibrate()
-          setDialogOpen(true)
-        }}
+        onClick={() => setDialogOpen(true)}
       >
         {t('app.statistics')}
-      </Button>
+      </VibrateButton>
 
       {dialogOpen && (
-        <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
             <Roadsign text={t('statistics.title')} />
           </DialogTitle>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {maxStreak > 1 && (
-              <Card
+              <Paper
                 sx={{
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
@@ -53,10 +60,10 @@ const StatisticsDialog = () => {
                   <LocalFireDepartment color='warning' /> {t('statistics.current_streak')}
                 </Typography>
                 <Typography variant='h6'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
-              </Card>
+              </Paper>
             )}
             {findingsByWeek && user?.plates?.length && user.plates.length > 1 && (
-              <Card sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
+              <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
                 <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Timeline color='success' /> {t('statistics.numbers_per_week')}
                 </Typography>
@@ -107,10 +114,10 @@ const StatisticsDialog = () => {
                         )
                       })}
                 </Box>
-              </Card>
+              </Paper>
             )}
             {latestFinding && (
-              <Card
+              <Paper
                 sx={{
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
@@ -124,11 +131,11 @@ const StatisticsDialog = () => {
                   <CalendarMonth color='info' /> {t('statistics.latest_found_number')}
                 </Typography>
                 <Typography variant='h6'>{relativeDays(new Date(latestFinding))}</Typography>
-              </Card>
+              </Paper>
             )}
           </DialogContent>
           <DialogActions>
-            <Button variant='contained' size='large' onClick={() => setDialogOpen(false)} color='primary'>
+            <Button variant='contained' size='large' onClick={handleCloseDialog} color='primary'>
               {t('common.close')}
             </Button>
           </DialogActions>

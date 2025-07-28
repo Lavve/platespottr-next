@@ -1,19 +1,19 @@
-import { Delete, History, Logout, RestartAltOutlined, Settings } from '@mui/icons-material'
+import { AccountCircle, Delete, History, Logout, RestartAltOutlined, TuneOutlined } from '@mui/icons-material'
 import {
   Avatar,
   Box,
   Button,
   ButtonGroup,
-  Card,
-  CardContent,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Paper,
   Typography,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Roadsign from '@/components/Roadsign'
 import type { Locale } from '@/i18n/config'
@@ -41,26 +41,22 @@ const SettingsDialog = () => {
   const [confirmResetAccountDialogOpen, setConfirmResetAccountDialogOpen] = useState(false)
 
   const handleChangeLanguage = (language: Language) => {
-    vibrate()
     saveSettings({ ...settings, language })
     setUserLocale(language as Locale)
   }
 
   const handleChangeCountry = (country: Country) => {
-    vibrate()
     setCountry(country)
     setConfirmChangeCountryDialogOpen(true)
   }
 
   const handleConfirmChangeCountry = (country: Country) => {
-    vibrate()
     saveSettings({ ...settings, country })
     saveUser({ ...user, plates: [] } as IUser)
     setConfirmChangeCountryDialogOpen(false)
   }
 
   const handleResetLastPlate = () => {
-    vibrate()
     const newUser = {
       ...user,
       plates: user?.plates?.length ? user.plates.slice(0, -1) : [],
@@ -71,26 +67,22 @@ const SettingsDialog = () => {
   }
 
   const handleResetAllPlates = () => {
-    vibrate()
     saveUser({ ...user, plates: [] } as IUser)
     setConfirmResetAllDialogOpen(false)
   }
 
   const handleDeleteUser = () => {
-    vibrate()
     saveUser({ ...user, plates: [] } as IUser)
     setConfirmDeleteUserDialogOpen(false)
     setDialogOpen(false)
   }
 
   const handleLogoutUser = () => {
-    vibrate()
     setConfirmLogoutUserDialogOpen(false)
     setDialogOpen(false)
   }
 
   const handleResetAccount = () => {
-    vibrate()
     resetUser()
     resetFriends()
     resetSettings()
@@ -98,152 +90,142 @@ const SettingsDialog = () => {
     setDialogOpen(false)
   }
 
+  const handleCloseDialog = () => {
+    vibrate()
+    setDialogOpen(false)
+  }
+
   return (
     <>
-      <Button
+      <VibrateButton
         variant='outlined'
         color='primary'
         size='large'
         fullWidth
-        startIcon={<Settings />}
-        onClick={() => {
-          vibrate()
-          setDialogOpen(true)
-        }}
+        disabled={!user}
+        startIcon={<TuneOutlined />}
+        onClick={() => setDialogOpen(true)}
       >
         {t('app.settings')}
-      </Button>
-      <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Roadsign text={t('settings.title')} />
-        </DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      </VibrateButton>
+      {dialogOpen && (
+        <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
+          <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Roadsign text={t('settings.title')} />
+          </DialogTitle>
+          <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography variant='h6'>{t('settings.title')}</Typography>
+                <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <TuneOutlined /> {t('settings.title')}
+                </Typography>
                 <Typography>{t('settings.appearance')}</Typography>
                 <ButtonGroup fullWidth>
-                  <Button
-                    onClick={() => {
-                      vibrate()
-                      setTheme('light')
-                    }}
+                  <VibrateButton
+                    onClick={() => setTheme('light')}
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
                     color='primary'
                   >
                     {t('settings.light')}
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      vibrate()
-                      setTheme('dark')
-                    }}
+                  </VibrateButton>
+                  <VibrateButton
+                    onClick={() => setTheme('dark')}
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
                     color='primary'
                   >
                     {t('settings.dark')}
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      vibrate()
-                      setTheme('system')
-                    }}
+                  </VibrateButton>
+                  <VibrateButton
+                    onClick={() => setTheme('system')}
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
                     color='primary'
                   >
                     {t('settings.auto')}
-                  </Button>
+                  </VibrateButton>
                 </ButtonGroup>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography>{t('settings.language')}</Typography>
                 <ButtonGroup fullWidth>
-                  <Button
+                  <VibrateButton
                     variant={settings.language === 'sv' ? 'contained' : 'outlined'}
                     color='primary'
                     onClick={() => handleChangeLanguage('sv')}
                   >
                     {t('settings.swedish')}
-                  </Button>
-                  <Button
+                  </VibrateButton>
+                  <VibrateButton
                     variant={settings.language === 'en' ? 'contained' : 'outlined'}
                     color='primary'
                     onClick={() => handleChangeLanguage('en')}
                   >
                     {t('settings.english')}
-                  </Button>
-                  <Button
+                  </VibrateButton>
+                  <VibrateButton
                     variant={settings.language === 'fi' ? 'contained' : 'outlined'}
                     color='primary'
                     onClick={() => handleChangeLanguage('fi')}
                   >
                     {t('settings.finnish')}
-                  </Button>
+                  </VibrateButton>
                 </ButtonGroup>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography>{t('settings.country')}</Typography>
                 <ButtonGroup fullWidth>
-                  <Button
+                  <VibrateButton
                     variant={settings.country === 's' ? 'contained' : 'outlined'}
                     color='primary'
                     onClick={() => handleChangeCountry('s')}
                   >
                     {t('settings.sweden')}
-                  </Button>
-                  <Button
+                  </VibrateButton>
+                  <VibrateButton
                     variant={settings.country === 'fi' ? 'contained' : 'outlined'}
                     color='primary'
                     onClick={() => handleChangeCountry('fi')}
                   >
                     {t('settings.finland')}
-                  </Button>
+                  </VibrateButton>
                 </ButtonGroup>
               </Box>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography variant='h6'>{t('settings.resetting')}</Typography>
-              <Button
-                variant='outlined'
+            </Paper>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
+              <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <History /> {t('settings.resetting')}
+              </Typography>
+              <VibrateButton
+                variant='contained'
                 color='primary'
                 startIcon={<History />}
                 fullWidth
                 disabled={!user?.plates?.length}
-                onClick={() => {
-                  vibrate()
-                  setConfirmResetLastDialogOpen(true)
-                }}
+                onClick={() => setConfirmResetLastDialogOpen(true)}
               >
                 {t('settings.reset_last_plate')}
-              </Button>
-              <Button
+              </VibrateButton>
+              <VibrateButton
                 variant='outlined'
                 color='error'
                 startIcon={<Delete />}
                 fullWidth
                 disabled={!user?.plates?.length}
-                onClick={() => {
-                  vibrate()
-                  setConfirmResetAllDialogOpen(true)
-                }}
+                onClick={() => setConfirmResetAllDialogOpen(true)}
               >
                 {t('settings.reset_all_numbers')}
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography variant='h6'>{t('settings.account')}</Typography>
+              </VibrateButton>
+            </Paper>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
+              <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <AccountCircle /> {t('settings.account')}
+              </Typography>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   p: 2,
                   mb: 1,
-                  bgcolor: 'background.paper',
+                  bgcolor: 'background.default',
                   borderRadius: 2,
                 }}
               >
@@ -261,59 +243,54 @@ const SettingsDialog = () => {
               <QrDialog />
 
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Button
+                <VibrateButton
                   variant='outlined'
                   color='primary'
                   startIcon={<Logout />}
+                  disabled
                   fullWidth
-                  onClick={() => {
-                    vibrate()
-                    setConfirmLogoutUserDialogOpen(true)
-                  }}
+                  onClick={() => setConfirmLogoutUserDialogOpen(true)}
+                  sx={{ textDecoration: 'line-through' }}
                 >
                   {t('settings.logout')}
-                </Button>
-                <Button
+                </VibrateButton>
+                <VibrateButton
+                  variant='outlined'
+                  color='error'
+                  startIcon={<Delete />}
+                  disabled
+                  fullWidth
+                  onClick={() => setConfirmDeleteUserDialogOpen(true)}
+                  sx={{ textDecoration: 'line-through' }}
+                >
+                  {t('settings.delete_account')}
+                </VibrateButton>
+                <VibrateButton
                   variant='outlined'
                   color='warning'
                   startIcon={<RestartAltOutlined color='secondary' />}
                   endIcon={<RestartAltOutlined color='secondary' />}
                   fullWidth
-                  onClick={() => {
-                    vibrate()
-                    setConfirmResetAccountDialogOpen(true)
-                  }}
+                  onClick={() => setConfirmResetAccountDialogOpen(true)}
                 >
                   - Reset test -
-                </Button>
-                {/* <Button
-                  variant='outlined'
-                  color='error'
-                  startIcon={<Delete />}
-                  fullWidth
-                  onClick={() => setConfirmDeleteUserDialogOpen(true)}
-                >
-                  {t('settings.delete_account')}
-                </Button> */}
+                </VibrateButton>
               </Box>
-            </CardContent>
-          </Card>
-        </DialogContent>
-        <DialogActions>
-          <Button variant='contained' size='large' onClick={() => setDialogOpen(false)} color='primary'>
-            {t('common.close')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+            </Paper>
+          </DialogContent>
+          <DialogActions>
+            <Button variant='contained' size='large' onClick={handleCloseDialog} color='primary'>
+              {t('common.close')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
 
       <ConfirmDialog
         open={confirmResetLastDialogOpen}
         title={t('confirm.reset_last_plate_title')}
         content={t('confirm.reset_last_plate_content', { number: user?.plates?.length ? user.plates.length - 1 : 0 })}
-        onClose={() => {
-          vibrate()
-          setConfirmResetLastDialogOpen(false)
-        }}
+        onClose={() => setConfirmResetLastDialogOpen(false)}
         onConfirm={handleResetLastPlate}
       />
 
@@ -321,10 +298,7 @@ const SettingsDialog = () => {
         open={confirmResetAllDialogOpen}
         title={t('confirm.reset_all_data_title')}
         content={t('confirm.reset_all_data_content')}
-        onClose={() => {
-          vibrate()
-          setConfirmResetAllDialogOpen(false)
-        }}
+        onClose={() => setConfirmResetAllDialogOpen(false)}
         onConfirm={handleResetAllPlates}
       />
 
@@ -332,10 +306,7 @@ const SettingsDialog = () => {
         open={confirmLogoutUserDialogOpen}
         title={t('confirm.logout_title')}
         content={t('confirm.logout_content')}
-        onClose={() => {
-          vibrate()
-          setConfirmLogoutUserDialogOpen(false)
-        }}
+        onClose={() => setConfirmLogoutUserDialogOpen(false)}
         onConfirm={handleLogoutUser}
       />
 
@@ -343,10 +314,7 @@ const SettingsDialog = () => {
         open={confirmDeleteUserDialogOpen}
         title={t('confirm.delete_account_title')}
         content={t('confirm.delete_account_content')}
-        onClose={() => {
-          vibrate()
-          setConfirmDeleteUserDialogOpen(false)
-        }}
+        onClose={() => setConfirmDeleteUserDialogOpen(false)}
         onConfirm={handleDeleteUser}
       />
 
@@ -354,10 +322,7 @@ const SettingsDialog = () => {
         open={confirmChangeCountryDialogOpen}
         title={t('confirm.change_country_title')}
         content={t('confirm.change_country_content')}
-        onClose={() => {
-          vibrate()
-          setConfirmChangeCountryDialogOpen(false)
-        }}
+        onClose={() => setConfirmChangeCountryDialogOpen(false)}
         onConfirm={() => handleConfirmChangeCountry(country)}
       />
 
@@ -365,10 +330,7 @@ const SettingsDialog = () => {
         open={confirmResetAccountDialogOpen}
         title='Nollställa testkontot'
         content='Är du säker på att du vill nollställa testkontot? Detta kommer att återställa allt med test-data.'
-        onClose={() => {
-          vibrate()
-          setConfirmResetAccountDialogOpen(false)
-        }}
+        onClose={() => setConfirmResetAccountDialogOpen(false)}
         onConfirm={handleResetAccount}
       />
     </>

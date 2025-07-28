@@ -1,9 +1,11 @@
 'use client'
 
-import { Box, Button, CardContent, LinearProgress, Paper, Typography } from '@mui/material'
+import { Box, CardContent, LinearProgress, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
+import { HOLD_DURATION, UPDATE_HOLD_INTERVAL, VIBRATE_SUCCESS } from '@/constants/app'
 import { useUser } from '@/providers/userProvider'
 import { generateRandomLetters } from '@/utils/generatePlateLetters'
 import { vibrate } from '@/utils/vibrate'
@@ -13,16 +15,9 @@ const FindPlate = () => {
   const { user, saveUser } = useUser()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [letters, setLetters] = useState(() => generateRandomLetters())
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const [letters, setLetters] = useState('')
-
-  const holdDuration = 1500
-  const updateInterval = 50
-
-  useEffect(() => {
-    setLetters(generateRandomLetters())
-  }, [])
 
   const startHold = () => {
     setIsHolding(true)
@@ -32,7 +27,7 @@ const FindPlate = () => {
 
     intervalRef.current = setInterval(() => {
       setProgress(prev => {
-        const newProgress = prev + (updateInterval / holdDuration) * 100
+        const newProgress = prev + (UPDATE_HOLD_INTERVAL / HOLD_DURATION) * 100
 
         if (newProgress >= 100) {
           clearInterval(intervalRef.current as NodeJS.Timeout)
@@ -40,14 +35,14 @@ const FindPlate = () => {
         }
         return newProgress
       })
-    }, updateInterval)
+    }, UPDATE_HOLD_INTERVAL)
 
     timeoutRef.current = setTimeout(() => {
       saveUser({ ...user, plates: [...user.plates, Date.now()] })
-      vibrate(60)
+      vibrate(VIBRATE_SUCCESS)
       endHold()
       setLetters(generateRandomLetters())
-    }, holdDuration)
+    }, HOLD_DURATION)
   }
 
   const endHold = () => {
@@ -68,14 +63,23 @@ const FindPlate = () => {
   if (!user) return null
 
   return (
-    <Paper sx={{ borderRadius: 2 }} elevation={10}>
-      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', textAlign: 'center' }}>
+    <Box sx={{ borderRadius: 2 }}>
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          alignItems: 'center',
+          textAlign: 'center',
+          py: 4,
+        }}
+      >
         <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
         <RegPlate letters={letters} number={user.plates.length + 1} />
 
         <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
-          <Button
+          <VibrateButton
             variant='contained'
             size='large'
             color='primary'
@@ -85,10 +89,15 @@ const FindPlate = () => {
             onTouchStart={startHold}
             onTouchEnd={endHold}
             onContextMenu={e => e.preventDefault()}
-            sx={{ fontSize: { xs: '1.5rem', sm: '1.75rem' } }}
+            sx={{
+              fontSize: { xs: '1.5rem', sm: '1.75rem' },
+              userSelect: 'none',
+              WebkitTouchCallout: 'none',
+              touchAction: 'manipulation',
+            }}
           >
             {t('common.found')}
-          </Button>
+          </VibrateButton>
           {isHolding && (
             <Box
               sx={{
@@ -118,10 +127,10 @@ const FindPlate = () => {
           )}
         </Box>
         <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>
-          {t('app.press_for_seconds', { seconds: holdDuration / 1000 })}
+          {t('app.press_for_seconds', { seconds: HOLD_DURATION / 1000 })}
         </Typography>
       </CardContent>
-    </Paper>
+    </Box>
   )
 }
 

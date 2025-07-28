@@ -1,12 +1,13 @@
+import { Close } from '@mui/icons-material'
 import { Box, Paper } from '@mui/material'
 import { useMemo } from 'react'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
 import type { IUserProps } from '@/types/user'
+import VibrateButton from './common/VibrateButton'
 import UserAvatar from './user/UserAvatar'
 import UserInfo from './user/UserInfo'
 import UserPlaceDisplay from './user/UserPlaceDisplay'
-import UserRemoveButton from './user/UserRemoveButton'
 import UserRequestActions from './user/UserRequestActions'
 import UserStatsDisplay from './user/UserStatsDisplay'
 
@@ -15,13 +16,16 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   const { maxStreak } = useStatistics(friend.plates)
   const isSelf = user?.name === friend.name
 
+  const friendRequesting = useMemo(() => {
+    return friend.requesting
+  }, [friend.requesting])
+
   const scale = useMemo(() => {
     return Math.min(1.5, 1 + 0.15 * maxStreak)
   }, [maxStreak])
 
   return (
     <Paper
-      key={friend.name}
       sx={{
         px: { xs: 1, md: 2 },
         py: 1,
@@ -36,15 +40,25 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         <Box sx={{ display: 'flex', alignItems: 'center', width: 40, justifyContent: 'center' }}>
           {place ? <UserPlaceDisplay place={place} /> : <UserAvatar friend={friend} />}
         </Box>
-        <UserInfo friend={friend} isSelf={isSelf} place={place} />
+        <UserInfo friend={friend} isSelf={isSelf} />
       </Box>
 
-      {!friend.requesting && <UserStatsDisplay friend={friend} maxStreak={maxStreak} scale={scale} place={place} />}
+      {!friendRequesting && <UserStatsDisplay friend={friend} maxStreak={maxStreak} scale={scale} place={place} />}
 
-      {friend.requesting ? (
+      {friendRequesting ? (
         <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />
       ) : (
-        !place && <UserRemoveButton friend={friend} onRemoveFriend={onRemoveFriend} />
+        !place && (
+          <VibrateButton
+            variant='contained'
+            color='error'
+            size='small'
+            sx={{ minWidth: 40, ml: 'auto' }}
+            onClick={() => onRemoveFriend?.(friend)}
+          >
+            <Close />
+          </VibrateButton>
+        )
       )}
     </Paper>
   )

@@ -68,7 +68,9 @@
     "number": "Nummer",
     "number_description": "Totalt antal hittade nummer",
     "streak": "Streak",
-    "streak_description": "Flest streaks",
+    "streak_description": "Högst antal streaks",
+    "percentage": "Procent",
+    "percentage_description": "Procent av dagar som nummer hittats",
     "you": "Du",
     "toplist_tagline": "Lyckas du komma till toppen innan du kommer till mål?"
   },

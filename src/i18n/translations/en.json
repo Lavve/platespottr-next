@@ -64,6 +64,8 @@
     "number_description": "Total number of found plates",
     "streak": "Streak",
     "streak_description": "Most streaks",
+    "percentage": "Percentage",
+    "percentage_description": "Percentage of days that the number has been found",
     "you": "You",
     "toplist_tagline": "Can you reach the top before reaching the final number?"
   },

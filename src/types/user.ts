@@ -22,7 +22,6 @@ export interface IUserContext {
 export interface IUserInfo {
   friend: IUserProps['friend']
   isSelf: boolean
-  place?: number
 }
 
 export interface IUserPlaceDisplay {
@@ -38,11 +37,6 @@ export interface IUserStatsDisplay {
   maxStreak: number
   scale: number
   place?: number
-}
-
-export interface IUserRemoveButton {
-  friend: IUserProps['friend']
-  onRemoveFriend?: (friend: IUserProps['friend']) => void
 }
 
 export interface IRequestActions {

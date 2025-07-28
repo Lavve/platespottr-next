@@ -63,8 +63,13 @@ export const useStatistics = (findings?: number[]) => {
     return findings[findings.length - 1]
   }, [findings])
 
-  const findingsByWeek = getFindingsByWeek(findings || [])
-  const maxStreak = calculateMaxStreak(findings || [])
+  const findingsByWeek = useMemo(() => {
+    return getFindingsByWeek(findings || [])
+  }, [findings, getFindingsByWeek])
+
+  const maxStreak = useMemo(() => {
+    return calculateMaxStreak(findings || [])
+  }, [findings, calculateMaxStreak])
 
   return { latestFinding, findingsByWeek, maxStreak, calculateMaxStreak }
 }

@@ -1,6 +1,13 @@
+import type { ButtonProps } from '@mui/material'
+
 export interface IPlateProps {
   letters: string
   number: number
+}
+
+export interface IVibrateButtonProps extends ButtonProps {
+  vibrationPattern?: number | number[]
+  disableVibration?: boolean
 }
 
 export interface IRoadsignProps {
@@ -33,3 +40,10 @@ export interface IHashNavigationState {
   isAddFriendDialogOpen: boolean
   isAddPlateDialogOpen: boolean
 }
+
+export interface IVibrationOptions {
+  pattern?: number | number[]
+  enabled?: boolean
+}
+
+export type ISortBy = 'plates' | 'streak' | 'percentage'

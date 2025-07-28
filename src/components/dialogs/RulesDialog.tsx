@@ -2,8 +2,6 @@ import { Check, Close, Help, HelpCenter, Info, Warning } from '@mui/icons-materi
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Checkbox,
   Dialog,
   DialogActions,
@@ -20,9 +18,11 @@ import {
   Typography,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import VibrateButton from '@/components/common/VibrateButton'
 import Logo from '@/components/Logo'
 import Roadsign from '@/components/Roadsign'
+import { VIBRATE_ALERT } from '@/constants/app'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
 import packageJson from '../../../package.json'
@@ -34,13 +34,26 @@ const RulesDialog = () => {
   const [understood, setUnderstood] = useState(false)
   const initialRuleTimer = useRef<NodeJS.Timeout | null>(null)
 
+  const initialRulesDialogOpen = useMemo(() => {
+    return settings.initialRulesDialogOpen
+  }, [settings.initialRulesDialogOpen])
+
+  const appVersion = useMemo(() => {
+    return packageJson.version
+  }, [])
+
   useEffect(() => {
     if (initialRuleTimer.current) {
       clearTimeout(initialRuleTimer.current)
     }
 
     initialRuleTimer.current = setTimeout(() => {
-      setDialogOpen(settings.initialRulesDialogOpen ?? false)
+      const shouldBeOpen = initialRulesDialogOpen ?? false
+
+      if (shouldBeOpen) {
+        setDialogOpen(true)
+        vibrate(VIBRATE_ALERT)
+      }
     }, 500)
 
     return () => {
@@ -48,44 +61,43 @@ const RulesDialog = () => {
         clearTimeout(initialRuleTimer.current)
       }
     }
-  }, [settings.initialRulesDialogOpen])
+  }, [initialRulesDialogOpen])
 
   const onCloseRulesDialog = () => {
+    vibrate()
     saveSettings({ ...settings, initialRulesDialogOpen: false })
     setDialogOpen(false)
   }
 
   return (
     <>
-      <Button
+      <VibrateButton
         variant='outlined'
         color='primary'
         size='large'
         fullWidth
         startIcon={<Help />}
-        onClick={() => {
-          vibrate()
-          setDialogOpen(true)
-        }}
+        onClick={() => setDialogOpen(true)}
       >
         {t('app.rules')}
-      </Button>
-      <Dialog
-        fullWidth
-        maxWidth='sm'
-        open={dialogOpen}
-        onClose={() => {
-          if (understood || !settings.initialRulesDialogOpen) {
-            setDialogOpen(false)
-          }
-        }}
-      >
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Roadsign text={t('rules.title')} />
-        </DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Card sx={{ overflow: 'visible' }}>
-            <CardContent>
+      </VibrateButton>
+
+      {dialogOpen && (
+        <Dialog
+          fullWidth
+          maxWidth='sm'
+          open={dialogOpen}
+          onClose={() => {
+            if (understood || !initialRulesDialogOpen) {
+              onCloseRulesDialog()
+            }
+          }}
+        >
+          <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Roadsign text={t('rules.title')} />
+          </DialogTitle>
+          <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <HelpCenter color='success' /> {t('rules.game_rules.title')}
               </Typography>
@@ -115,10 +127,8 @@ const RulesDialog = () => {
                   />
                 </ListItem>
               </List>
-            </CardContent>
-          </Card>
-          <Card sx={{ overflow: 'visible' }}>
-            <CardContent>
+            </Paper>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Info color='info' /> {t('rules.examples.title')}
               </Typography>
@@ -140,10 +150,8 @@ const RulesDialog = () => {
                   <ListItemText primary='PLSPTR2' secondary={t('rules.examples.invalid')} />
                 </Grid>
               </Grid>
-            </CardContent>
-          </Card>
-          <Card sx={{ overflow: 'visible' }}>
-            <CardContent>
+            </Paper>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Warning color='error' /> {t('rules.important_safety_rules.title')}
               </Typography>
@@ -182,10 +190,8 @@ const RulesDialog = () => {
               <Typography sx={{ mt: 2, fontWeight: 'bold', textAlign: 'center' }}>
                 {t('rules.important_safety_rules.remember_safety')}
               </Typography>
-            </CardContent>
-          </Card>
-          <Paper sx={{ overflow: 'visible' }}>
-            <CardContent>
+            </Paper>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Logo size={40} />
                 <Typography
@@ -198,45 +204,46 @@ const RulesDialog = () => {
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                 <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
-                  v.{packageJson.version}
+                  v.{appVersion}
                 </Typography>
                 <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
                   &copy; {new Date().getFullYear()}
                 </Typography>
               </Box>
-            </CardContent>
-          </Paper>
-          {settings.initialRulesDialogOpen && (
-            <>
-              <Divider sx={{ my: 2 }} />
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={() => {
-                        setUnderstood(!understood)
-                        vibrate()
-                      }}
-                    />
-                  }
-                  label={t('rules.important_safety_rules.understood')}
-                />
-              </FormGroup>
-            </>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            size='large'
-            onClick={onCloseRulesDialog}
-            disabled={!understood && settings.initialRulesDialogOpen}
-            color='primary'
-          >
-            {t('common.close')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+            </Paper>
+            {initialRulesDialogOpen && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={() => {
+                          setUnderstood(!understood)
+                          vibrate()
+                        }}
+                      />
+                    }
+                    label={t('rules.important_safety_rules.understood')}
+                  />
+                </FormGroup>
+              </>
+            )}
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              variant='contained'
+              size='large'
+              onClick={onCloseRulesDialog}
+              disabled={!understood && initialRulesDialogOpen}
+              color='primary'
+            >
+              {t('common.close')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   )
 }

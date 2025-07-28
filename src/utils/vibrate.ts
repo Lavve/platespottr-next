@@ -1,5 +1,11 @@
-export const vibrate = (pattern: number | number[] = 5) => {
-  if ('vibrate' in navigator && window.innerWidth <= 830) {
+export const vibrate = (pattern: number | number[] = 3) => {
+  const hasVibrate =
+    typeof window !== 'undefined' &&
+    typeof navigator !== 'undefined' &&
+    'vibrate' in navigator &&
+    window.innerWidth <= 830
+
+  if (hasVibrate) {
     navigator.vibrate(pattern)
   }
 }

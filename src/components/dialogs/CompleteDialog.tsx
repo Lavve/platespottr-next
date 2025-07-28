@@ -1,14 +1,21 @@
 import { EmojiEvents } from '@mui/icons-material'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import Roadsign from '../Roadsign'
+import Roadsign from '@/components/Roadsign'
+import { vibrate } from '@/utils/vibrate'
 
 const CompleteDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
+
   if (!open) return null
 
+  const handleClose = () => {
+    vibrate()
+    onClose()
+  }
+
   return (
-    <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth='sm' open={open} onClose={handleClose}>
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Roadsign number='999' text={t('completed.title')} />
       </DialogTitle>
@@ -21,7 +28,7 @@ const CompleteDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t('common.close')}</Button>
+        <Button onClick={handleClose}>{t('common.close')}</Button>
       </DialogActions>
     </Dialog>
   )
