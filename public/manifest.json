@@ -1,13 +1,13 @@
 {
   "name": "Platespottr",
   "lang": "sv-SE",
-  "version": "2025.7.13",
+  "version": "2025.7.14",
   "short_name": "Platespottr",
   "description": "Kan du hitta alla registreringsnummer?",
   "default_locale": "sv",
   "author": "C-son",
   "id": "/",
-  "start_url": "/?v=2025.7.13",
+  "start_url": "/?v=2025.7.14",
   "scope": "/",
   "display": "standalone",
   "display_override": [
