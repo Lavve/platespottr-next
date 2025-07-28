@@ -2,6 +2,7 @@
 
 - [ ] Add Estonia plates
 - [ ] Add Lithuania plates
+- [ ] Add snackbars for feedback
 - [ ] Add support for authentication and API calls to backend
 
 # DONE

@@ -1,18 +1,35 @@
 import type { IUser } from '@/types/user'
 import { generateSlug } from '@/utils/generateSlug'
 
+const generateUniqueSlugs = (count: number): string[] => {
+  const slugs: string[] = []
+  const usedSlugs = new Set<string>()
+
+  while (slugs.length < count) {
+    const slug = generateSlug()
+    if (!usedSlugs.has(slug)) {
+      slugs.push(slug)
+      usedSlugs.add(slug)
+    }
+  }
+
+  return slugs
+}
+
+const friendSlugs = generateUniqueSlugs(5)
+
 export const defaultFriends: IUser[] = [
   {
     name: 'John',
     plates: [Date.now(), Date.now() - 1000 * 60 * 60 * 24 * 5, Date.now() - 1000 * 60 * 60 * 24 * 22],
     requesting: true,
-    slug: generateSlug(),
+    slug: friendSlugs[0],
   },
   {
     name: 'Doris',
     plates: [Date.now() - 1000 * 60 * 60 * 24 * 4, Date.now() - 1000 * 60 * 60 * 24 * 22],
     requesting: true,
-    slug: generateSlug(),
+    slug: friendSlugs[1],
   },
   {
     name: 'Ylva',
@@ -23,7 +40,7 @@ export const defaultFriends: IUser[] = [
       Date.now() - 1000 * 60 * 60 * 24 * 5,
     ],
     friendSince: Date.now() - 1000 * 60 * 60 * 24 * 24,
-    slug: generateSlug(),
+    slug: friendSlugs[2],
   },
   {
     name: 'Helmut',
@@ -40,12 +57,12 @@ export const defaultFriends: IUser[] = [
       Date.now() - 1000 * 60 * 60 * 24 * 56,
     ],
     friendSince: Date.now() - 1000 * 60 * 60 * 24 * 677,
-    slug: generateSlug(),
+    slug: friendSlugs[3],
   },
   {
     name: 'Roland',
     plates: [Date.now() - 1000 * 60 * 60 * 24 * 2, Date.now() - 1000 * 60 * 60 * 24 * 3],
     friendSince: Date.now() - 1000 * 60 * 60 * 24 * 105,
-    slug: generateSlug(),
+    slug: friendSlugs[4],
   },
 ]

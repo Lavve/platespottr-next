@@ -1,5 +1,5 @@
 import { LocalFireDepartment } from '@mui/icons-material'
-import { Box, Paper, Typography } from '@mui/material'
+import { Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { useStatistics } from '@/hooks/useStatistics'
@@ -21,18 +21,13 @@ const Streak = () => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 1,
+        justifyContent: 'center',
+        gap: 2,
         p: 2,
-        borderRadius: 2,
-        flexDirection: 'column',
-        width: '100%',
       }}
-      elevation={2}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, textAlign: 'center' }}>
-        <LocalFireDepartment color='warning' sx={{ transform: `scale(${scale})` }} />
-        <Typography variant='h5'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
-      </Box>
+      <LocalFireDepartment color='warning' sx={{ transform: `scale(${scale})` }} />
+      <Typography variant='h5'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
     </Paper>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import type { IHashNavigationState } from '@/types/common'
+import { isValidSlug } from '@/utils/generateSlug'
 
 export const useHashNavigation = () => {
   const [state, setState] = useState<IHashNavigationState>({
@@ -14,7 +15,7 @@ export const useHashNavigation = () => {
     const addFriendHash = hash.match(/^#add-friend=([\w-]+)$/)
     const addPlateHash = hash.match(/^#add-plate$/)
 
-    if (addFriendHash) {
+    if (addFriendHash && isValidSlug(addFriendHash[1])) {
       return {
         friendSlug: addFriendHash[1],
         isAddFriendDialogOpen: true,
@@ -37,6 +38,11 @@ export const useHashNavigation = () => {
 
   const clearHash = useCallback(() => {
     window.history.replaceState({}, '', '/')
+    setState({
+      friendSlug: null,
+      isAddFriendDialogOpen: false,
+      isAddPlateDialogOpen: false,
+    })
   }, [])
 
   useEffect(() => {

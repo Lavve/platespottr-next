@@ -56,8 +56,8 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
     <Card
       sx={{
         display: 'flex',
-        width: { xs: 300, sm: 380 },
-        height: { xs: 65, sm: 76 },
+        width: '100%',
+        aspectRatio: 5,
         borderRadius: 2,
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
@@ -86,23 +86,22 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
             width: '50%',
             aspectRatio: 1,
             borderRadius: '50%',
-            border: '2px dotted #bfad67',
+            border: '2px dotted var(--regplate-stars)',
             strokeDasharray: 20,
             strokeDashoffset: 20,
             textAlign: 'center',
           }}
-        ></Box>
+        />
         <Box
           sx={{
             color: 'regplate.light',
             fontWeight: 300,
-            fontSize: { xs: '0.75rem', sm: '1rem' },
+            fontSize: 'clamp(0.75rem, calc((75vw - 4.5rem) * 0.0625), 1.5rem)',
             lineHeight: 1,
             textTransform: 'uppercase',
             fontFamily: fontTratex.style.fontFamily,
           }}
         >
-          {/* {t('app.plate_lang')} */}
           {settings.country}
         </Box>
       </Box>
@@ -111,7 +110,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           display: 'flex',
           width: '100%',
           p: 0,
-          gap: { xs: 1, sm: 2 },
+          gap: 1,
           alignItems: 'center',
           justifyContent: 'center',
           background: 'var(--regplate-gradient)',
@@ -120,7 +119,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
         <Typography
           variant='h2'
           sx={{
-            fontSize: { xs: '3rem', sm: '3.75rem' },
+            fontSize: 'clamp(2.75rem, calc((100vw - 4.5rem) / 7), 5rem)',
             fontFamily: fontTratex.style.fontFamily,
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
@@ -131,7 +130,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
         <Typography
           variant='h2'
           sx={{
-            fontSize: { xs: '3rem', sm: '3.75rem' },
+            fontSize: 'clamp(3rem, calc((100vw - 4.5rem) / 7), 5rem)',
             fontFamily: fontTratex.style.fontFamily,
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',

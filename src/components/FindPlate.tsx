@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, CardContent, LinearProgress, Typography } from '@mui/material'
+import { Box, LinearProgress, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
@@ -63,74 +63,74 @@ const FindPlate = () => {
   if (!user) return null
 
   return (
-    <Box sx={{ borderRadius: 2 }}>
-      <CardContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          alignItems: 'center',
-          textAlign: 'center',
-          py: 4,
-        }}
-      >
-        <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
+    <Paper
+      elevation={5}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        gap: 2,
+        py: 4,
+        px: 2,
+      }}
+    >
+      <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
-        <RegPlate letters={letters} number={user.plates.length + 1} />
+      <RegPlate letters={letters} number={user.plates.length + 1} />
 
-        <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
-          <VibrateButton
-            variant='contained'
-            size='large'
-            color='primary'
-            onMouseDown={startHold}
-            onMouseUp={endHold}
-            onMouseLeave={endHold}
-            onTouchStart={startHold}
-            onTouchEnd={endHold}
-            onContextMenu={e => e.preventDefault()}
+      <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
+        <VibrateButton
+          variant='contained'
+          size='large'
+          color='primary'
+          onMouseDown={startHold}
+          onMouseUp={endHold}
+          onMouseLeave={endHold}
+          onTouchStart={startHold}
+          onTouchEnd={endHold}
+          onContextMenu={e => e.preventDefault()}
+          sx={{
+            fontSize: { xs: '1.5rem', sm: '1.75rem' },
+            userSelect: 'none',
+            WebkitTouchCallout: 'none',
+            touchAction: 'manipulation',
+          }}
+        >
+          {t('common.found')}
+        </VibrateButton>
+        {isHolding && (
+          <Box
             sx={{
-              fontSize: { xs: '1.5rem', sm: '1.75rem' },
-              userSelect: 'none',
-              WebkitTouchCallout: 'none',
-              touchAction: 'manipulation',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1,
+              pointerEvents: 'none',
             }}
           >
-            {t('common.found')}
-          </VibrateButton>
-          {isHolding && (
-            <Box
+            <LinearProgress
+              variant='determinate'
+              value={progress}
+              color='primary'
               sx={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1,
-                pointerEvents: 'none',
+                height: 10,
+                borderRadius: 1,
+                borderTopRightRadius: 0,
+                borderTopLeftRadius: 0,
+                '& .MuiLinearProgress-bar': {
+                  transition: 'none',
+                },
               }}
-            >
-              <LinearProgress
-                variant='determinate'
-                value={progress}
-                color='primary'
-                sx={{
-                  height: 10,
-                  borderRadius: 1,
-                  borderTopRightRadius: 0,
-                  borderTopLeftRadius: 0,
-                  '& .MuiLinearProgress-bar': {
-                    transition: 'none',
-                  },
-                }}
-              />
-            </Box>
-          )}
-        </Box>
-        <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>
-          {t('app.press_for_seconds', { seconds: HOLD_DURATION / 1000 })}
-        </Typography>
-      </CardContent>
-    </Box>
+            />
+          </Box>
+        )}
+      </Box>
+      <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>
+        {t('app.press_for_seconds', { seconds: HOLD_DURATION / 1000 })}
+      </Typography>
+    </Paper>
   )
 }
 

@@ -48,8 +48,8 @@ export default function HomePage() {
 
   const handleAddFriend = useCallback(() => {
     clearHash()
-    if (!friendSlug) return
-    if (foundFriend) return
+    if (!friendSlug) return // TODO: Show snackbar
+    if (foundFriend) return // TODO: Show snackbar
     addFriend({ name: 'Stina', slug: generateSlug(), plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
   }, [clearHash, friendSlug, foundFriend, addFriend])
 

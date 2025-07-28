@@ -1,8 +1,15 @@
-import { wordList1, wordList2, wordList3 } from '@/constants/slugs'
+import { adjectives, nouns, SLUG_SEPARATOR, verbs } from '@/constants/slugs'
+
+console.log(adjectives.length * nouns.length * verbs.length)
 
 export const generateSlug = () => {
-  const word1 = wordList1[Math.floor(Math.random() * wordList1.length)].toUpperCase()
-  const word2 = wordList2[Math.floor(Math.random() * wordList2.length)].toUpperCase()
-  const word3 = wordList3[Math.floor(Math.random() * wordList3.length)].toUpperCase()
-  return `${word1}-${word2}-${word3}`
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)].toUpperCase()
+  const noun = nouns[Math.floor(Math.random() * nouns.length)].toUpperCase()
+  const verb = verbs[Math.floor(Math.random() * verbs.length)].toUpperCase()
+  return `${adjective}${SLUG_SEPARATOR}${noun}${SLUG_SEPARATOR}${verb}`
+}
+
+export const isValidSlug = (slug: string): boolean => {
+  const slugPattern = /^[A-Z]+-[A-Z]+-[A-Z]+$/
+  return slugPattern.test(slug)
 }
