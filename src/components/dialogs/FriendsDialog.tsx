@@ -1,6 +1,6 @@
 'use client'
 
-import { QrCode } from '@mui/icons-material'
+import { People } from '@mui/icons-material'
 import {
   Badge,
   Box,
@@ -15,18 +15,18 @@ import {
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
-import QrDialog from '@/components/dialogs/QrDialog'
 import Roadsign from '@/components/Roadsign'
 import User from '@/components/User'
 import { useFriends } from '@/providers/friendsProvider'
 import type { IUser } from '@/types/user'
 import { vibrate } from '@/utils/vibrate'
+import QrDialog from './QrDialog'
 
-const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+const FriendsDialog = () => {
   const t = useTranslations()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
   const { friendRequests, friendList, addFriend, removeFriend } = useFriends()
-  const [qrOpen, setQrOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const handleAddFriend = (friend: IUser) => {
@@ -46,30 +46,32 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
     setConfirmOpen(false)
   }
 
-  if (!open) return null
-
   return (
     <>
-      <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
+      <Button
+        variant='contained'
+        color='primary'
+        size='large'
+        fullWidth
+        startIcon={<People />}
+        disabled={friendList.length + friendRequests.length === 0}
+        onClick={() => {
+          vibrate()
+          setDialogOpen(true)
+        }}
+      >
+        <Badge badgeContent={friendRequests.length} color='secondary'>
+          {t('app.friends')}
+        </Badge>
+      </Button>
+      <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
           <Roadsign text={t('friends.title')} />
         </DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box>
-              <Button
-                variant='outlined'
-                fullWidth
-                color='primary'
-                size='large'
-                startIcon={<QrCode />}
-                onClick={() => {
-                  vibrate()
-                  setQrOpen(!qrOpen)
-                }}
-              >
-                {t('friends.show_my_qr')}
-              </Button>
+            <Box mb={2}>
+              <QrDialog />
             </Box>
             {friendRequests.length > 0 && (
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -90,11 +92,7 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
             )}
             {friendRequests.length > 0 && friendList.length > 0 && <Divider sx={{ mt: 2 }} />}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography variant='h6'>
-                <Badge badgeContent={friendList.length} color='primary'>
-                  {t('friends.my_friends')}
-                </Badge>
-              </Typography>
+              <Typography variant='h6'>{t('friends.my_friends')}</Typography>
               {friendList.map(friend => (
                 <User key={friend.name} friend={friend} onRemoveFriend={() => handleRemoveFriend(friend)} />
               ))}
@@ -102,19 +100,11 @@ const FriendsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button variant='contained' color='primary' size='large' onClick={onClose}>
+          <Button variant='contained' color='primary' size='large' onClick={() => setDialogOpen(false)}>
             {t('common.close')}
           </Button>
         </DialogActions>
       </Dialog>
-
-      <QrDialog
-        open={qrOpen}
-        onClose={() => {
-          vibrate()
-          setQrOpen(false)
-        }}
-      />
 
       <ConfirmDialog
         open={confirmOpen}

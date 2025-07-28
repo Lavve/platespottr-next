@@ -84,6 +84,7 @@ const FindPlate = () => {
             onMouseLeave={endHold}
             onTouchStart={startHold}
             onTouchEnd={endHold}
+            onContextMenu={e => e.preventDefault()}
             sx={{ fontSize: { xs: '1.5rem', sm: '1.75rem' } }}
           >
             {t('common.found')}

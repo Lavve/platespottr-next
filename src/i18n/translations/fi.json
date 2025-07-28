@@ -111,7 +111,7 @@
     "finland": "Suomi",
     "resetting": "Nollaus",
     "reset_last_plate": "Nollaa viimeinen numero",
-    "reset_all_data": "Nollaa kaikki tiedot",
+    "reset_all_numbers": "Nollaa kaikki numerot",
     "account": "Tili",
     "logged_in_as": "Olet kirjautunut sisään nimellä <strong>{name}</strong>",
     "logout": "Kirjaudu ulos",

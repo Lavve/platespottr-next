@@ -111,7 +111,7 @@
     "finland": "Finland",
     "resetting": "Resetting",
     "reset_last_plate": "Reset last number",
-    "reset_all_data": "Reset all data",
+    "reset_all_numbers": "Reset all numbers",
     "account": "Account",
     "logged_in_as": "You are logged in as <strong>{name}</strong>",
     "logout": "Log out",

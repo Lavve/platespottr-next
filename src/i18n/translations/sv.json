@@ -98,7 +98,7 @@
       "rule_4": "Var uppmärksam på din omgivning när du rör dig i trafiken",
       "rule_5": "Respektera andra människors egendom och integritet",
       "remember_safety": "OBS! Säkerheten går alltid före spelet. Var ansvarsfull!",
-      "understood": "Ja, jag har läst och förstått reglerna, samt att all data hanteras enligt GDPR."
+      "understood": "Ja, jag har läst och kommer följa reglerna, och har även införstått att all data hanteras enligt GDPR."
     }
   },
   "settings": {
@@ -116,7 +116,7 @@
     "finland": "Finland",
     "resetting": "Återställning",
     "reset_last_plate": "Återställ senaste nummer",
-    "reset_all_data": "Återställ all data",
+    "reset_all_numbers": "Återställ alla nummer",
     "account": "Konto",
     "logged_in_as": "Du är inloggad som <strong>{name}</strong>",
     "logout": "Logga ut",

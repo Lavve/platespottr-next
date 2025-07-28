@@ -1,4 +1,4 @@
-import { Delete, History, Logout, RestartAltOutlined } from '@mui/icons-material'
+import { Delete, History, Logout, RestartAltOutlined, Settings } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -24,12 +24,14 @@ import type { Country, Language } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { setUserLocale } from '@/utils/locale'
 import { vibrate } from '@/utils/vibrate'
+import QrDialog from './QrDialog'
 
-const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+const SettingsDialog = () => {
   const t = useTranslations()
   const { user, saveUser, resetUser } = useUser()
   const { resetFriends } = useFriends()
   const { settings, saveSettings, setTheme, resetSettings } = useSettings()
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [country, setCountry] = useState<Country>(settings.country)
   const [confirmResetAllDialogOpen, setConfirmResetAllDialogOpen] = useState(false)
   const [confirmResetLastDialogOpen, setConfirmResetLastDialogOpen] = useState(false)
@@ -37,8 +39,6 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
   const [confirmLogoutUserDialogOpen, setConfirmLogoutUserDialogOpen] = useState(false)
   const [confirmChangeCountryDialogOpen, setConfirmChangeCountryDialogOpen] = useState(false)
   const [confirmResetAccountDialogOpen, setConfirmResetAccountDialogOpen] = useState(false)
-
-  if (!open || !user) return null
 
   const handleChangeLanguage = (language: Language) => {
     vibrate()
@@ -55,7 +55,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
   const handleConfirmChangeCountry = (country: Country) => {
     vibrate()
     saveSettings({ ...settings, country })
-    saveUser({ ...user, plates: [] })
+    saveUser({ ...user, plates: [] } as IUser)
     setConfirmChangeCountryDialogOpen(false)
   }
 
@@ -63,7 +63,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     vibrate()
     const newUser = {
       ...user,
-      plates: user.plates.length ? user.plates.slice(0, -1) : [],
+      plates: user?.plates?.length ? user.plates.slice(0, -1) : [],
     } as IUser
 
     saveUser(newUser)
@@ -72,21 +72,21 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
 
   const handleResetAllPlates = () => {
     vibrate()
-    saveUser({ ...user, plates: [] })
+    saveUser({ ...user, plates: [] } as IUser)
     setConfirmResetAllDialogOpen(false)
   }
 
   const handleDeleteUser = () => {
     vibrate()
-    saveUser({ ...user, plates: [] })
+    saveUser({ ...user, plates: [] } as IUser)
     setConfirmDeleteUserDialogOpen(false)
-    onClose()
+    setDialogOpen(false)
   }
 
   const handleLogoutUser = () => {
     vibrate()
     setConfirmLogoutUserDialogOpen(false)
-    onClose()
+    setDialogOpen(false)
   }
 
   const handleResetAccount = () => {
@@ -95,12 +95,25 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
     resetFriends()
     resetSettings()
     setConfirmResetAccountDialogOpen(false)
-    onClose()
+    setDialogOpen(false)
   }
 
   return (
     <>
-      <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
+      <Button
+        variant='outlined'
+        color='primary'
+        size='large'
+        fullWidth
+        startIcon={<Settings />}
+        onClick={() => {
+          vibrate()
+          setDialogOpen(true)
+        }}
+      >
+        {t('app.settings')}
+      </Button>
+      <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
           <Roadsign text={t('settings.title')} />
         </DialogTitle>
@@ -217,7 +230,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   setConfirmResetAllDialogOpen(true)
                 }}
               >
-                {t('settings.reset_all_data')}
+                {t('settings.reset_all_numbers')}
               </Button>
             </CardContent>
           </Card>
@@ -234,19 +247,32 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   borderRadius: 2,
                 }}
               >
-                <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>{user.name.slice(0, 2)}</Avatar>
+                <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+                  {user?.name?.slice(0, 2)}
+                </Avatar>
                 <Box sx={{ width: '100%', ml: 2 }}>
-                  <Typography variant='h6'>{user.name}</Typography>
-                  <Typography
-                    variant='body2'
-                    color='text.secondary'
-                    sx={{ display: 'flex', alignItems: 'center', fontWeight: 700 }}
-                  >
-                    {user.slug}
+                  <Typography variant='h6'>{user?.name}</Typography>
+                  <Typography variant='body2' color='text.secondary' sx={{ display: 'flex', alignItems: 'center' }}>
+                    {user?.slug}
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ display: 'flex', gap: 1 }}>
+
+              <QrDialog />
+
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  startIcon={<Logout />}
+                  fullWidth
+                  onClick={() => {
+                    vibrate()
+                    setConfirmLogoutUserDialogOpen(true)
+                  }}
+                >
+                  {t('settings.logout')}
+                </Button>
                 <Button
                   variant='outlined'
                   color='warning'
@@ -259,18 +285,6 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
                   }}
                 >
                   - Reset test -
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='primary'
-                  startIcon={<Logout />}
-                  fullWidth
-                  onClick={() => {
-                    vibrate()
-                    setConfirmLogoutUserDialogOpen(true)
-                  }}
-                >
-                  {t('settings.logout')}
                 </Button>
                 {/* <Button
                   variant='outlined'
@@ -286,7 +300,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
           </Card>
         </DialogContent>
         <DialogActions>
-          <Button variant='contained' size='large' onClick={onClose} color='primary'>
+          <Button variant='contained' size='large' onClick={() => setDialogOpen(false)} color='primary'>
             {t('common.close')}
           </Button>
         </DialogActions>
@@ -295,7 +309,7 @@ const SettingsDialog = ({ open, onClose }: { open: boolean; onClose: () => void 
       <ConfirmDialog
         open={confirmResetLastDialogOpen}
         title={t('confirm.reset_last_plate_title')}
-        content={t('confirm.reset_last_plate_content', { number: user.plates.length - 1 })}
+        content={t('confirm.reset_last_plate_content', { number: user?.plates?.length ? user.plates.length - 1 : 0 })}
         onClose={() => {
           vibrate()
           setConfirmResetLastDialogOpen(false)

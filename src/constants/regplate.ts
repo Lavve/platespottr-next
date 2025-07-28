@@ -98,6 +98,7 @@ export const inappropriateWords = [
   'XTZ',
   'XXL',
   'XXX',
+  'YOU',
   'ZEX',
   'ZOG',
   'ZPY',

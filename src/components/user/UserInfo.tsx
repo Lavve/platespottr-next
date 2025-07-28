@@ -9,10 +9,12 @@ const UserInfo = ({ friend, isSelf, place }: IUserInfo) => {
   return (
     <Box>
       <Typography variant='h6'>{isSelf ? t('toplist.you') : friend.name}</Typography>
-      {!friend.requesting && !place && (
+      {!place && (
         <Typography
           variant='body2'
-          sx={{ fontWeight: 700, fontSize: 12 }}
+          sx={{
+            fontSize: 12,
+          }}
           title={relativeDays(new Date(friend.friendSince ?? 0))}
         >
           {friend.slug}

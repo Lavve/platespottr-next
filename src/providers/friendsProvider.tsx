@@ -7,14 +7,14 @@ import type { IUser } from '@/types/user'
 const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
 const FriendsProvider = ({ children }: IProviderProps) => {
-  const [friends, setFriends] = useState<IUser[]>(defaultFriends)
+  const [friends, setFriends] = useState<IUser[] | null>(defaultFriends)
 
   const friendRequests = useMemo(
-    () => friends.filter(friend => friend.requesting).sort((a, b) => a.name.localeCompare(b.name)) || [],
+    () => friends?.filter(friend => friend.requesting).sort((a, b) => a.name.localeCompare(b.name)) || [],
     [friends]
   )
   const friendList = useMemo(
-    () => friends.filter(friend => !friend.requesting).sort((a, b) => a.name.localeCompare(b.name)) || [],
+    () => friends?.filter(friend => !friend.requesting).sort((a, b) => a.name.localeCompare(b.name)) || [],
     [friends]
   )
 
@@ -30,7 +30,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
 
   const addFriend = useCallback(
     (friend: IUser) => {
-      const filteredFriends = friends.filter(f => f.name !== friend.name)
+      const filteredFriends = friends?.filter(f => f.name !== friend.name) || []
       const newFriends = [...filteredFriends, { ...friend, requesting: false, friendSince: Date.now() }]
       setFriends(newFriends)
       localStorage.setItem('PS_friends', JSON.stringify(newFriends))
@@ -40,7 +40,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
 
   const removeFriend = useCallback(
     (name: string) => {
-      const newFriends = friends.filter(friend => friend.name !== name)
+      const newFriends = friends?.filter(friend => friend.name !== name) || []
       setFriends(newFriends)
       localStorage.setItem('PS_friends', JSON.stringify(newFriends))
     },
