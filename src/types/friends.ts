@@ -8,11 +8,11 @@ export interface IFriendProps {
 }
 
 export interface IFriendsContext {
-  friends: IUser[] | null
+  friendsAll: IUser[] | null
   friendRequests: IUser[]
   friendList: IUser[]
   addFriend: (friend: IUser) => void
-  removeFriend: (id: string) => void
+  removeFriend: (id: string) => number
   resetFriends: () => void
 }
 

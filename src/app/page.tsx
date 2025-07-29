@@ -18,7 +18,7 @@ import { generateSlug } from '@/utils/generateSlug'
 export default function HomePage() {
   const t = useTranslations()
   const { user, saveUser } = useUser()
-  const { friends, friendList, addFriend } = useFriends()
+  const { friendsAll, friendList, addFriend } = useFriends()
   const { friendSlug, isAddFriendDialogOpen, isAddPlateDialogOpen, clearHash } = useHashNavigation()
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
 
@@ -29,8 +29,8 @@ export default function HomePage() {
   }, [user?.plates])
 
   const foundFriend = useMemo(() => {
-    return friends?.find(f => f.slug === friendSlug) || null
-  }, [friends, friendSlug])
+    return friendsAll?.find(f => f.slug === friendSlug) || null
+  }, [friendsAll, friendSlug])
 
   const addPlateContent = useMemo(() => {
     return friendList.length > 0 ? t('app.add_plate_description') : t('app.add_plate_description_no_friends')

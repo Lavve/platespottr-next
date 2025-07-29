@@ -26,7 +26,7 @@ import QrDialog from './QrDialog'
 const FriendsDialog = () => {
   const t = useTranslations()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
-  const { friendRequests, friendList, addFriend, removeFriend } = useFriends()
+  const { friendsAll, friendRequests, friendList, addFriend, removeFriend } = useFriends()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const key = useRef(0)
@@ -49,7 +49,8 @@ const FriendsDialog = () => {
   }
 
   const handleConfirmRemoveFriend = () => {
-    removeFriend(friendToRemove?.name as string)
+    const friendsLeft = removeFriend(friendToRemove?.name as string)
+    if (friendsLeft < 1) setDialogOpen(false)
     setConfirmOpen(false)
   }
 
@@ -66,7 +67,7 @@ const FriendsDialog = () => {
         size='large'
         fullWidth
         startIcon={<People />}
-        disabled={friendsRequestsLength === 0}
+        disabled={friendsAll?.length === 0}
         onClick={() => setDialogOpen(true)}
       >
         <Badge badgeContent={friendsRequestsLength} color='secondary'>
