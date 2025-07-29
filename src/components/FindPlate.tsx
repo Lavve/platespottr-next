@@ -37,7 +37,7 @@ const FindPlate = () => {
 
   const updateReleaseProgress = () => {
     setProgress(prev => {
-      const newProgress = prev - 1
+      const newProgress = prev - 3
       if (newProgress <= 0) {
         if (releaseRef.current) {
           cancelAnimationFrame(releaseRef.current)
