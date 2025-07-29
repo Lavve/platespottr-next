@@ -9,8 +9,9 @@ import VibrateButton from '@/components/common/VibrateButton'
 import { useScreenWakeLock } from '@/hooks/useScreenWakeLock'
 import { useUser } from '@/providers/userProvider'
 import { vibrate } from '@/utils/vibrate'
+import VibrateIconButton from '../common/VibrateIconButton'
 
-const QrDialog = () => {
+const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const t = useTranslations()
   const { user } = useUser()
   const [qrOpen, setQrOpen] = useState(false)
@@ -42,18 +43,23 @@ const QrDialog = () => {
 
   return (
     <>
-      <VibrateButton
-        variant='contained'
-        fullWidth
-        color='primary'
-        size='large'
-        disabled={!userSlugValue || !user}
-        startIcon={<QrCode />}
-        onClick={() => setQrOpen(true)}
-      >
-        {t('friends.show_my_qr')}
-      </VibrateButton>
-
+      {showText ? (
+        <VibrateButton
+          variant='contained'
+          fullWidth
+          color='primary'
+          size='large'
+          disabled={!userSlugValue || !user}
+          startIcon={<QrCode />}
+          onClick={() => setQrOpen(true)}
+        >
+          {showText && t('friends.show_my_qr')}
+        </VibrateButton>
+      ) : (
+        <VibrateIconButton color='primary' disabled={!userSlugValue || !user} onClick={() => setQrOpen(true)}>
+          <QrCode />
+        </VibrateIconButton>
+      )}
       {qrOpen && userSlugValue && user && (
         <Dialog fullWidth maxWidth='sm' open={qrOpen} onClose={handleCloseDialog}>
           <DialogContent sx={{ p: 2 }}>

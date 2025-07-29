@@ -14,16 +14,15 @@
   },
   "app": {
     "next_number_to_find": "Nästa nummer att hitta",
-    "press_for_seconds": "Håll inne knappen i {seconds} sekunder för att registrera numret",
-    "statistics": "Statistik",
-    "friends": "Vänner",
-    "toplist": "Topplista",
-    "rules": "Regler",
-    "settings": "Inställningar",
-    "plate_lang": "S",
+    "press_for_seconds": "Håll inne knappen i {seconds} sekund för att registrera numret",
+    "statistics": "Plåtboken",
+    "friends": "Mitt crew",
+    "toplist": "Prispallen",
+    "rules": "Manual",
+    "settings": "Kompassen",
     "add_plate": "Lägg till nummer",
-    "add_plate_description": "Klicka på \"Lägg till\" för att lägga till ett nummer. Glöm inte att kika på topplistan efteråt för att se om du är på väg mot toppen!",
-    "add_plate_description_no_friends": "Klicka på \"Lägg till\" för att lägga till ett nummer.",
+    "add_plate_description": "Klicka på \"{add}\" för att lägga till {number}. Glöm inte att kika på topplistan efteråt för att se om du är på väg mot toppen!",
+    "add_plate_description_no_friends": "Klicka på \"{add}\" för att lägga till ett nummer. Lägg till dina vänner för att få se vem som kommer först i mål!",
     "add_friend": "Lägg till vän",
     "add_friend_description": "Lägg till {friendSlug} som vän."
   },
@@ -47,24 +46,20 @@
     "change_country_content": "Är du säker på att du vill ändra land? Detta kommer att återställa alla dina nummer och kan inte ångras."
   },
   "statistics": {
-    "title": "Statistik",
     "current_streak": "Aktuell streak",
     "streaks_days_in_a_row": "{streak} dagar i rad",
     "numbers_per_week": "Nummer per vecka:",
     "latest_found_number": "Senaste hittade nummer:"
   },
   "friends": {
-    "title": "Vänner",
-    "description": "Vänner",
-    "add": "Lägg till vän",
-    "remove": "Ta bort vän",
+    "add": "Lägg till i gänget",
+    "remove": "Ta bort från gänget",
     "show_my_qr": "Visa min QR-kod",
     "your_platespottr_code": "Din personliga Platespottr-kod",
-    "friends_requests": "Vänförfrågningar",
-    "my_friends": "Mina vänner"
+    "friends_requests": "Gängförfrågningar",
+    "my_friends": "Mitt gäng"
   },
   "toplist": {
-    "title": "Topplista",
     "number": "Nummer",
     "number_description": "Totalt antal hittade nummer",
     "streak": "Streak",
@@ -75,7 +70,6 @@
     "toplist_tagline": "Lyckas du komma till toppen innan du kommer till mål?"
   },
   "rules": {
-    "title": "Regler",
     "game_rules": {
       "title": "Spelregler",
       "order": "Ordningsföljd",
@@ -90,7 +84,7 @@
     "examples": {
       "title": "Exempel på nummer",
       "valid": "Giltigt",
-      "invalid": "Ogiltigt"
+      "invalid": "Ej giltigt"
     },
     "important_safety_rules": {
       "title": "Viktiga säkerhetsråd",
@@ -104,7 +98,7 @@
     }
   },
   "settings": {
-    "title": "Inställningar",
+    "settings": "Inställningar",
     "appearance": "Utseende",
     "dark": "Mörk",
     "light": "Ljust",

@@ -50,8 +50,10 @@ const base = {
     contrastText: '#111',
   },
   gradients: {
-    backgroundLight: 'radial-gradient(circle, #fff 0%, #aaa 100%)',
-    backgroundDark: 'radial-gradient(circle, #333 0%, #000 100%)',
+    backgroundLight:
+      'linear-gradient(to right, #d7d7d7, #dedede, #e6e6e6, #ededed, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #ededed, #e6e6e6, #dedede, #d7d7d7)',
+    backgroundDark:
+      'linear-gradient(to right, #000000, #0e0e0e, #181818, #202020, #282828, #282828, #282828, #282828, #202020, #181818, #0e0e0e, #000000)',
     roadsign: 'linear-gradient(135deg, #1365a7 0%, #3385c7 100%)',
     regplate: 'linear-gradient(135deg, #ededed 30%, #fff 70%, #d0d0d0 100%)',
   },
@@ -62,8 +64,8 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     background: {
-      default: '#e1e1e1',
-      paper: '#f7f7f7',
+      default: '#f1f1f1',
+      paper: '#e1e1e1',
     },
     text: {
       primary: '#111',
@@ -152,11 +154,11 @@ export const darkTheme = createTheme({
     mode: 'dark',
     background: {
       default: '#121212',
-      paper: '#222222',
+      paper: '#282828',
     },
     text: {
-      primary: '#e1e1e1',
-      secondary: '#b0b0b0',
+      primary: '#F1F1F1',
+      secondary: 'rgba(241, 241, 241, 0.8)',
     },
     primary: {
       main: '#0067a6',

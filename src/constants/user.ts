@@ -11,7 +11,7 @@ export const defaultUser: IUser = {
     Date.now() - 1000 * 60 * 60 * 24 * 6,
     Date.now() - 1000 * 60 * 60 * 24 * 14,
     Date.now() - 1000 * 60 * 60 * 24 * 22,
-    Date.now() - 1000 * 60 * 60 * 24 * 23,
+    Date.now() - 1000 * 60 * 60 * 24 * 36,
   ],
   slug: generateSlug(),
   requesting: false,

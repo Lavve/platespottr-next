@@ -1,7 +1,7 @@
-import { BarChart, CalendarMonth, LocalFireDepartment, Timeline } from '@mui/icons-material'
+import { AccountBalanceWallet, CalendarMonth, LocalFireDepartment, Timeline } from '@mui/icons-material'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import Roadsign from '@/components/Roadsign'
 import { useStatistics } from '@/hooks/useStatistics'
@@ -12,13 +12,8 @@ import { vibrate } from '@/utils/vibrate'
 const StatisticsDialog = () => {
   const t = useTranslations()
   const { user } = useUser()
-  const { maxStreak, latestFinding, findingsByWeek } = useStatistics(user?.plates || [])
+  const { maxStreak, maxWeek, latestFinding, findingsByWeek } = useStatistics(user?.plates || [])
   const [dialogOpen, setDialogOpen] = useState(false)
-
-  const maxWeek = useMemo(() => {
-    if (!findingsByWeek || findingsByWeek.size === 0) return 0
-    return Math.max(...Array.from(findingsByWeek.values()))
-  }, [findingsByWeek])
 
   const handleCloseDialog = () => {
     vibrate()
@@ -33,16 +28,17 @@ const StatisticsDialog = () => {
         size='large'
         fullWidth
         disabled={user?.plates.length === 0 || !user}
-        startIcon={<BarChart />}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}
         onClick={() => setDialogOpen(true)}
       >
+        <AccountBalanceWallet />
         {t('app.statistics')}
       </VibrateButton>
 
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('statistics.title')} />
+            <Roadsign text={t('app.statistics')} />
           </DialogTitle>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {maxStreak > 1 && (
@@ -60,6 +56,23 @@ const StatisticsDialog = () => {
                   <LocalFireDepartment color='warning' /> {t('statistics.current_streak')}
                 </Typography>
                 <Typography variant='h6'>{t('statistics.streaks_days_in_a_row', { streak: maxStreak })}</Typography>
+              </Paper>
+            )}
+            {latestFinding && (
+              <Paper
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                  gap: 1,
+                  p: 2,
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CalendarMonth color='info' /> {t('statistics.latest_found_number')}
+                </Typography>
+                <Typography variant='h6'>{relativeDays(new Date(latestFinding))}</Typography>
               </Paper>
             )}
             {findingsByWeek && user?.plates?.length && user.plates.length > 1 && (
@@ -114,23 +127,6 @@ const StatisticsDialog = () => {
                         )
                       })}
                 </Box>
-              </Paper>
-            )}
-            {latestFinding && (
-              <Paper
-                sx={{
-                  display: 'flex',
-                  flexDirection: { xs: 'column', md: 'row' },
-                  gap: 1,
-                  p: 2,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <CalendarMonth color='info' /> {t('statistics.latest_found_number')}
-                </Typography>
-                <Typography variant='h6'>{relativeDays(new Date(latestFinding))}</Typography>
               </Paper>
             )}
           </DialogContent>

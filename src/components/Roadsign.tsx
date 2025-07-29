@@ -5,7 +5,7 @@ import type { IRoadsignProps } from '@/types/common'
 const fontTratex = localFont({
   src: [
     {
-      path: '../assets/fonts/CharlesWright.woff2',
+      path: '../assets/fonts/Tratex.woff2',
       weight: '400',
       style: 'normal',
     },

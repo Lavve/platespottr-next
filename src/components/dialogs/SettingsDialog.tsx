@@ -1,4 +1,4 @@
-import { AccountCircle, Delete, History, Logout, RestartAltOutlined, TuneOutlined } from '@mui/icons-material'
+import { AccountCircle, Delete, Explore, History, Logout, RestartAltOutlined, TuneOutlined } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -103,7 +103,7 @@ const SettingsDialog = () => {
         size='large'
         fullWidth
         disabled={!user}
-        startIcon={<TuneOutlined />}
+        startIcon={<Explore />}
         onClick={() => setDialogOpen(true)}
       >
         {t('app.settings')}
@@ -111,34 +111,34 @@ const SettingsDialog = () => {
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('settings.title')} />
+            <Roadsign text={t('app.settings')} />
           </DialogTitle>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <TuneOutlined /> {t('settings.title')}
+                  <TuneOutlined /> {t('settings.settings')}
                 </Typography>
                 <Typography>{t('settings.appearance')}</Typography>
                 <ButtonGroup fullWidth>
                   <VibrateButton
                     onClick={() => setTheme('light')}
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
                   >
                     {t('settings.light')}
                   </VibrateButton>
                   <VibrateButton
                     onClick={() => setTheme('dark')}
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
                   >
                     {t('settings.dark')}
                   </VibrateButton>
                   <VibrateButton
                     onClick={() => setTheme('system')}
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
                   >
                     {t('settings.auto')}
                   </VibrateButton>
@@ -149,21 +149,21 @@ const SettingsDialog = () => {
                 <ButtonGroup fullWidth>
                   <VibrateButton
                     variant={settings.language === 'sv' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.language === 'sv' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeLanguage('sv')}
                   >
                     {t('settings.swedish')}
                   </VibrateButton>
                   <VibrateButton
                     variant={settings.language === 'en' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.language === 'en' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeLanguage('en')}
                   >
                     {t('settings.english')}
                   </VibrateButton>
                   <VibrateButton
                     variant={settings.language === 'fi' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.language === 'fi' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeLanguage('fi')}
                   >
                     {t('settings.finnish')}
@@ -175,14 +175,14 @@ const SettingsDialog = () => {
                 <ButtonGroup fullWidth>
                   <VibrateButton
                     variant={settings.country === 's' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.country === 's' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeCountry('s')}
                   >
                     {t('settings.sweden')}
                   </VibrateButton>
                   <VibrateButton
                     variant={settings.country === 'fi' ? 'contained' : 'outlined'}
-                    color='primary'
+                    color={settings.country === 'fi' ? 'primary' : 'secondary'}
                     onClick={() => handleChangeCountry('fi')}
                   >
                     {t('settings.finland')}
@@ -219,6 +219,8 @@ const SettingsDialog = () => {
               <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <AccountCircle /> {t('settings.account')}
               </Typography>
+
+              {/* User info */}
               <Box
                 sx={{
                   display: 'flex',
@@ -238,10 +240,15 @@ const SettingsDialog = () => {
                     {user?.slug}
                   </Typography>
                 </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100px' }}>
+                  <QrDialog showText={false} />
+                </Box>
               </Box>
 
-              <QrDialog />
+              {/* QR code */}
+              {/* <QrDialog /> */}
 
+              {/* Buttons */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <VibrateButton
                   variant='outlined'

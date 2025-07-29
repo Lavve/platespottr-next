@@ -1,6 +1,6 @@
 import { alphabet, inappropriateWords } from '@/constants/regplate'
 
-export const generateRandomLetters = () => {
+export const generateRandomLetters = (number: number) => {
   let attempts = 0
   const maxAttempts = 100
 
@@ -15,7 +15,7 @@ export const generateRandomLetters = () => {
 
     const endsWithO = randomLetters.endsWith('O')
 
-    if (!isInappropriate && !endsWithO) {
+    if (!isInappropriate && !endsWithO && number > 0) {
       return randomLetters
     }
 

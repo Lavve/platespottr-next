@@ -4,17 +4,27 @@ import { getWeekNumber } from '@/utils/dates'
 export const useStatistics = (findings?: number[]) => {
   const getFindingsByWeek = useCallback((findings: number[]): Map<number, number> => {
     const findingsByWeek = new Map<number, number>()
-    findings
-      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-      .forEach(finding => {
-        const date = new Date(finding)
-        const weekKey = getWeekNumber(date)
 
-        if (!findingsByWeek.has(weekKey)) {
-          findingsByWeek.set(weekKey, 0)
-        }
-        findingsByWeek.set(weekKey, (findingsByWeek.get(weekKey) ?? 0) + 1)
-      })
+    if (findings.length === 0) {
+      return findingsByWeek
+    }
+
+    const sortedFindings = findings.sort((a, b) => a - b)
+    const earliestDate = new Date(sortedFindings[0])
+    const latestDate = new Date(sortedFindings[sortedFindings.length - 1])
+    const earliestWeek = getWeekNumber(earliestDate)
+    const latestWeek = getWeekNumber(latestDate)
+
+    for (let week = earliestWeek; week <= latestWeek; week++) {
+      findingsByWeek.set(week, 0)
+    }
+
+    sortedFindings.forEach(finding => {
+      const date = new Date(finding)
+      const weekKey = getWeekNumber(date)
+      findingsByWeek.set(weekKey, (findingsByWeek.get(weekKey) ?? 0) + 1)
+    })
+
     return findingsByWeek
   }, [])
 
@@ -71,5 +81,10 @@ export const useStatistics = (findings?: number[]) => {
     return calculateMaxStreak(findings || [])
   }, [findings, calculateMaxStreak])
 
-  return { latestFinding, findingsByWeek, maxStreak, calculateMaxStreak }
+  const maxWeek = useMemo(() => {
+    if (!findingsByWeek || findingsByWeek.size === 0) return 0
+    return Math.max(...Array.from(findingsByWeek.values()))
+  }, [findingsByWeek])
+
+  return { latestFinding, findingsByWeek, maxStreak, maxWeek, calculateMaxStreak }
 }

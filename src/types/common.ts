@@ -1,7 +1,6 @@
-import type { ButtonProps } from '@mui/material'
+import type { ButtonProps, IconButtonProps } from '@mui/material'
 
 export interface IPlateProps {
-  letters: string
   number: number
 }
 
@@ -10,8 +9,13 @@ export interface IVibrateButtonProps extends ButtonProps {
   disableVibration?: boolean
 }
 
+export interface IVibrateIconButtonProps extends IconButtonProps {
+  vibrationPattern?: number | number[]
+  disableVibration?: boolean
+}
+
 export interface IRoadsignProps {
-  number?: string
+  number?: string | number
   text: string
 }
 
@@ -19,6 +23,8 @@ export interface IConfirmDialogProps {
   open: boolean
   title: string
   content: string
+  confirmText?: string
+  cancelText?: string
   onClose: () => void
   onConfirm: () => void
 }

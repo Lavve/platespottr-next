@@ -14,11 +14,11 @@ import { vibrate } from '@/utils/vibrate'
 
 const TopListDialog = () => {
   const t = useTranslations()
-  const [sortBy, setSortBy] = useState<ISortBy>('plates')
-  const [dialogOpen, setDialogOpen] = useState(false)
   const { friendList } = useFriends()
   const { calculateMaxStreak } = useStatistics()
   const { user } = useUser()
+  const [sortBy, setSortBy] = useState<ISortBy>('plates')
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const toplist = useMemo(() => {
     const myUser = user ? [user] : []
@@ -44,6 +44,10 @@ const TopListDialog = () => {
     return sortedList
   }, [friendList, user, sortBy, calculateMaxStreak])
 
+  const myPlace = useMemo(() => {
+    return toplist.findIndex(friend => friend.slug === user?.slug) + 1
+  }, [toplist, user])
+
   const handleTabChange = (e: React.SyntheticEvent, value: ISortBy) => {
     e.preventDefault()
     setSortBy(value)
@@ -63,15 +67,16 @@ const TopListDialog = () => {
         size='large'
         disabled={friendList.length === 0}
         fullWidth
-        startIcon={<EmojiEvents />}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}
         onClick={() => setDialogOpen(true)}
       >
+        <EmojiEvents />
         {t('app.toplist')}
       </VibrateButton>
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('toplist.title')} />
+            <Roadsign text={t('app.toplist')} number={myPlace} />
           </DialogTitle>
           <DialogContent>
             <Tabs value={sortBy} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>

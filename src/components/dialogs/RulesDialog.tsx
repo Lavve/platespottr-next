@@ -1,4 +1,4 @@
-import { Check, Close, Help, HelpCenter, Info, Warning } from '@mui/icons-material'
+import { Check, Close, HelpCenter, Info, MenuBook, Warning } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -76,7 +76,7 @@ const RulesDialog = () => {
         color='primary'
         size='large'
         fullWidth
-        startIcon={<Help />}
+        startIcon={<MenuBook />}
         onClick={() => setDialogOpen(true)}
       >
         {t('app.rules')}
@@ -94,11 +94,11 @@ const RulesDialog = () => {
           }}
         >
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('rules.title')} />
+            <Roadsign text={t('app.rules')} />
           </DialogTitle>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-              <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography component='h3' variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <HelpCenter color='success' /> {t('rules.game_rules.title')}
               </Typography>
               <List>
@@ -129,84 +129,96 @@ const RulesDialog = () => {
               </List>
             </Paper>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-              <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography component='h3' variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Info color='info' /> {t('rules.examples.title')}
               </Typography>
               <Grid container spacing={2}>
                 <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Check sx={{ color: 'success.main', mr: 1 }} />
+                  <Check sx={{ color: 'success.main', mr: 1, fontSize: 32 }} />
                   <ListItemText primary='ABC 012' secondary={t('rules.examples.valid')} />
                 </Grid>
                 <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Close sx={{ color: 'error.main', mr: 1 }} />
+                  <Close sx={{ color: 'error.main', mr: 1, fontSize: 32 }} />
                   <ListItemText primary='GHJ 12K' secondary={t('rules.examples.invalid')} />
                 </Grid>
                 <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Check sx={{ color: 'success.main', mr: 1 }} />
+                  <Check sx={{ color: 'success.main', mr: 1, fontSize: 32 }} />
                   <ListItemText primary='DEF 999' secondary={t('rules.examples.valid')} />
                 </Grid>
                 <Grid size={6} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Close sx={{ color: 'error.main', mr: 1 }} />
+                  <Close sx={{ color: 'error.main', mr: 1, fontSize: 32 }} />
                   <ListItemText primary='PLSPTR2' secondary={t('rules.examples.invalid')} />
                 </Grid>
               </Grid>
             </Paper>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-              <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography component='h3' variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Warning color='error' /> {t('rules.important_safety_rules.title')}
               </Typography>
               <List>
-                <ListItem sx={{ py: 0 }}>
+                <ListItem sx={{ p: 0 }}>
                   <Typography variant='body2' sx={{ mr: 2 }}>
                     1.
                   </Typography>
                   <ListItemText primary={t('rules.important_safety_rules.rule_1')} />
                 </ListItem>
-                <ListItem sx={{ py: 0 }}>
+                <ListItem sx={{ p: 0 }}>
                   <Typography variant='body2' sx={{ mr: 2 }}>
                     2.
                   </Typography>
                   <ListItemText primary={t('rules.important_safety_rules.rule_2')} />
                 </ListItem>
-                <ListItem sx={{ py: 0 }}>
+                <ListItem sx={{ p: 0 }}>
                   <Typography variant='body2' sx={{ mr: 2 }}>
                     3.
                   </Typography>
                   <ListItemText primary={t('rules.important_safety_rules.rule_3')} />
                 </ListItem>
-                <ListItem sx={{ py: 0 }}>
+                <ListItem sx={{ p: 0 }}>
                   <Typography variant='body2' sx={{ mr: 2 }}>
                     4.
                   </Typography>
                   <ListItemText primary={t('rules.important_safety_rules.rule_4')} />
                 </ListItem>
-                <ListItem sx={{ py: 0 }}>
+                <ListItem sx={{ p: 0 }}>
                   <Typography variant='body2' sx={{ mr: 2 }}>
                     5.
                   </Typography>
                   <ListItemText primary={t('rules.important_safety_rules.rule_5')} />
                 </ListItem>
               </List>
-              <Typography sx={{ mt: 2, fontWeight: 'bold', textAlign: 'center' }}>
-                {t('rules.important_safety_rules.remember_safety')}
-              </Typography>
+              <Box sx={{ mt: 1, backgroundColor: 'background.default', p: 2, borderRadius: 1 }}>
+                <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                  {t('rules.important_safety_rules.remember_safety')}
+                </Typography>
+              </Box>
             </Paper>
-            <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
+            <Paper
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                p: 2,
+                backgroundColor: 'background.default',
+                border: '1px solid',
+                borderColor: 'divider',
+              }}
+            >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Logo size={40} />
                 <Typography
-                  component='h1'
+                  component='h3'
                   variant='h6'
-                  sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
+                  sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 300, textTransform: 'uppercase' }}
                 >
                   latespottr
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
+                <Typography variant='body2' color='text.secondary' sx={{ mt: 1, textAlign: 'center' }}>
                   v.{appVersion}
                 </Typography>
-                <Typography variant='body2' sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
+                <Typography variant='body2' color='text.secondary' sx={{ mt: 1, textAlign: 'center' }}>
                   &copy; {new Date().getFullYear()}
                 </Typography>
               </Box>

@@ -1,13 +1,12 @@
 'use client'
 
-import { Box, LinearProgress, Paper, Typography } from '@mui/material'
+import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
-import { HOLD_DURATION, UPDATE_HOLD_INTERVAL, VIBRATE_SUCCESS } from '@/constants/app'
+import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
 import { useUser } from '@/providers/userProvider'
-import { generateRandomLetters } from '@/utils/generatePlateLetters'
 import { vibrate } from '@/utils/vibrate'
 
 const FindPlate = () => {
@@ -15,48 +14,58 @@ const FindPlate = () => {
   const { user, saveUser } = useUser()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [letters, setLetters] = useState(() => generateRandomLetters())
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const releaseRef = useRef<number | null>(null)
+  const animationRef = useRef<number | null>(null)
+  const startTimeRef = useRef<number | null>(null)
 
-  const startHold = () => {
-    setIsHolding(true)
-    setProgress(0)
+  const updateProgress = () => {
+    if (!startTimeRef.current || !user) return
 
-    if (!user) return
+    const elapsed = Date.now() - startTimeRef.current
+    const newProgress = (elapsed / HOLD_DURATION) * 100
+    console.log({ newProgress })
+    setProgress(Math.min(newProgress, 100))
 
-    intervalRef.current = setInterval(() => {
-      setProgress(prev => {
-        const newProgress = prev + (UPDATE_HOLD_INTERVAL / HOLD_DURATION) * 100
-
-        if (newProgress >= 100) {
-          clearInterval(intervalRef.current as NodeJS.Timeout)
-          return 100
-        }
-        return newProgress
-      })
-    }, UPDATE_HOLD_INTERVAL)
-
-    timeoutRef.current = setTimeout(() => {
+    if (newProgress < 100) {
+      animationRef.current = requestAnimationFrame(updateProgress)
+    } else {
       saveUser({ ...user, plates: [...user.plates, Date.now()] })
       vibrate(VIBRATE_SUCCESS)
       endHold()
-      setLetters(generateRandomLetters())
-    }, HOLD_DURATION)
+    }
+  }
+
+  const updateReleaseProgress = () => {
+    setProgress(prev => {
+      const newProgress = prev - 1
+      if (newProgress <= 0) {
+        if (releaseRef.current) {
+          cancelAnimationFrame(releaseRef.current)
+          releaseRef.current = null
+        }
+        return 0
+      }
+      releaseRef.current = requestAnimationFrame(updateReleaseProgress)
+      return newProgress
+    })
+  }
+
+  const startHold = () => {
+    startTimeRef.current = Date.now()
+    setIsHolding(true)
+    setProgress(0)
+    updateProgress()
   }
 
   const endHold = () => {
-    setIsHolding(false)
-    setProgress(0)
-
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
-    }
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current)
+      animationRef.current = null
+      updateReleaseProgress()
+    } else {
+      startTimeRef.current = null
+      setProgress(0)
+      setIsHolding(false)
     }
   }
 
@@ -77,7 +86,7 @@ const FindPlate = () => {
     >
       <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
-      <RegPlate letters={letters} number={user.plates.length + 1} />
+      <RegPlate number={user.plates.length + 1} />
 
       <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
         <VibrateButton
@@ -95,36 +104,35 @@ const FindPlate = () => {
             userSelect: 'none',
             WebkitTouchCallout: 'none',
             touchAction: 'manipulation',
+            width: 120,
+            height: 120,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           {t('common.found')}
         </VibrateButton>
         {isHolding && (
-          <Box
+          <CircularProgress
+            variant='determinate'
+            value={progress}
+            size={140}
+            thickness={5}
             sx={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 1,
               pointerEvents: 'none',
+              color: 'secondary.main',
+              opacity: 0.9,
+              position: 'absolute',
+              top: -10,
+              left: -10,
+              zIndex: 1,
+              '& .MuiCircularProgress-circle': {
+                transition: 'none',
+              },
             }}
-          >
-            <LinearProgress
-              variant='determinate'
-              value={progress}
-              color='primary'
-              sx={{
-                height: 10,
-                borderRadius: 1,
-                borderTopRightRadius: 0,
-                borderTopLeftRadius: 0,
-                '& .MuiLinearProgress-bar': {
-                  transition: 'none',
-                },
-              }}
-            />
-          </Box>
+          />
         )}
       </Box>
       <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>

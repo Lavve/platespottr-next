@@ -3,6 +3,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import AddNumberDialog from '@/components/dialogs/AddNumberDialog'
 import CompleteDialog from '@/components/dialogs/CompleteDialog'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import InstallPromptDialog from '@/components/dialogs/InstallPromptDialog'
@@ -17,9 +18,9 @@ import { generateSlug } from '@/utils/generateSlug'
 
 export default function HomePage() {
   const t = useTranslations()
-  const { user, saveUser } = useUser()
-  const { friendsAll, friendList, addFriend } = useFriends()
-  const { friendSlug, isAddFriendDialogOpen, isAddPlateDialogOpen, clearHash } = useHashNavigation()
+  const { user } = useUser()
+  const { friendsAll, addFriend } = useFriends()
+  const { friendSlug, isAddFriendDialogOpen, clearHash } = useHashNavigation()
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -32,19 +33,27 @@ export default function HomePage() {
     return friendsAll?.find(f => f.slug === friendSlug) || null
   }, [friendsAll, friendSlug])
 
-  const addPlateContent = useMemo(() => {
-    return friendList.length > 0 ? t('app.add_plate_description') : t('app.add_plate_description_no_friends')
-  }, [friendList.length, t])
+  // const addPlateContent = useMemo(() => {
+  //   return friendsAll && friendsAll.length > 0
+  //     ? t('app.add_plate_description', {
+  //         add: t('common.add'),
+  //         number: user?.plates.length.toString().padStart(3, '0') || '000',
+  //       })
+  //     : t('app.add_plate_description_no_friends', {
+  //         add: t('common.add'),
+  //         number: user?.plates.length.toString().padStart(3, '0') || '000',
+  //       })
+  // }, [friendsAll, t, user?.plates])
 
   const addFriendContent = useMemo(() => {
     return t('app.add_friend_description', { friendSlug: friendSlug || '' })
   }, [friendSlug, t])
 
-  const handleAddPlate = useCallback(() => {
-    clearHash()
-    if (!user) return
-    saveUser({ ...user, plates: [...user.plates, Date.now()] })
-  }, [clearHash, user, saveUser])
+  // const handleAddPlate = useCallback(() => {
+  //   clearHash()
+  //   if (!user) return
+  //   saveUser({ ...user, plates: [...user.plates, Date.now()] })
+  // }, [clearHash, user, saveUser])
 
   const handleAddFriend = useCallback(() => {
     clearHash()
@@ -86,13 +95,16 @@ export default function HomePage() {
 
       <PageActionButtons />
 
-      <ConfirmDialog
+      <AddNumberDialog />
+
+      {/* <ConfirmDialog
         title={t('app.add_plate')}
         content={addPlateContent}
         onConfirm={handleAddPlate}
         open={isAddPlateDialogOpen}
         onClose={() => clearHash()}
-      />
+        confirmText={t('common.add')}
+      /> */}
       <ConfirmDialog
         title={t('app.add_friend')}
         content={addFriendContent}

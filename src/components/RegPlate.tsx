@@ -2,9 +2,10 @@
 
 import { Box, Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSettings } from '@/providers/settingsProvider'
 import type { IPlateProps } from '@/types/common'
+import { generateRandomLetters } from '@/utils/generatePlateLetters'
 
 const fontTratex = localFont({
   src: [
@@ -15,10 +16,20 @@ const fontTratex = localFont({
     },
   ],
 })
+const plateFontSize = 'clamp(3rem, calc((100vw - 3rem) / 6.5), 5.5rem)'
 
-const RegPlate = ({ letters, number }: IPlateProps) => {
+const RegPlate = ({ number }: IPlateProps) => {
   const { settings } = useSettings()
   const key = useRef(0)
+  const [letters, setLetters] = useState('')
+
+  // const letters = useMemo(() => {
+  //   return generateRandomLetters(number)
+  // }, [number])
+
+  useEffect(() => {
+    setLetters(generateRandomLetters(number))
+  }, [number])
 
   const lettersArray = useMemo(() => {
     return letters.split('')
@@ -32,6 +43,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
     return lettersArray.map(letter => (
       <Box
         key={`${letter}-${key.current++}`}
+        component='span'
         sx={{ display: 'inline-block', minWidth: { xs: '2rem', sm: '2.25rem' }, textAlign: 'center' }}
       >
         {letter}
@@ -43,7 +55,8 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
     return numberArray.map(digit => (
       <Box
         key={`${digit}-${key.current++}`}
-        sx={{ display: 'inline-block', minWidth: { xs: '1.5rem', sm: '2.25rem' }, textAlign: 'center' }}
+        component='span'
+        sx={{ display: 'inline-block', minWidth: { xs: '1.5rem', sm: '3rem' }, textAlign: 'center' }}
       >
         {digit}
       </Box>
@@ -57,14 +70,14 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
       sx={{
         display: 'flex',
         width: '100%',
-        aspectRatio: 5,
+        aspectRatio: 5.25,
         borderRadius: 2,
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
         border: '4px solid #000',
         userSelect: 'none',
       }}
-      elevation={5}
+      elevation={7}
     >
       <Box
         sx={{
@@ -76,14 +89,14 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           alignItems: 'center',
           justifyContent: 'center',
           fontWeight: 700,
-          gap: 1,
+          gap: 1.2,
           background: 'var(--roadsign-gradient)',
           color: 'regplate.contrastText',
         }}
       >
         <Box
           sx={{
-            width: '50%',
+            width: '60%',
             aspectRatio: 1,
             borderRadius: '50%',
             border: '2px dotted var(--regplate-stars)',
@@ -95,8 +108,7 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
         <Box
           sx={{
             color: 'regplate.light',
-            fontWeight: 300,
-            fontSize: 'clamp(0.75rem, calc((75vw - 4.5rem) * 0.0625), 1.5rem)',
+            fontSize: 'clamp(0.75rem, calc((75vw - 4.5rem) * 0.06), 1.25rem)',
             lineHeight: 1,
             textTransform: 'uppercase',
             fontFamily: fontTratex.style.fontFamily,
@@ -110,17 +122,17 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           display: 'flex',
           width: '100%',
           p: 0,
-          gap: 1,
+          gap: 2,
           alignItems: 'center',
           justifyContent: 'center',
           background: 'var(--regplate-gradient)',
         }}
       >
         <Typography
-          variant='h2'
           sx={{
-            fontSize: 'clamp(2.75rem, calc((100vw - 4.5rem) / 7), 5rem)',
+            fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
+            lineHeight: 1,
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}
@@ -128,10 +140,10 @@ const RegPlate = ({ letters, number }: IPlateProps) => {
           {wrappedLetters}
         </Typography>
         <Typography
-          variant='h2'
           sx={{
-            fontSize: 'clamp(3rem, calc((100vw - 4.5rem) / 7), 5rem)',
+            fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
+            lineHeight: 1,
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}

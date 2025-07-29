@@ -14,13 +14,17 @@
   },
   "app": {
     "next_number_to_find": "Next number to find",
-    "press_for_seconds": "Hold the button for {seconds} seconds to register the number",
-    "statistics": "Statistics",
-    "friends": "Friends",
-    "toplist": "Toplist",
-    "rules": "Rules",
-    "settings": "Settings",
-    "plate_lang": "S"
+    "press_for_seconds": "Hold the button for {seconds} second to register the number",
+    "statistics": "Plate book",
+    "friends": "My crew",
+    "toplist": "Prize list",
+    "rules": "Manual",
+    "settings": "Compass",
+    "add_plate": "Add number",
+    "add_plate_description": "Click \"{add}\" to add {number}. Don't forget to check the prize list after to see if you're on your way to the top!",
+    "add_plate_description_no_friends": "Click \"{add}\" to add a number. Add your friends to see who will be the first to reach the top!",
+    "add_friend": "Add friend",
+    "add_friend_description": "Add {friendSlug} as a friend."
   },
   "completed": {
     "title": "You did it!",
@@ -42,15 +46,12 @@
     "change_country_content": "Are you sure you want to change country? This action will reset all your numbers and cannot be undone."
   },
   "statistics": {
-    "title": "Statistics",
     "current_streak": "Current streak",
     "streaks_days_in_a_row": "{streak} days in a row",
     "numbers_per_week": "Numbers per week:",
     "latest_found_number": "Latest found number:"
   },
   "friends": {
-    "title": "Friends",
-    "description": "Friends",
     "add": "Add friend",
     "remove": "Remove friend",
     "show_my_qr": "Show my QR code",
@@ -59,7 +60,6 @@
     "my_friends": "My friends"
   },
   "toplist": {
-    "title": "Toplist",
     "number": "Number",
     "number_description": "Total number of found plates",
     "streak": "Streak",
@@ -70,7 +70,6 @@
     "toplist_tagline": "Can you reach the top before reaching the final number?"
   },
   "rules": {
-    "title": "Rules",
     "game_rules": {
       "title": "Game rules",
       "order": "Order",
@@ -85,7 +84,7 @@
     "examples": {
       "title": "Example numbers",
       "valid": "Valid",
-      "invalid": "Invalid"
+      "invalid": "Not valid"
     },
     "important_safety_rules": {
       "title": "Important safety rules",
@@ -99,7 +98,7 @@
     }
   },
   "settings": {
-    "title": "Settings",
+    "settings": "Settings",
     "appearance": "Appearance",
     "dark": "Dark",
     "light": "Light",

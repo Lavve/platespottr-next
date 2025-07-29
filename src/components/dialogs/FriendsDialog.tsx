@@ -1,6 +1,6 @@
 'use client'
 
-import { People } from '@mui/icons-material'
+import { Groups } from '@mui/icons-material'
 import {
   Badge,
   Box,
@@ -66,18 +66,19 @@ const FriendsDialog = () => {
         color='primary'
         size='large'
         fullWidth
-        startIcon={<People />}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}
         disabled={friendsAll?.length === 0}
         onClick={() => setDialogOpen(true)}
       >
         <Badge badgeContent={friendsRequestsLength} color='secondary'>
-          {t('app.friends')}
+          <Groups />
         </Badge>
+        {t('app.friends')}
       </VibrateButton>
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('friends.title')} />
+            <Roadsign text={t('app.friends')} number={friendsLength} />
           </DialogTitle>
           <DialogContent>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

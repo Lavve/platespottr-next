@@ -1,7 +1,5 @@
 import { adjectives, nouns, SLUG_SEPARATOR, verbs } from '@/constants/slugs'
 
-console.log(adjectives.length * nouns.length * verbs.length)
-
 export const generateSlug = () => {
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)].toUpperCase()
   const noun = nouns[Math.floor(Math.random() * nouns.length)].toUpperCase()

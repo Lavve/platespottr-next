@@ -4,7 +4,7 @@ import VibrateButton from '@/components/common/VibrateButton'
 import Roadsign from '@/components/Roadsign'
 import type { IConfirmDialogProps } from '@/types/common'
 
-const ConfirmDialog = ({ open, title, content, onClose, onConfirm }: IConfirmDialogProps) => {
+const ConfirmDialog = ({ open, title, content, confirmText, cancelText, onClose, onConfirm }: IConfirmDialogProps) => {
   const t = useTranslations()
 
   if (!open) return null
@@ -27,9 +27,9 @@ const ConfirmDialog = ({ open, title, content, onClose, onConfirm }: IConfirmDia
         <Typography variant='body1'>{content}</Typography>
       </DialogContent>
       <DialogActions>
-        <VibrateButton onClick={onClose}>{t('common.cancel')}</VibrateButton>
+        <VibrateButton onClick={onClose}>{cancelText || t('common.cancel')}</VibrateButton>
         <VibrateButton onClick={onConfirm} color='primary' variant='contained' autoFocus>
-          {t('confirm.confirm')}
+          {confirmText || t('confirm.confirm')}
         </VibrateButton>
       </DialogActions>
     </Dialog>

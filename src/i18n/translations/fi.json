@@ -20,7 +20,11 @@
     "toplist": "Toplista",
     "rules": "Säännöt",
     "settings": "Asetukset",
-    "plate_lang": "FI"
+    "add_plate": "Lisää numero",
+    "add_plate_description": "Klikkaa \"{add}\" lisätäksesi {number}. Älä unohda tarkistaa huippulistaa, jotta tiedät, onko sinulla mahdollisuus päästä huipulle!",
+    "add_plate_description_no_friends": "Klikkaa \"{add}\" lisätäksesi numero. Lisää ystävät, jotta voit nähdä, kuka saavuttaa ensimmäisenä huipun!",
+    "add_friend": "Lisää ystävä",
+    "add_friend_description": "Lisää {friendSlug} ystäväksi."
   },
   "completed": {
     "title": "Onnistuit!",
@@ -42,15 +46,12 @@
     "change_country_content": "Haluatko varmasti vaihtaa maata? Tämä nollaa kaikki numerot ja ei voi perua."
   },
   "statistics": {
-    "title": "Tilastot",
     "current_streak": "Nykyinen putki",
     "streaks_days_in_a_row": "{streak} päivää peräkkäin",
     "numbers_per_week": "Numeroita per viikko:",
     "latest_found_number": "Viimeisin löydetty numero:"
   },
   "friends": {
-    "title": "Ystävät",
-    "description": "Ystävät",
     "add": "Lisää ystävä",
     "remove": "Poista ystävä",
     "show_my_qr": "Näytä QR-koodini",
@@ -59,7 +60,6 @@
     "my_friends": "Omat ystävät"
   },
   "toplist": {
-    "title": "Huippulista",
     "number": "Määrä",
     "number_description": "Yhteensä löydettyjä numeroita",
     "streak": "Putki",
@@ -70,7 +70,6 @@
     "toplist_tagline": "Pääsetkö huipulle ennen maalia?"
   },
   "rules": {
-    "title": "Säännöt",
     "game_rules": {
       "title": "Pelisäännöt",
       "order": "Järjestys",
@@ -99,7 +98,7 @@
     }
   },
   "settings": {
-    "title": "Asetukset",
+    "settings": "Asetukset",
     "appearance": "Ulkoasu",
     "dark": "Tumma",
     "light": "Kevyt",
