@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Paper,
   Typography,
 } from '@mui/material'
@@ -15,7 +14,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
-import Roadsign from '@/components/Roadsign'
+import DialogHeader from '@/components/dialogs/DialogHeader'
 import type { Locale } from '@/i18n/config'
 import { useFriends } from '@/providers/friendsProvider'
 import { useSettings } from '@/providers/settingsProvider'
@@ -29,7 +28,7 @@ import QrDialog from './QrDialog'
 const SettingsDialog = () => {
   const t = useTranslations()
   const { user, saveUser, resetUser } = useUser()
-  const { resetFriends } = useFriends()
+  const { resetFriends, removeAllFriends } = useFriends()
   const { settings, saveSettings, setTheme, resetSettings } = useSettings()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [country, setCountry] = useState<Country>(settings.country)
@@ -73,6 +72,7 @@ const SettingsDialog = () => {
 
   const handleDeleteUser = () => {
     saveUser({ ...user, plates: [] } as IUser)
+    removeAllFriends()
     setConfirmDeleteUserDialogOpen(false)
     setDialogOpen(false)
   }
@@ -103,6 +103,7 @@ const SettingsDialog = () => {
         size='large'
         fullWidth
         disabled={!user}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, px: 1 }}
         startIcon={<Explore />}
         onClick={() => setDialogOpen(true)}
       >
@@ -110,9 +111,8 @@ const SettingsDialog = () => {
       </VibrateButton>
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
-          <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('app.settings')} />
-          </DialogTitle>
+          <DialogHeader title={t('app.settings')} />
+
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -123,6 +123,7 @@ const SettingsDialog = () => {
                 <ButtonGroup fullWidth>
                   <VibrateButton
                     onClick={() => setTheme('light')}
+                    size='large'
                     variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
                   >
@@ -130,6 +131,7 @@ const SettingsDialog = () => {
                   </VibrateButton>
                   <VibrateButton
                     onClick={() => setTheme('dark')}
+                    size='large'
                     variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
                   >
@@ -137,6 +139,7 @@ const SettingsDialog = () => {
                   </VibrateButton>
                   <VibrateButton
                     onClick={() => setTheme('system')}
+                    size='large'
                     variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
                     color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
                   >
@@ -150,6 +153,7 @@ const SettingsDialog = () => {
                   <VibrateButton
                     variant={settings.language === 'sv' ? 'contained' : 'outlined'}
                     color={settings.language === 'sv' ? 'primary' : 'secondary'}
+                    size='large'
                     onClick={() => handleChangeLanguage('sv')}
                   >
                     {t('settings.swedish')}
@@ -157,6 +161,7 @@ const SettingsDialog = () => {
                   <VibrateButton
                     variant={settings.language === 'en' ? 'contained' : 'outlined'}
                     color={settings.language === 'en' ? 'primary' : 'secondary'}
+                    size='large'
                     onClick={() => handleChangeLanguage('en')}
                   >
                     {t('settings.english')}
@@ -164,6 +169,7 @@ const SettingsDialog = () => {
                   <VibrateButton
                     variant={settings.language === 'fi' ? 'contained' : 'outlined'}
                     color={settings.language === 'fi' ? 'primary' : 'secondary'}
+                    size='large'
                     onClick={() => handleChangeLanguage('fi')}
                   >
                     {t('settings.finnish')}
@@ -176,6 +182,7 @@ const SettingsDialog = () => {
                   <VibrateButton
                     variant={settings.country === 's' ? 'contained' : 'outlined'}
                     color={settings.country === 's' ? 'primary' : 'secondary'}
+                    size='large'
                     onClick={() => handleChangeCountry('s')}
                   >
                     {t('settings.sweden')}
@@ -183,6 +190,7 @@ const SettingsDialog = () => {
                   <VibrateButton
                     variant={settings.country === 'fi' ? 'contained' : 'outlined'}
                     color={settings.country === 'fi' ? 'primary' : 'secondary'}
+                    size='large'
                     onClick={() => handleChangeCountry('fi')}
                   >
                     {t('settings.finland')}
@@ -197,6 +205,7 @@ const SettingsDialog = () => {
               <VibrateButton
                 variant='contained'
                 color='primary'
+                size='large'
                 startIcon={<History />}
                 fullWidth
                 disabled={!user?.plates?.length}
@@ -207,6 +216,7 @@ const SettingsDialog = () => {
               <VibrateButton
                 variant='outlined'
                 color='error'
+                size='large'
                 startIcon={<Delete />}
                 fullWidth
                 disabled={!user?.plates?.length}
@@ -245,14 +255,12 @@ const SettingsDialog = () => {
                 </Box>
               </Box>
 
-              {/* QR code */}
-              {/* <QrDialog /> */}
-
               {/* Buttons */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <VibrateButton
                   variant='outlined'
                   color='primary'
+                  size='large'
                   startIcon={<Logout />}
                   disabled
                   fullWidth
@@ -264,17 +272,18 @@ const SettingsDialog = () => {
                 <VibrateButton
                   variant='outlined'
                   color='error'
+                  size='large'
                   startIcon={<Delete />}
-                  disabled
                   fullWidth
                   onClick={() => setConfirmDeleteUserDialogOpen(true)}
-                  sx={{ textDecoration: 'line-through' }}
+                  // sx={{ textDecoration: 'line-through' }}
                 >
                   {t('settings.delete_account')}
                 </VibrateButton>
                 <VibrateButton
                   variant='outlined'
                   color='warning'
+                  size='large'
                   startIcon={<RestartAltOutlined color='secondary' />}
                   endIcon={<RestartAltOutlined color='secondary' />}
                   fullWidth
@@ -285,6 +294,7 @@ const SettingsDialog = () => {
               </Box>
             </Paper>
           </DialogContent>
+
           <DialogActions>
             <Button variant='contained' size='large' onClick={handleCloseDialog} color='primary'>
               {t('common.close')}

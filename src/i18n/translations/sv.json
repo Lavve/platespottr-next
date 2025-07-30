@@ -24,7 +24,9 @@
     "add_plate_description": "Klicka på \"{add}\" för att lägga till {number}. Glöm inte att kika på topplistan efteråt för att se om du är på väg mot toppen!",
     "add_plate_description_no_friends": "Klicka på \"{add}\" för att lägga till ett nummer. Lägg till dina vänner för att få se vem som kommer först i mål!",
     "add_friend": "Lägg till vän",
-    "add_friend_description": "Lägg till {friendSlug} som vän."
+    "add_friend_description": "Lägg till {friendSlug} som vän.",
+    "show_my_qr": "Visa min QR-kod",
+    "your_platespottr_code": "Din personliga Platespottr-kod"
   },
   "completed": {
     "title": "Du har klarat det!",
@@ -48,16 +50,18 @@
   "statistics": {
     "current_streak": "Aktuell streak",
     "streaks_days_in_a_row": "{streak} dagar i rad",
-    "numbers_per_week": "Nummer per vecka:",
-    "latest_found_number": "Senaste hittade nummer:"
+    "numbers_per_week": "Nummer per vecka",
+    "latest_found_number": "Senaste hittade nummer",
+    "finds_per_day": "Hittade nummer per dag"
   },
   "friends": {
-    "add": "Lägg till i gänget",
-    "remove": "Ta bort från gänget",
-    "show_my_qr": "Visa min QR-kod",
-    "your_platespottr_code": "Din personliga Platespottr-kod",
-    "friends_requests": "Gängförfrågningar",
-    "my_friends": "Mitt gäng"
+    "add": "Lägg till i mitt crew",
+    "remove": "Ta bort från mitt crew",
+    "friends_requests": "Crew-förfrågningar",
+    "awaiting_friends": "Väntande crew",
+    "my_friends": "Mitt crew",
+    "awaiting": "Väntande",
+    "requests": "Förfrågningar"
   },
   "toplist": {
     "number": "Nummer",

@@ -1,19 +1,19 @@
 import { Close } from '@mui/icons-material'
 import { Box, Paper } from '@mui/material'
 import { useMemo } from 'react'
+import VibrateButton from '@/components/common/VibrateButton'
+import UserAvatar from '@/components/user/UserAvatar'
+import UserInfo from '@/components/user/UserInfo'
+import UserPlaceDisplay from '@/components/user/UserPlaceDisplay'
+import UserRequestActions from '@/components/user/UserRequestActions'
+import UserStatsDisplay from '@/components/user/UserStatsDisplay'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
 import type { IUserProps } from '@/types/user'
-import VibrateButton from './common/VibrateButton'
-import UserAvatar from './user/UserAvatar'
-import UserInfo from './user/UserInfo'
-import UserPlaceDisplay from './user/UserPlaceDisplay'
-import UserRequestActions from './user/UserRequestActions'
-import UserStatsDisplay from './user/UserStatsDisplay'
 
 const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   const { user } = useUser()
-  const { maxStreak } = useStatistics(friend.plates)
+  const { maxStreak, findsPerDay } = useStatistics(friend.plates)
   const isSelf = user?.name === friend.name
 
   const friendRequesting = useMemo(() => {
@@ -43,7 +43,9 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         <UserInfo friend={friend} isSelf={isSelf} />
       </Box>
 
-      {!friendRequesting && <UserStatsDisplay friend={friend} maxStreak={maxStreak} scale={scale} place={place} />}
+      {place && (
+        <UserStatsDisplay friend={friend} maxStreak={maxStreak} findsPerDay={findsPerDay} scale={scale} place={place} />
+      )}
 
       {friendRequesting ? (
         <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />

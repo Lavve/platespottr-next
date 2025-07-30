@@ -6,10 +6,10 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
 import QRCode from 'react-qr-code'
 import VibrateButton from '@/components/common/VibrateButton'
+import VibrateIconButton from '@/components/common/VibrateIconButton'
 import { useScreenWakeLock } from '@/hooks/useScreenWakeLock'
 import { useUser } from '@/providers/userProvider'
 import { vibrate } from '@/utils/vibrate'
-import VibrateIconButton from '../common/VibrateIconButton'
 
 const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const t = useTranslations()
@@ -18,8 +18,8 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const { isSupported, isActive, requestWakeLock, releaseWakeLock } = useScreenWakeLock()
 
   const userSlugValue = useMemo(() => {
-    if (!user) return ''
-    return `${process.env.NEXT_PUBLIC_SLUG_URL}/#add-friend=${user.slug}`
+    if (!user || !user.slug) return ''
+    return `${process.env.NEXT_PUBLIC_SLUG_URL}/#add-friend=${encodeURIComponent(user.slug)}`
   }, [user])
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
           startIcon={<QrCode />}
           onClick={() => setQrOpen(true)}
         >
-          {showText && t('friends.show_my_qr')}
+          {showText && t('app.show_my_qr')}
         </VibrateButton>
       ) : (
         <VibrateIconButton color='primary' disabled={!userSlugValue || !user} onClick={() => setQrOpen(true)}>
@@ -88,13 +88,14 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
               }}
             >
               <Typography variant='body2' sx={{ textAlign: 'center' }}>
-                {t('friends.your_platespottr_code')}
+                {t('app.your_platespottr_code')}
               </Typography>
               <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }}>
                 {user.slug}
               </Typography>
             </Paper>
           </DialogContent>
+
           <DialogActions>
             <Button variant='contained' color='primary' size='large' onClick={handleCloseDialog}>
               {t('common.close')}

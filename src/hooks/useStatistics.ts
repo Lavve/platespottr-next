@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { getWeekNumber } from '@/utils/dates'
+import { getDaysBetween, getWeekNumber } from '@/utils/dates'
 
 export const useStatistics = (findings?: number[]) => {
   const getFindingsByWeek = useCallback((findings: number[]): Map<number, number> => {
@@ -66,6 +66,24 @@ export const useStatistics = (findings?: number[]) => {
     return maxStreak
   }, [])
 
+  const calculateFindsPerDay = useCallback((findings: number[]): { days: number; perday: number } => {
+    if (!findings || findings.length < 2) {
+      return { days: 0, perday: 0 }
+    }
+
+    const days = getDaysBetween(new Date(findings[0]))
+    const perday = Math.round((findings.length / days) * 10) / 10
+
+    return { days, perday }
+  }, [])
+
+  const findsPerDay = useMemo(() => {
+    if (!findings || findings.length < 2) {
+      return { days: 0, perday: 0 }
+    }
+    return calculateFindsPerDay(findings)
+  }, [findings, calculateFindsPerDay])
+
   const latestFinding = useMemo(() => {
     if (!findings || findings.length === 0) {
       return null
@@ -86,5 +104,5 @@ export const useStatistics = (findings?: number[]) => {
     return Math.max(...Array.from(findingsByWeek.values()))
   }, [findingsByWeek])
 
-  return { latestFinding, findingsByWeek, maxStreak, maxWeek, calculateMaxStreak }
+  return { latestFinding, findingsByWeek, findsPerDay, maxStreak, maxWeek, calculateMaxStreak, calculateFindsPerDay }
 }

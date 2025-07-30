@@ -24,7 +24,9 @@
     "add_plate_description": "Klikkaa \"{add}\" lisätäksesi {number}. Älä unohda tarkistaa huippulistaa, jotta tiedät, onko sinulla mahdollisuus päästä huipulle!",
     "add_plate_description_no_friends": "Klikkaa \"{add}\" lisätäksesi numero. Lisää ystävät, jotta voit nähdä, kuka saavuttaa ensimmäisenä huipun!",
     "add_friend": "Lisää ystävä",
-    "add_friend_description": "Lisää {friendSlug} ystäväksi."
+    "add_friend_description": "Lisää {friendSlug} ystäväksi.",
+    "show_my_qr": "Näytä QR-koodini",
+    "your_platespottr_code": "Henkilökohtainen Platespottr-koodisi"
   },
   "completed": {
     "title": "Onnistuit!",
@@ -48,16 +50,18 @@
   "statistics": {
     "current_streak": "Nykyinen putki",
     "streaks_days_in_a_row": "{streak} päivää peräkkäin",
-    "numbers_per_week": "Numeroita per viikko:",
-    "latest_found_number": "Viimeisin löydetty numero:"
+    "numbers_per_week": "Numeroita per viikko",
+    "latest_found_number": "Viimeisin löydetty numero",
+    "finds_per_day": "Löydettyjä numeroita per päivä"
   },
   "friends": {
     "add": "Lisää ystävä",
     "remove": "Poista ystävä",
-    "show_my_qr": "Näytä QR-koodini",
-    "your_platespottr_code": "Henkilökohtainen Platespottr-koodisi",
     "friends_requests": "Ystäväpyynnöt",
-    "my_friends": "Omat ystävät"
+    "awaiting_friends": "Odottaa ystäväksi",
+    "my_friends": "Omat ystävät",
+    "awaiting": "Odottaa",
+    "requests": "Pyynnöt"
   },
   "toplist": {
     "number": "Määrä",

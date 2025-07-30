@@ -41,13 +41,14 @@ const base = {
   },
   roadsign: {
     main: '#0067a6',
+    border: '#f7f7f7',
     contrastText: '#f7f7f7',
   },
   regplate: {
     main: '#efefef',
     light: '#fff',
     secondary: '#0067a6',
-    contrastText: '#111',
+    contrastText: '#222',
   },
   gradients: {
     backgroundLight:
@@ -102,10 +103,10 @@ const theme = createTheme({
       contrastText: '#f7f7f7',
     },
     accent: {
-      main: '#ff6b35',
-      light: '#ff8a5c',
-      dark: '#e55a2b',
-      contrastText: '#f7f7f7',
+      main: '#8235FF',
+      light: '#9966FF',
+      dark: '#6600FF',
+      contrastText: '#e1e1e1',
     },
     roadsign: {
       ...base.roadsign,
@@ -172,6 +173,12 @@ export const darkTheme = createTheme({
       dark: '#ccc',
       contrastText: '#000',
     },
+    success: {
+      main: '#008000',
+      light: '#00b300',
+      dark: '#006600',
+      contrastText: '#f7f7f7',
+    },
     warning: {
       main: '#8B6E36',
       light: '#9E773D',
@@ -179,9 +186,9 @@ export const darkTheme = createTheme({
       contrastText: '#e1e1e1',
     },
     accent: {
-      main: '#ff6b35',
-      light: '#ff8a5c',
-      dark: '#e55a2b',
+      main: '#8235FF',
+      light: '#9966FF',
+      dark: '#6600FF',
       contrastText: '#e1e1e1',
     },
     error: {

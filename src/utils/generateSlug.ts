@@ -8,6 +8,6 @@ export const generateSlug = () => {
 }
 
 export const isValidSlug = (slug: string): boolean => {
-  const slugPattern = /^[A-Z]+-[A-Z]+-[A-Z]+$/
+  const slugPattern = /^[A-ZÅÄÖ]+-[A-ZÅÄÖ]+-[A-ZÅÄÖ]+$/
   return slugPattern.test(slug)
 }

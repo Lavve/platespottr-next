@@ -53,3 +53,10 @@ export interface IVibrationOptions {
 }
 
 export type ISortBy = 'plates' | 'streak' | 'percentage'
+export type IFriendsTabs = 'friends' | 'awaiting' | 'requests'
+
+export interface IStatsBlockProps {
+  title: string
+  icon: React.ReactNode
+  children: React.ReactNode
+}

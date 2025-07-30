@@ -3,6 +3,7 @@ export interface IUser {
   plates: number[]
   friendSince?: number
   requesting?: boolean
+  awaiting?: boolean
   slug?: string
 }
 
@@ -35,6 +36,7 @@ export interface IUserAvatar {
 export interface IUserStatsDisplay {
   friend: IUserProps['friend']
   maxStreak: number
+  findsPerDay: { days: number; perday: number }
   scale: number
   place?: number
 }

@@ -9,7 +9,7 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
       variant='contained'
       color='success'
       size='small'
-      sx={{ minWidth: 40 }}
+      sx={{ minWidth: 40, backgroundColor: 'success.dark', color: 'success.contrastText' }}
       onClick={() => onAddFriend?.(friend)}
     >
       <Check />

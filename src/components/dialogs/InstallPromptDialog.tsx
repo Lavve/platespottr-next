@@ -1,7 +1,6 @@
 'use client'
 
 import { Box, Fade, Paper, Slide, Stack, Typography } from '@mui/material'
-import TrapFocus from '@mui/material/Unstable_TrapFocus'
 import { useCallback, useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import Logo from '@/components/Logo'
@@ -58,58 +57,57 @@ export default function InstallPromptDialog() {
   if (!isVisible) return null
 
   return (
-    <TrapFocus open disableAutoFocus disableEnforceFocus>
-      <Slide appear={true} direction='up' in={isVisible}>
-        <Fade appear={false} in={isVisible}>
-          <Paper
-            role='dialog'
-            aria-modal='false'
-            square
-            variant='outlined'
-            tabIndex={-1}
-            sx={{
-              position: 'fixed',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              m: 0,
-              p: 2,
-              borderWidth: 0,
-              borderTopWidth: 1,
-            }}
-          >
-            <Stack direction={{ xs: 'column', md: 'row' }} sx={{ justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                <Box sx={{ flexShrink: 0 }}>
-                  <Logo size={60} />
-                </Box>
-                <Box sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', md: 'center' } }}>
-                  <Typography variant='h6'>Installera Platespottr</Typography>
-                  <Typography variant='body1'>
-                    Installera Platespottr som en app! Då får du snabbare åtkomst, smidigare upplevelse, helskärmsläge
-                    och dessutom offline-stöd.
-                  </Typography>
-                </Box>
+    <Slide appear={true} direction='up' in={isVisible}>
+      <Fade appear={false} in={isVisible}>
+        <Paper
+          role='dialog'
+          aria-modal='false'
+          square
+          variant='outlined'
+          tabIndex={-1}
+          sx={{
+            position: 'fixed',
+            zIndex: 1000,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            m: 0,
+            p: 2,
+            borderWidth: 0,
+            borderTopWidth: 1,
+          }}
+        >
+          <Stack direction={{ xs: 'column', md: 'row' }} sx={{ justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <Box sx={{ flexShrink: 0 }}>
+                <Logo size={60} />
               </Box>
-              <Stack
-                direction='row'
-                sx={{
-                  gap: 2,
-                  flexShrink: 0,
-                  alignSelf: { xs: 'flex-end', md: 'center' },
-                }}
-              >
-                <VibrateButton onClick={handleDismiss} variant='outlined' color='primary'>
-                  Nej tack
-                </VibrateButton>
-                <VibrateButton onClick={handleInstall} variant='contained' color='primary' size='large'>
-                  Installera
-                </VibrateButton>
-              </Stack>
+              <Box sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', md: 'center' } }}>
+                <Typography variant='h6'>Installera Platespottr</Typography>
+                <Typography variant='body1'>
+                  Installera Platespottr som en app! Då får du snabbare åtkomst, smidigare upplevelse, helskärmsläge och
+                  dessutom offline-stöd.
+                </Typography>
+              </Box>
+            </Box>
+            <Stack
+              direction='row'
+              sx={{
+                gap: 2,
+                flexShrink: 0,
+                alignSelf: { xs: 'flex-end', md: 'center' },
+              }}
+            >
+              <VibrateButton onClick={handleDismiss} variant='outlined' color='primary'>
+                Nej tack
+              </VibrateButton>
+              <VibrateButton onClick={handleInstall} variant='contained' color='primary' size='large'>
+                Installera
+              </VibrateButton>
             </Stack>
-          </Paper>
-        </Fade>
-      </Slide>
-    </TrapFocus>
+          </Stack>
+        </Paper>
+      </Fade>
+    </Slide>
   )
 }

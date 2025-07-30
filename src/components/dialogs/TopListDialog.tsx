@@ -1,21 +1,21 @@
 import { EmojiEvents } from '@mui/icons-material'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, Tab, Tabs, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
-import Roadsign from '@/components/Roadsign'
-import User from '@/components/User'
+import DialogHeader from '@/components/dialogs/DialogHeader'
+import User from '@/components/user/User'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
+import theme from '@/style/theme'
 import type { ISortBy } from '@/types/common'
-import { getDaysBetween } from '@/utils/dates'
 import { vibrate } from '@/utils/vibrate'
 
 const TopListDialog = () => {
   const t = useTranslations()
   const { friendList } = useFriends()
-  const { calculateMaxStreak } = useStatistics()
+  const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const { user } = useUser()
   const [sortBy, setSortBy] = useState<ISortBy>('plates')
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -35,14 +35,25 @@ const TopListDialog = () => {
         const bStreak = calculateMaxStreak(bPlates)
         return bStreak - aStreak
       } else if (sortBy === 'percentage') {
-        const aPercentage = (aPlates.length / getDaysBetween(new Date(aPlates[0]))) * 100
-        const bPercentage = (bPlates.length / getDaysBetween(new Date(bPlates[0]))) * 100
-        return bPercentage - aPercentage
+        const aFindsPerDay = calculateFindsPerDay(aPlates)
+        const bFindsPerDay = calculateFindsPerDay(bPlates)
+        return bFindsPerDay.perday - aFindsPerDay.perday
       }
       return 0
     })
     return sortedList
-  }, [friendList, user, sortBy, calculateMaxStreak])
+  }, [friendList, user, sortBy, calculateMaxStreak, calculateFindsPerDay])
+
+  const subHeader = useMemo(() => {
+    if (sortBy === 'plates') {
+      return 'toplist.number_description'
+    } else if (sortBy === 'streak') {
+      return 'toplist.streak_description'
+    } else if (sortBy === 'percentage') {
+      return 'toplist.percentage_description'
+    }
+    return ''
+  }, [sortBy])
 
   const myPlace = useMemo(() => {
     return toplist.findIndex(friend => friend.slug === user?.slug) + 1
@@ -67,7 +78,14 @@ const TopListDialog = () => {
         size='large'
         disabled={friendList.length === 0}
         fullWidth
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 0.5,
+          px: 1,
+          border: `2px solid ${theme.palette.roadsign.contrastText}`,
+        }}
         onClick={() => setDialogOpen(true)}
       >
         <EmojiEvents />
@@ -75,28 +93,16 @@ const TopListDialog = () => {
       </VibrateButton>
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
-          <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('app.toplist')} number={myPlace} />
-          </DialogTitle>
+          <DialogHeader title={t('app.toplist')} number={myPlace} />
+
           <DialogContent>
             <Tabs value={sortBy} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
               <Tab label={t('toplist.number')} value='plates' />
               <Tab label={t('toplist.streak')} value='streak' />
-              <Tab
-                label={t('toplist.percentage')}
-                value='percentage'
-                disabled
-                sx={{ textDecoration: 'line-through' }}
-              />
+              <Tab label={t('toplist.percentage')} value='percentage' />
             </Tabs>
 
-            <Typography variant='h6' sx={{ textAlign: 'center' }}>
-              {sortBy === 'plates'
-                ? t('toplist.number_description')
-                : sortBy === 'streak'
-                  ? t('toplist.streak_description')
-                  : t('toplist.percentage_description')}
-            </Typography>
+            <Typography variant='h6'>{t(subHeader)}</Typography>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
               {toplist.map((friend, place) => (
@@ -108,8 +114,9 @@ const TopListDialog = () => {
               {t('toplist.toplist_tagline')}
             </Typography>
           </DialogContent>
+
           <DialogActions>
-            <Button variant='contained' color='primary' onClick={handleCloseDialog}>
+            <Button variant='contained' size='large' color='primary' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>
           </DialogActions>

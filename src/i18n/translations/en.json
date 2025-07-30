@@ -23,8 +23,10 @@
     "add_plate": "Add number",
     "add_plate_description": "Click \"{add}\" to add {number}. Don't forget to check the prize list after to see if you're on your way to the top!",
     "add_plate_description_no_friends": "Click \"{add}\" to add a number. Add your friends to see who will be the first to reach the top!",
-    "add_friend": "Add friend",
-    "add_friend_description": "Add {friendSlug} as a friend."
+    "add_friend": "Add to my crew",
+    "add_friend_description": "Add {friendSlug} to my crew.",
+    "show_my_qr": "Show my QR code",
+    "your_platespottr_code": "Your Platespottr code"
   },
   "completed": {
     "title": "You did it!",
@@ -48,16 +50,18 @@
   "statistics": {
     "current_streak": "Current streak",
     "streaks_days_in_a_row": "{streak} days in a row",
-    "numbers_per_week": "Numbers per week:",
-    "latest_found_number": "Latest found number:"
+    "numbers_per_week": "Numbers per week",
+    "latest_found_number": "Latest found number",
+    "finds_per_day": "Finds per day"
   },
   "friends": {
-    "add": "Add friend",
-    "remove": "Remove friend",
-    "show_my_qr": "Show my QR code",
-    "your_platespottr_code": "Your personal Platespottr code",
+    "add": "Add to my crew",
+    "remove": "Remove from my crew",
     "friends_requests": "Friend requests",
-    "my_friends": "My friends"
+    "awaiting_friends": "Awaiting crew",
+    "my_friends": "My crew",
+    "awaiting": "Awaiting",
+    "requests": "Requests"
   },
   "toplist": {
     "number": "Number",

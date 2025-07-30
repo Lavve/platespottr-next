@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Divider,
   FormControlLabel,
   FormGroup,
@@ -20,8 +19,8 @@ import {
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
+import DialogHeader from '@/components/dialogs/DialogHeader'
 import Logo from '@/components/Logo'
-import Roadsign from '@/components/Roadsign'
 import { VIBRATE_ALERT } from '@/constants/app'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
@@ -76,6 +75,7 @@ const RulesDialog = () => {
         color='primary'
         size='large'
         fullWidth
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, px: 1 }}
         startIcon={<MenuBook />}
         onClick={() => setDialogOpen(true)}
       >
@@ -93,9 +93,8 @@ const RulesDialog = () => {
             }
           }}
         >
-          <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Roadsign text={t('app.rules')} />
-          </DialogTitle>
+          <DialogHeader title={t('app.rules')} />
+
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
               <Typography component='h3' variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

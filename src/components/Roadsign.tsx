@@ -2,10 +2,10 @@ import { Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
 import type { IRoadsignProps } from '@/types/common'
 
-const fontTratex = localFont({
+const fontOcrb = localFont({
   src: [
     {
-      path: '../assets/fonts/Tratex.woff2',
+      path: '../assets/fonts/ocrb.woff2',
       weight: '400',
       style: 'normal',
     },
@@ -17,14 +17,14 @@ const Roadsign = ({ number, text }: IRoadsignProps) => {
     <Card
       sx={{
         width: 'fit-content',
-        px: 2,
+        px: 3,
         py: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: 2,
         borderRadius: 2,
-        border: '4px solid #fff',
+        border: '3px solid #fff',
         background: 'var(--roadsign-gradient)',
         textTransform: 'uppercase',
         userSelect: 'none',
@@ -34,9 +34,9 @@ const Roadsign = ({ number, text }: IRoadsignProps) => {
     >
       {number && (
         <Typography
-          variant='h6'
+          variant='h5'
           sx={{
-            fontFamily: fontTratex.style.fontFamily,
+            fontFamily: fontOcrb.style.fontFamily,
             color: 'roadsign.contrastText',
           }}
         >
@@ -44,9 +44,9 @@ const Roadsign = ({ number, text }: IRoadsignProps) => {
         </Typography>
       )}
       <Typography
-        variant='h6'
+        variant='h5'
         sx={{
-          fontFamily: fontTratex.style.fontFamily,
+          fontFamily: fontOcrb.style.fontFamily,
           color: 'roadsign.contrastText',
         }}
       >

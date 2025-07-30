@@ -12,12 +12,13 @@ export const useHashNavigation = () => {
   })
 
   const parseHash = useCallback((hash: string): IHashNavigationState => {
-    const addFriendHash = hash.match(/^#add-friend=([\w-]+)$/)
+    const addFriendHash = hash.match(/^#add-friend=(.+)$/)
+    const friendHashDencoded = decodeURIComponent(addFriendHash?.[1] || '')
     const addPlateHash = hash.match(/^#add-plate$/)
 
-    if (addFriendHash && isValidSlug(addFriendHash[1])) {
+    if (addFriendHash && isValidSlug(friendHashDencoded)) {
       return {
-        friendSlug: addFriendHash[1],
+        friendSlug: friendHashDencoded,
         isAddFriendDialogOpen: true,
         isAddPlateDialogOpen: false,
       }

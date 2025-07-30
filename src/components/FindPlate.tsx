@@ -7,6 +7,7 @@ import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
 import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
 import { useUser } from '@/providers/userProvider'
+import theme from '@/style/theme'
 import { vibrate } from '@/utils/vibrate'
 
 const FindPlate = () => {
@@ -23,7 +24,6 @@ const FindPlate = () => {
 
     const elapsed = Date.now() - startTimeRef.current
     const newProgress = (elapsed / HOLD_DURATION) * 100
-    console.log({ newProgress })
     setProgress(Math.min(newProgress, 100))
 
     if (newProgress < 100) {
@@ -100,8 +100,10 @@ const FindPlate = () => {
           onTouchEnd={endHold}
           onContextMenu={e => e.preventDefault()}
           sx={{
-            fontSize: { xs: '1.5rem', sm: '1.75rem' },
+            fontSize: '1.5rem',
+            fontWeight: 700,
             userSelect: 'none',
+            border: `3px solid ${theme.palette.roadsign.contrastText}`,
             WebkitTouchCallout: 'none',
             touchAction: 'manipulation',
             width: 120,
@@ -118,15 +120,14 @@ const FindPlate = () => {
           <CircularProgress
             variant='determinate'
             value={progress}
-            size={140}
-            thickness={5}
+            size={145}
+            thickness={4}
             sx={{
               pointerEvents: 'none',
               color: 'secondary.main',
-              opacity: 0.9,
               position: 'absolute',
-              top: -10,
-              left: -10,
+              top: -12,
+              left: -12,
               zIndex: 1,
               '& .MuiCircularProgress-circle': {
                 transition: 'none',

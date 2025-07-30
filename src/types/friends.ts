@@ -1,4 +1,5 @@
 import type { IUser } from '@/types/user'
+import type { IFriendsTabs } from './common'
 
 export interface IFriendProps {
   friend: IUser | null
@@ -10,9 +11,11 @@ export interface IFriendProps {
 export interface IFriendsContext {
   friendsAll: IUser[] | null
   friendRequests: IUser[]
+  awaitingFriends: IUser[]
   friendList: IUser[]
-  addFriend: (friend: IUser) => void
-  removeFriend: (id: string) => number
+  addFriend: (friend: IUser) => number
+  removeFriend: (id: string, tab: IFriendsTabs) => number
+  removeAllFriends: () => void
   resetFriends: () => void
 }
 

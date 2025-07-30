@@ -14,7 +14,6 @@ import Streak from '@/components/Streak'
 import { useHashNavigation } from '@/hooks/useHashNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
-import { generateSlug } from '@/utils/generateSlug'
 
 export default function HomePage() {
   const t = useTranslations()
@@ -33,34 +32,19 @@ export default function HomePage() {
     return friendsAll?.find(f => f.slug === friendSlug) || null
   }, [friendsAll, friendSlug])
 
-  // const addPlateContent = useMemo(() => {
-  //   return friendsAll && friendsAll.length > 0
-  //     ? t('app.add_plate_description', {
-  //         add: t('common.add'),
-  //         number: user?.plates.length.toString().padStart(3, '0') || '000',
-  //       })
-  //     : t('app.add_plate_description_no_friends', {
-  //         add: t('common.add'),
-  //         number: user?.plates.length.toString().padStart(3, '0') || '000',
-  //       })
-  // }, [friendsAll, t, user?.plates])
-
   const addFriendContent = useMemo(() => {
     return t('app.add_friend_description', { friendSlug: friendSlug || '' })
   }, [friendSlug, t])
 
-  // const handleAddPlate = useCallback(() => {
-  //   clearHash()
-  //   if (!user) return
-  //   saveUser({ ...user, plates: [...user.plates, Date.now()] })
-  // }, [clearHash, user, saveUser])
-
-  const handleAddFriend = useCallback(() => {
-    clearHash()
-    if (!friendSlug) return // TODO: Show snackbar
-    if (foundFriend) return // TODO: Show snackbar
-    addFriend({ name: 'Stina', slug: generateSlug(), plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
-  }, [clearHash, friendSlug, foundFriend, addFriend])
+  const handleAddFriend = useCallback(
+    (friendSlug: string) => {
+      clearHash()
+      if (!friendSlug) return // TODO: Show snackbar, no slug
+      if (foundFriend) return // TODO: Show snackbar, friend already in list
+      addFriend({ name: 'Stina', slug: friendSlug, plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
+    },
+    [clearHash, foundFriend, addFriend]
+  )
 
   return (
     <Container
@@ -74,17 +58,19 @@ export default function HomePage() {
         height: '100vh',
       }}
     >
-      <Paper
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, p: 2, borderRadius: 2 }}
-        elevation={5}
-      >
-        <Logo size={50} />
-        <Typography
-          component='h1'
-          variant='h4'
-          sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
-        >
-          latespottr
+      <Paper sx={{ p: 2, borderRadius: 2 }} elevation={5}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
+          <Logo size={50} />
+          <Typography
+            component='h1'
+            variant='h4'
+            sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
+          >
+            latespottr
+          </Typography>
+        </Box>
+        <Typography variant='body1' sx={{ textAlign: 'center' }}>
+          {user?.slug}
         </Typography>
       </Paper>
 
@@ -96,19 +82,10 @@ export default function HomePage() {
       <PageActionButtons />
 
       <AddNumberDialog />
-
-      {/* <ConfirmDialog
-        title={t('app.add_plate')}
-        content={addPlateContent}
-        onConfirm={handleAddPlate}
-        open={isAddPlateDialogOpen}
-        onClose={() => clearHash()}
-        confirmText={t('common.add')}
-      /> */}
       <ConfirmDialog
         title={t('app.add_friend')}
         content={addFriendContent}
-        onConfirm={handleAddFriend}
+        onConfirm={() => handleAddFriend(friendSlug || '')}
         open={isAddFriendDialogOpen}
         onClose={() => clearHash()}
       />

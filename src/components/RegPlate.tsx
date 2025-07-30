@@ -1,9 +1,10 @@
 'use client'
 
-import { Box, Card, Typography } from '@mui/material'
+import { Box, Card } from '@mui/material'
 import localFont from 'next/font/local'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSettings } from '@/providers/settingsProvider'
+import theme from '@/style/theme'
 import type { IPlateProps } from '@/types/common'
 import { generateRandomLetters } from '@/utils/generatePlateLetters'
 
@@ -23,10 +24,6 @@ const RegPlate = ({ number }: IPlateProps) => {
   const key = useRef(0)
   const [letters, setLetters] = useState('')
 
-  // const letters = useMemo(() => {
-  //   return generateRandomLetters(number)
-  // }, [number])
-
   useEffect(() => {
     setLetters(generateRandomLetters(number))
   }, [number])
@@ -42,9 +39,15 @@ const RegPlate = ({ number }: IPlateProps) => {
   const wrappedLetters = useMemo(() => {
     return lettersArray.map(letter => (
       <Box
+        id={`letter-${letter}`}
         key={`${letter}-${key.current++}`}
         component='span'
-        sx={{ display: 'inline-block', minWidth: { xs: '2rem', sm: '2.25rem' }, textAlign: 'center' }}
+        sx={{
+          display: 'inline-block',
+          minWidth: { xs: '2rem', sm: '2.25rem' },
+          textAlign: 'center',
+          textTransform: 'uppercase',
+        }}
       >
         {letter}
       </Box>
@@ -74,7 +77,7 @@ const RegPlate = ({ number }: IPlateProps) => {
         borderRadius: 2,
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
-        border: '4px solid #000',
+        border: `4px solid ${theme.palette.regplate.contrastText}`,
         userSelect: 'none',
       }}
       elevation={7}
@@ -128,7 +131,7 @@ const RegPlate = ({ number }: IPlateProps) => {
           background: 'var(--regplate-gradient)',
         }}
       >
-        <Typography
+        <Box
           sx={{
             fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
@@ -138,8 +141,8 @@ const RegPlate = ({ number }: IPlateProps) => {
           }}
         >
           {wrappedLetters}
-        </Typography>
-        <Typography
+        </Box>
+        <Box
           sx={{
             fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
@@ -149,7 +152,7 @@ const RegPlate = ({ number }: IPlateProps) => {
           }}
         >
           {wrappedNumbers}
-        </Typography>
+        </Box>
       </Box>
     </Card>
   )
