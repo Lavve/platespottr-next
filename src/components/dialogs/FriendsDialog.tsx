@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  Divider,
   Tab,
   Tabs,
   Typography,
@@ -19,6 +20,7 @@ import VibrateButton from '@/components/common/VibrateButton'
 import VibrateIconButton from '@/components/common/VibrateIconButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
+import QRScannerDialog from '@/components/dialogs/QRScannerDialog'
 import User from '@/components/user/User'
 import { DISABLE_REFRESH_REQUESTS_TIME } from '@/constants/app'
 import { useFriends } from '@/providers/friendsProvider'
@@ -183,6 +185,8 @@ const FriendsDialog = () => {
           <DialogHeader title={t('app.friends')} number={badgeCount} />
 
           <DialogContent>
+            <QRScannerDialog />
+            <Divider sx={{ my: 2 }} />
             <Tabs value={friendsTab} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
               <Tab
                 label={

@@ -7,7 +7,17 @@ import type { IUser } from '@/types/user'
 const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
 const FriendsProvider = ({ children }: IProviderProps) => {
-  const [friendsAll, setFriendsAll] = useState<IUser[] | null>(defaultFriends)
+  const [friendsAll, setFriendsAll] = useState<IUser[] | null>(null)
+
+  useEffect(() => {
+    const storedFriends = localStorage.getItem('PS_friends')
+    if (storedFriends) {
+      setFriendsAll(JSON.parse(storedFriends))
+    } else {
+      setFriendsAll(defaultFriends)
+      localStorage.setItem('PS_friends', JSON.stringify(defaultFriends))
+    }
+  }, [])
 
   const awaitingFriends = useMemo(
     () => friendsAll?.filter(friend => friend.awaiting).sort((a, b) => a.name.localeCompare(b.name)) || [],

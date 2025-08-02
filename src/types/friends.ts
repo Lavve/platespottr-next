@@ -20,7 +20,7 @@ export interface IFriendsContext {
 }
 
 export interface IAddFriendsDialogProps {
-  friendSlug: string | null
-  open: boolean
+  friend: { name: string; slug: string } | null
+  isAddFriendDialogOpen: boolean
   onClose: () => void
 }

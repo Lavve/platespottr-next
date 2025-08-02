@@ -1,25 +1,19 @@
 'use client'
 
 import { Box, Container, Paper, Typography } from '@mui/material'
-import { useTranslations } from 'next-intl'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
+import AddFriendDialog from '@/components/dialogs/AddFriendDialog'
 import AddNumberDialog from '@/components/dialogs/AddNumberDialog'
 import CompleteDialog from '@/components/dialogs/CompleteDialog'
-import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import InstallPromptDialog from '@/components/dialogs/InstallPromptDialog'
 import FindPlate from '@/components/FindPlate'
 import Logo from '@/components/Logo'
 import PageActionButtons from '@/components/PageActionButtons'
 import Streak from '@/components/Streak'
-import { useHashNavigation } from '@/hooks/useHashNavigation'
-import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
 
 export default function HomePage() {
-  const t = useTranslations()
   const { user } = useUser()
-  const { friendsAll, addFriend } = useFriends()
-  const { friendSlug, isAddFriendDialogOpen, clearHash } = useHashNavigation()
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -27,24 +21,6 @@ export default function HomePage() {
       setIsCompleteDialogOpen(true)
     }
   }, [user?.plates])
-
-  const foundFriend = useMemo(() => {
-    return friendsAll?.find(f => f.slug === friendSlug) || null
-  }, [friendsAll, friendSlug])
-
-  const addFriendContent = useMemo(() => {
-    return t('app.add_friend_description', { friendSlug: friendSlug || '' })
-  }, [friendSlug, t])
-
-  const handleAddFriend = useCallback(
-    (friendSlug: string) => {
-      clearHash()
-      if (!friendSlug) return // TODO: Show snackbar, no slug
-      if (foundFriend) return // TODO: Show snackbar, friend already in list
-      addFriend({ name: 'Stina', slug: friendSlug, plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
-    },
-    [clearHash, foundFriend, addFriend]
-  )
 
   return (
     <Container
@@ -82,13 +58,7 @@ export default function HomePage() {
       <PageActionButtons />
 
       <AddNumberDialog />
-      <ConfirmDialog
-        title={t('app.add_friend')}
-        content={addFriendContent}
-        onConfirm={() => handleAddFriend(friendSlug || '')}
-        open={isAddFriendDialogOpen}
-        onClose={() => clearHash()}
-      />
+      <AddFriendDialog />
 
       <InstallPromptDialog />
       <CompleteDialog open={isCompleteDialogOpen} onClose={() => setIsCompleteDialogOpen(false)} />

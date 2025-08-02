@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3030",
+    "dev:https": "node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "biome lint ./src",
@@ -19,6 +20,8 @@
     "@fontsource/roboto": "^5.2.6",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
+    "@tanstack/react-query": "^5.83.1",
+    "jsqr": "^1.4.0",
     "next": "15.4.1",
     "next-intl": "^4.3.4",
     "react": "19.1.0",

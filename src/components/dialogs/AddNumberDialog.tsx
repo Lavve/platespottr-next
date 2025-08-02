@@ -3,13 +3,13 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
-import { useHashNavigation } from '@/hooks/useHashNavigation'
+import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
 import DialogHeader from './DialogHeader'
 
 const AddNumberDialog = () => {
-  const { isAddPlateDialogOpen, clearHash } = useHashNavigation()
+  const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
   const [dialogOpen, setDialogOpen] = useState(isAddPlateDialogOpen)
   const t = useTranslations()
   const { user, saveUser } = useUser()
@@ -27,16 +27,16 @@ const AddNumberDialog = () => {
   }, [friendsAll, t, user?.plates])
 
   const handleAddPlate = useCallback(() => {
-    clearHash()
+    clearQuery()
     if (!user) return
     saveUser({ ...user, plates: [...user.plates, Date.now()] })
     setDialogOpen(false)
-  }, [clearHash, user, saveUser])
+  }, [clearQuery, user, saveUser])
 
   const handleClose = useCallback(() => {
-    clearHash()
+    clearQuery()
     setDialogOpen(false)
-  }, [clearHash])
+  }, [clearQuery])
 
   useEffect(() => {
     setDialogOpen(isAddPlateDialogOpen)

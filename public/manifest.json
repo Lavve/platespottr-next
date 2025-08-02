@@ -22,7 +22,7 @@
   "shortcuts": [
     {
       "name": "Lägg till siffra",
-      "url": "/#add-plate",
+      "url": "/?add-plate",
       "icons": [
         {
           "src": "/icons/logo_x96.png",

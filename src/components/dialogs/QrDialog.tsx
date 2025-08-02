@@ -19,7 +19,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
 
   const userSlugValue = useMemo(() => {
     if (!user || !user.slug) return ''
-    return `${process.env.NEXT_PUBLIC_SLUG_URL}/#add-friend=${encodeURIComponent(user.slug)}`
+    return `${process.env.NEXT_PUBLIC_SLUG_URL}/?add-friend=${encodeURIComponent(user.slug)}&name=${encodeURIComponent(user.name)}`
   }, [user])
 
   useEffect(() => {

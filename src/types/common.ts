@@ -41,8 +41,8 @@ export interface IBeforeInstallPromptEvent extends Event {
   }>
 }
 
-export interface IHashNavigationState {
-  friendSlug: string | null
+export interface IQueryNavigationState {
+  friend: { name: string; slug: string } | null
   isAddFriendDialogOpen: boolean
   isAddPlateDialogOpen: boolean
 }

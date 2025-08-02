@@ -23,8 +23,7 @@
     "add_plate": "Lägg till nummer",
     "add_plate_description": "Klicka på \"{add}\" för att lägga till {number}. Glöm inte att kika på topplistan efteråt för att se om du är på väg mot toppen!",
     "add_plate_description_no_friends": "Klicka på \"{add}\" för att lägga till ett nummer. Lägg till dina vänner för att få se vem som kommer först i mål!",
-    "add_friend": "Lägg till vän",
-    "add_friend_description": "Lägg till {friendSlug} som vän.",
+    "add_friend": "Lägg till i mitt crew",
     "show_my_qr": "Visa min QR-kod",
     "your_platespottr_code": "Din personliga Platespottr-kod"
   },
@@ -61,7 +60,16 @@
     "awaiting_friends": "Väntande crew",
     "my_friends": "Mitt crew",
     "awaiting": "Väntande",
-    "requests": "Förfrågningar"
+    "requests": "Förfrågningar",
+    "scan_qr_code_title": "Skanna QR-kod",
+    "scan_qr_code_description": "Skanna din vänns QR-kod för att lägga till i mitt crew",
+    "add_friend_description": "Lägg till <strong>{friendName}</strong> i mitt crew.",
+    "scan_qr_code": "Skanna QR-kod",
+    "send_friend_request": "Skicka förfrågan",
+    "send_friend_request_description": "Vill du skicka vänförfrågan till <strong>{friendName}</strong>?",
+    "error_camera": "Kunde inte hitta kamera",
+    "error_finding_camera": "Kunde inte hitta någon kamera för att skanna QR-kod",
+    "not_valid_qr_code": "Inte en giltig Platespottr QR-kod"
   },
   "toplist": {
     "number": "Nummer",
