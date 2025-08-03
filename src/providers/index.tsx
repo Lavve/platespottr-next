@@ -1,29 +1,21 @@
 'use client'
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import type { AbstractIntlMessages } from 'next-intl'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { NextIntlClientProvider } from 'next-intl'
 import type { ReactNode } from 'react'
-import { useMemo } from 'react'
-import FriendsProvider from '@/providers/friendsProvider'
-import SettingsProvider, { useSettings } from '@/providers/settingsProvider'
-import UserProvider from '@/providers/userProvider'
+import { useMemo, useState } from 'react'
+import { SnackbarProvider } from '@/components/common/SnackbarProvider'
 import theme, { darkTheme } from '@/style/theme'
-import { I18nClientProvider } from './I18nClientProvider'
+import FriendsProvider from './friendsProvider'
+import SettingsProvider, { useSettings } from './settingsProvider'
+import UserProvider from './userProvider'
 
-type IProvidersProps = {
-  messages: AbstractIntlMessages
+interface ProvidersProps {
+  children: React.ReactNode
+  messages: Record<string, unknown>
   locale: string
-  children: ReactNode
-}
-
-const Providers = ({ messages, locale, children }: IProvidersProps) => {
-  return (
-    <I18nClientProvider messages={messages} locale={locale}>
-      <SettingsProvider>
-        <ThemeWrapper>{children}</ThemeWrapper>
-      </SettingsProvider>
-    </I18nClientProvider>
-  )
 }
 
 const ThemeWrapper = ({ children }: { children: ReactNode }) => {
@@ -36,6 +28,36 @@ const ThemeWrapper = ({ children }: { children: ReactNode }) => {
         <MuiThemeProvider theme={currentTheme}>{children}</MuiThemeProvider>
       </FriendsProvider>
     </UserProvider>
+  )
+}
+
+const Providers = ({ children, messages, locale }: ProvidersProps) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000,
+          },
+        },
+      })
+  )
+
+  return (
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider>
+          <UserProvider>
+            <SettingsProvider>
+              <ThemeWrapper>
+                <FriendsProvider>{children}</FriendsProvider>
+              </ThemeWrapper>
+            </SettingsProvider>
+          </UserProvider>
+        </SnackbarProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </NextIntlClientProvider>
   )
 }
 

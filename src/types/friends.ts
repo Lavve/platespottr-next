@@ -9,14 +9,17 @@ export interface IFriendProps {
 }
 
 export interface IFriendsContext {
-  friendsAll: IUser[] | null
+  friendsAll: IUser[]
   friendRequests: IUser[]
   awaitingFriends: IUser[]
   friendList: IUser[]
-  addFriend: (friend: IUser) => number
-  removeFriend: (id: string, tab: IFriendsTabs) => number
+  addFriend: (friendSlug: string) => number
+  removeFriend: (friendId: string, tab: IFriendsTabs) => number
   removeAllFriends: () => void
   resetFriends: () => void
+  isLoading: boolean
+  confirmFriendRequest: (params: { receiverId: string; requesterId: string }) => void
+  isConfirmingFriend: boolean
 }
 
 export interface IAddFriendsDialogProps {

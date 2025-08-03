@@ -6,13 +6,15 @@ import { useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
 import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
+import { useAddNumber } from '@/hooks/useApi'
 import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
 import { vibrate } from '@/utils/vibrate'
 
 const FindPlate = () => {
   const t = useTranslations()
-  const { user, saveUser } = useUser()
+  const { user } = useUser()
+  const addNumberMutation = useAddNumber()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
   const releaseRef = useRef<number | null>(null)
@@ -29,7 +31,9 @@ const FindPlate = () => {
     if (newProgress < 100) {
       animationRef.current = requestAnimationFrame(updateProgress)
     } else {
-      saveUser({ ...user, plates: [...user.plates, Date.now()] })
+      if (user.id) {
+        addNumberMutation.mutate(user.id)
+      }
       vibrate(VIBRATE_SUCCESS)
       endHold()
     }
@@ -86,7 +90,7 @@ const FindPlate = () => {
     >
       <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
-      <RegPlate number={user.plates.length + 1} />
+      <RegPlate number={(user.numbers?.length || 0) + 1} />
 
       <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
         <VibrateButton

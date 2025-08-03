@@ -89,7 +89,7 @@ const FriendsDialog = () => {
   }, [friendsTab])
 
   const handleAddFriend = (friend: IUser) => {
-    const friendsRequestsLength = addFriend(friend)
+    const friendsRequestsLength = addFriend(friend.slug)
 
     if (friendsRequestsLength < 1) {
       setFriendsTab('friends')
@@ -102,7 +102,7 @@ const FriendsDialog = () => {
   }
 
   const handleConfirmRemoveFriend = () => {
-    const friendsLeft = removeFriend(friendToRemove?.name as string, friendsTab)
+    const friendsLeft = removeFriend(friendToRemove?.slug as string, friendsTab)
     setConfirmOpen(false)
 
     if ((friendsTab === 'awaiting' && friendsLeft < 1) || (friendsTab === 'requests' && friendsLeft < 1)) {

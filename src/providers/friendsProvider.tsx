@@ -1,88 +1,78 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { defaultFriends } from '@/constants/friends'
+'use client'
+
+import { createContext, useCallback, useContext, useMemo } from 'react'
+import {
+  useAddFriendRequest,
+  useConfirmFriendRequest,
+  useFriendsQuery,
+  useIncomingFriendRequestsQuery,
+  useOutgoingFriendRequestsQuery,
+  useRemoveFriend,
+} from '@/hooks/useApi'
 import type { IFriendsTabs, IProviderProps } from '@/types/common'
 import type { IFriendsContext } from '@/types/friends'
 import type { IUser } from '@/types/user'
+import { useUser } from './userProvider'
 
 const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
 const FriendsProvider = ({ children }: IProviderProps) => {
-  const [friendsAll, setFriendsAll] = useState<IUser[] | null>(null)
+  const { user } = useUser()
 
-  useEffect(() => {
-    const storedFriends = localStorage.getItem('PS_friends')
-    if (storedFriends) {
-      setFriendsAll(JSON.parse(storedFriends))
-    } else {
-      setFriendsAll(defaultFriends)
-      localStorage.setItem('PS_friends', JSON.stringify(defaultFriends))
-    }
-  }, [])
+  const { data: friendsAll = [], isLoading: friendsLoading } = useFriendsQuery(user?.id || '')
+  const { data: incomingRequests = [], isLoading: incomingLoading } = useIncomingFriendRequestsQuery(user?.id || '')
+  const { data: outgoingRequests = [], isLoading: outgoingLoading } = useOutgoingFriendRequestsQuery(user?.id || '')
+
+  const addFriendMutation = useAddFriendRequest()
+  const confirmFriendMutation = useConfirmFriendRequest()
+  const removeFriendMutation = useRemoveFriend()
 
   const awaitingFriends = useMemo(
-    () => friendsAll?.filter(friend => friend.awaiting).sort((a, b) => a.name.localeCompare(b.name)) || [],
-    [friendsAll]
+    () => incomingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)),
+    [incomingRequests]
   )
 
   const friendRequests = useMemo(
-    () => friendsAll?.filter(friend => friend.requesting).sort((a, b) => a.name.localeCompare(b.name)) || [],
-    [friendsAll]
+    () => outgoingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)),
+    [outgoingRequests]
   )
 
-  const friendList = useMemo(
-    () =>
-      friendsAll
-        ?.filter(friend => !friend.requesting && !friend.awaiting)
-        .sort((a, b) => a.name.localeCompare(b.name)) || [],
-    [friendsAll]
-  )
-
-  useEffect(() => {
-    const storedFriends = localStorage.getItem('PS_friends')
-    if (storedFriends) {
-      setFriendsAll(JSON.parse(storedFriends))
-    } else {
-      setFriendsAll(defaultFriends)
-      localStorage.setItem('PS_friends', JSON.stringify(defaultFriends))
-    }
-  }, [])
+  const friendList = useMemo(() => friendsAll.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)), [friendsAll])
 
   const addFriend = useCallback(
-    (friend: IUser) => {
-      const filteredFriends = friendsAll?.filter(f => f.name !== friend.name) || []
-      const newFriends = [...filteredFriends, { ...friend, requesting: false, friendSince: Date.now() }]
-      setFriendsAll(newFriends)
-      localStorage.setItem('PS_friends', JSON.stringify(newFriends))
-
-      return newFriends.filter(friend => friend.requesting).length
+    (friendSlug: string) => {
+      if (user?.id) {
+        addFriendMutation.mutate({ requesterId: user.id, receiverSlug: friendSlug })
+      }
+      return friendRequests.length
     },
-    [friendsAll]
+    [user?.id, addFriendMutation, friendRequests.length]
   )
 
   const removeFriend = useCallback(
-    (name: string, tab: IFriendsTabs): number => {
-      const newFriends = friendsAll?.filter(friend => friend.name !== name) || []
-      setFriendsAll(newFriends)
-      localStorage.setItem('PS_friends', JSON.stringify(newFriends))
+    (friendSlug: string, tab: IFriendsTabs): number => {
+      if (user?.id) {
+        removeFriendMutation.mutate({ userId: user.id, otherUserSlug: friendSlug })
+      }
 
       if (tab === 'awaiting') {
-        return newFriends.filter(friend => friend.awaiting).length
+        return awaitingFriends.length - 1
       } else if (tab === 'requests') {
-        return newFriends.filter(friend => friend.requesting).length
+        return friendRequests.length - 1
       }
-      return newFriends.filter(friend => !friend.awaiting && !friend.requesting).length
+      return friendList.length - 1
     },
-    [friendsAll]
+    [user?.id, removeFriendMutation, awaitingFriends.length, friendRequests.length, friendList.length]
   )
 
   const removeAllFriends = useCallback(() => {
-    setFriendsAll([])
-    localStorage.removeItem('PS_friends')
+    // This would need to be implemented as a bulk operation if the API supports it
+    console.log('Remove all friends - not implemented')
   }, [])
 
   const resetFriends = useCallback(() => {
-    setFriendsAll(defaultFriends)
-    localStorage.setItem('PS_friends', JSON.stringify(defaultFriends))
+    // This would clear the cache
+    console.log('Reset friends - not implemented')
   }, [])
 
   const value = useMemo(
@@ -95,8 +85,24 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       removeFriend,
       removeAllFriends,
       resetFriends,
+      isLoading: friendsLoading || incomingLoading || outgoingLoading,
+      confirmFriendRequest: confirmFriendMutation.mutate,
+      isConfirmingFriend: confirmFriendMutation.isPending,
     }),
-    [friendsAll, friendRequests, awaitingFriends, friendList, addFriend, removeFriend, removeAllFriends, resetFriends]
+    [
+      friendsAll,
+      friendRequests,
+      awaitingFriends,
+      friendList,
+      addFriend,
+      removeFriend,
+      removeAllFriends,
+      resetFriends,
+      friendsLoading,
+      incomingLoading,
+      outgoingLoading,
+      confirmFriendMutation,
+    ]
   )
 
   return <FriendsContext.Provider value={value}>{children}</FriendsContext.Provider>

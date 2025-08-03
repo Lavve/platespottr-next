@@ -8,7 +8,7 @@ import { useUser } from '@/providers/userProvider'
 const Streak = () => {
   const t = useTranslations()
   const { user } = useUser()
-  const { maxStreak } = useStatistics(user?.plates || [])
+  const { maxStreak } = useStatistics(user?.numbers || [])
 
   const scale = useMemo(() => {
     return Math.min(1.75, 1 + 0.15 * maxStreak)

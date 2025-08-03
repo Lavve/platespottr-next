@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
+import { useAddNumber } from '@/hooks/useApi'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
@@ -12,11 +13,12 @@ const AddNumberDialog = () => {
   const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
   const [dialogOpen, setDialogOpen] = useState(isAddPlateDialogOpen)
   const t = useTranslations()
-  const { user, saveUser } = useUser()
+  const { user } = useUser()
   const { friendsAll } = useFriends()
+  const addNumberMutation = useAddNumber()
 
   const addPlateContent = useMemo(() => {
-    const number = ((user?.plates.length || 1) + 1).toString().padStart(3, '0')
+    const number = ((user?.numbers?.length || 1) + 1).toString().padStart(3, '0')
     const translateStr =
       friendsAll && friendsAll.length > 0 ? 'app.add_plate_description' : 'app.add_plate_description_no_friends'
 
@@ -24,14 +26,14 @@ const AddNumberDialog = () => {
       add: t('common.add'),
       number,
     })
-  }, [friendsAll, t, user?.plates])
+  }, [friendsAll, t, user?.numbers])
 
   const handleAddPlate = useCallback(() => {
     clearQuery()
-    if (!user) return
-    saveUser({ ...user, plates: [...user.plates, Date.now()] })
+    if (!user?.id) return
+    addNumberMutation.mutate(user.id)
     setDialogOpen(false)
-  }, [clearQuery, user, saveUser])
+  }, [clearQuery, user?.id, addNumberMutation])
 
   const handleClose = useCallback(() => {
     clearQuery()
@@ -50,7 +52,7 @@ const AddNumberDialog = () => {
         <Typography variant='body1' sx={{ mb: 2 }}>
           {addPlateContent}
         </Typography>
-        <RegPlate number={(user?.plates.length || 0) + 1} />
+        <RegPlate number={(user?.numbers?.length || 0) + 1} />
       </DialogContent>
 
       <DialogActions>

@@ -13,7 +13,7 @@ import type { IUserProps } from '@/types/user'
 
 const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   const { user } = useUser()
-  const { maxStreak, findsPerDay } = useStatistics(friend.plates)
+  const { maxStreak, findsPerDay } = useStatistics(friend.numbers)
   const isSelf = user?.name === friend.name
 
   const friendRequesting = useMemo(() => {

@@ -1,25 +1,7 @@
 import type { IUser } from '@/types/user'
-import { generateSlug } from '@/utils/generateSlug'
 
 export const defaultUser: IUser = {
+  id: 'dfcdf304-0b0a-4d5f-8cbc-3672715a49ab',
   name: 'Cson',
-  plates: [
-    Date.now(),
-    Date.now() - 1000 * 60 * 60 * 24 * 1,
-    Date.now() - 1000 * 60 * 60 * 24 * 2,
-    Date.now() - 1000 * 60 * 60 * 24 * 3,
-    Date.now() - 1000 * 60 * 60 * 24 * 6,
-    Date.now() - 1000 * 60 * 60 * 24 * 14,
-    Date.now() - 1000 * 60 * 60 * 24 * 22,
-    Date.now() - 1000 * 60 * 60 * 24 * 36,
-    Date.now() - 1000 * 60 * 60 * 24 * 40,
-    Date.now() - 1000 * 60 * 60 * 24 * 55,
-    Date.now() - 1000 * 60 * 60 * 24 * 56,
-    Date.now() - 1000 * 60 * 60 * 24 * 57,
-    Date.now() - 1000 * 60 * 60 * 24 * 64,
-    Date.now() - 1000 * 60 * 60 * 24 * 88,
-    Date.now() - 1000 * 60 * 60 * 24 * 93,
-  ],
-  slug: generateSlug(),
-  requesting: false,
+  slug: 'färgrik-mobiltelefon-klättrar',
 }

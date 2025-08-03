@@ -25,18 +25,18 @@ const TopListDialog = () => {
     const userList = [...friendList, ...myUser]
 
     const sortedList = userList.sort((a, b) => {
-      const aPlates = a.plates
-      const bPlates = b.plates
+      const aPlates = a.numbers || []
+      const bPlates = b.numbers || []
 
       if (sortBy === 'plates') {
         return bPlates.length - aPlates.length
       } else if (sortBy === 'streak') {
-        const aStreak = calculateMaxStreak(aPlates)
-        const bStreak = calculateMaxStreak(bPlates)
+        const aStreak = calculateMaxStreak(aPlates.map(Number))
+        const bStreak = calculateMaxStreak(bPlates.map(Number))
         return bStreak - aStreak
       } else if (sortBy === 'percentage') {
-        const aFindsPerDay = calculateFindsPerDay(aPlates)
-        const bFindsPerDay = calculateFindsPerDay(bPlates)
+        const aFindsPerDay = calculateFindsPerDay(aPlates.map(Number))
+        const bFindsPerDay = calculateFindsPerDay(bPlates.map(Number))
         return bFindsPerDay.perday - aFindsPerDay.perday
       }
       return 0

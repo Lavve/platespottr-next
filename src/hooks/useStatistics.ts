@@ -1,7 +1,20 @@
 import { useCallback, useMemo } from 'react'
 import { getDaysBetween, getWeekNumber } from '@/utils/dates'
 
-export const useStatistics = (findings?: number[]) => {
+export const useStatistics = (findings?: string[] | number[]) => {
+  // Convert string timestamps to numbers for processing
+  const convertFindingsToNumbers = useCallback((findings: string[] | number[] | undefined): number[] => {
+    if (!findings) return []
+    return findings.map(finding => {
+      if (typeof finding === 'string') {
+        return new Date(finding).getTime()
+      }
+      return finding
+    })
+  }, [])
+
+  const numericFindings = useMemo(() => convertFindingsToNumbers(findings), [findings, convertFindingsToNumbers])
+
   const getFindingsByWeek = useCallback((findings: number[]): Map<number, number> => {
     const findingsByWeek = new Map<number, number>()
 
@@ -78,26 +91,26 @@ export const useStatistics = (findings?: number[]) => {
   }, [])
 
   const findsPerDay = useMemo(() => {
-    if (!findings || findings.length < 2) {
+    if (!numericFindings || numericFindings.length < 2) {
       return { days: 0, perday: 0 }
     }
-    return calculateFindsPerDay(findings)
-  }, [findings, calculateFindsPerDay])
+    return calculateFindsPerDay(numericFindings)
+  }, [numericFindings, calculateFindsPerDay])
 
   const latestFinding = useMemo(() => {
-    if (!findings || findings.length === 0) {
+    if (!numericFindings || numericFindings.length === 0) {
       return null
     }
-    return findings[findings.length - 1]
-  }, [findings])
+    return numericFindings[numericFindings.length - 1]
+  }, [numericFindings])
 
   const findingsByWeek = useMemo(() => {
-    return getFindingsByWeek(findings || [])
-  }, [findings, getFindingsByWeek])
+    return getFindingsByWeek(numericFindings)
+  }, [numericFindings, getFindingsByWeek])
 
   const maxStreak = useMemo(() => {
-    return calculateMaxStreak(findings || [])
-  }, [findings, calculateMaxStreak])
+    return calculateMaxStreak(numericFindings)
+  }, [numericFindings, calculateMaxStreak])
 
   const maxWeek = useMemo(() => {
     if (!findingsByWeek || findingsByWeek.size === 0) return 0

@@ -14,7 +14,7 @@ import { vibrate } from '@/utils/vibrate'
 const StatisticsDialog = () => {
   const t = useTranslations()
   const { user } = useUser()
-  const { maxStreak, maxWeek, latestFinding, findingsByWeek, findsPerDay } = useStatistics(user?.plates || [])
+  const { maxStreak, maxWeek, latestFinding, findingsByWeek, findsPerDay } = useStatistics(user?.numbers || [])
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const sortedFindingsByWeek = useMemo(() => {
@@ -35,7 +35,7 @@ const StatisticsDialog = () => {
         color='primary'
         size='large'
         fullWidth
-        disabled={user?.plates.length === 0 || !user}
+        disabled={user?.numbers?.length === 0 || !user}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -52,7 +52,7 @@ const StatisticsDialog = () => {
 
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
-          <DialogHeader title={t('app.statistics')} number={user?.plates.length} />
+          <DialogHeader title={t('app.statistics')} number={user?.numbers?.length} />
 
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {/* Latest found number */}
@@ -81,7 +81,7 @@ const StatisticsDialog = () => {
             )}
 
             {/* Numbers per week */}
-            {sortedFindingsByWeek.length > 1 && user?.plates?.length && user.plates.length > 1 && (
+            {sortedFindingsByWeek.length > 1 && user?.numbers?.length && user.numbers.length > 1 && (
               <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
                 <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Timeline sx={{ color: 'success.light' }} /> {t('statistics.numbers_per_week')}
