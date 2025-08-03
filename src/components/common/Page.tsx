@@ -2,7 +2,6 @@
 
 import { Box, Paper, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useUser } from '@/providers/userProvider'
 import AddFriendDialog from '../dialogs/AddFriendDialog'
 import AddNumberDialog from '../dialogs/AddNumberDialog'
@@ -14,25 +13,14 @@ import PageActionButtons from '../PageActionButtons'
 import Streak from '../Streak'
 
 const Page = () => {
-  const { user, isAuthenticated } = useUser()
+  const { user } = useUser()
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
-  const { friend, isAddFriendDialogOpen, isAddPlateDialogOpen } = useQueryNavigation()
 
   useEffect(() => {
     if (user?.numbers?.length === 999) {
       setIsCompleteDialogOpen(true)
     }
   }, [user])
-
-  // Handle post-authentication QR code parameters
-  useEffect(() => {
-    // If user just authenticated and there are pending QR parameters,
-    // the dialogs will automatically show due to useQueryNavigation
-    if (isAuthenticated && ((friend && isAddFriendDialogOpen) || isAddPlateDialogOpen)) {
-      // The dialogs will show automatically, no additional action needed
-      // The useQueryNavigation hook handles the URL parameters
-    }
-  }, [isAuthenticated, friend, isAddFriendDialogOpen, isAddPlateDialogOpen])
 
   return (
     <>

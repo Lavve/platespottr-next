@@ -1,6 +1,6 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LoginDialog from '@/components/dialogs/LoginDialog'
 import RegisterDialog from '@/components/dialogs/RegisterDialog'
 import Logo from '@/components/Logo'
