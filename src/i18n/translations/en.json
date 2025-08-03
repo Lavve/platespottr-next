@@ -110,7 +110,18 @@
     "awaiting_friends": "Awaiting crew",
     "my_friends": "My crew",
     "awaiting": "Awaiting",
-    "requests": "Requests"
+    "requests": "Requests",
+    "accept_request": "Accept request",
+    "decline_request": "Decline request",
+    "scan_qr_code_title": "Scan QR code",
+    "scan_qr_code_description": "Scan your friend's QR code to add them to your crew",
+    "add_friend_description": "Add <strong>{friendName}</strong> to my crew.",
+    "scan_qr_code": "Scan QR code",
+    "send_friend_request": "Send request",
+    "send_friend_request_description": "Do you want to send a friend request to <strong>{friendName}</strong>?",
+    "error_camera": "Could not find camera",
+    "error_finding_camera": "Could not find any camera to scan QR code",
+    "not_valid_qr_code": "Not a valid Platespottr QR code"
   },
   "toplist": {
     "number": "Number",
@@ -155,6 +166,7 @@
     "logout_success": "Logged out successfully",
     "account_created": "Account created successfully!",
     "login_failed": "Login failed. Please check your credentials and try again.",
+    "logout_failed": "Logout failed. Please try again later.",
     "account_creation_failed": "Failed to create account. Please try again.",
     "invalid_credentials": "Invalid credentials. Please try again.",
     "network_error": "Network error. Please check your connection and try again.",
@@ -164,6 +176,16 @@
     "friend_added": "{name} has been added as a friend!",
     "confirm_failed": "Failed to accept friend request. Please try again.",
     "friend_removed": "Friend removed successfully!",
-    "remove_failed": "Failed to remove friend. Please try again."
+    "remove_failed": "Failed to remove friend. Please try again.",
+    "add_number_failed": "Failed to add number. Please try again.",
+    "remove_number_failed": "Failed to remove number. Please try again.",
+    "reset_failed": "Failed to reset. Please try again.",
+    "server_error": "Server error. Please try again later."
+  },
+  "install_prompt": {
+    "title": "Install Platespottr",
+    "description": "Install Platespottr as an app! You'll get faster access, a better experience, full-screen mode, and offline support.",
+    "install": "Install",
+    "dismiss": "No thanks"
   }
 }

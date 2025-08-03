@@ -1,13 +1,14 @@
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
+import DialogHeader from '@/components/dialogs/DialogHeader'
 import RegPlate from '@/components/RegPlate'
 import { useAddNumber } from '@/hooks/useApi'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
-import DialogHeader from './DialogHeader'
 
 const AddNumberDialog = () => {
   const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
@@ -16,7 +17,7 @@ const AddNumberDialog = () => {
   const { user } = useUser()
   const { friendsAll } = useFriends()
   const addNumberMutation = useAddNumber()
-
+  const { showError } = useSnackbar()
   const addPlateContent = useMemo(() => {
     const number = ((user?.numbers?.length || 1) + 1).toString().padStart(3, '0')
     const translateStr =
@@ -31,9 +32,14 @@ const AddNumberDialog = () => {
   const handleAddPlate = useCallback(() => {
     clearQuery()
     if (!user?.id) return
-    addNumberMutation.mutate(user.id)
+    addNumberMutation.mutate(user.id, {
+      onError: error => {
+        console.error(error)
+        showError(t('notifications.add_number_failed'))
+      },
+    })
     setDialogOpen(false)
-  }, [clearQuery, user?.id, addNumberMutation])
+  }, [clearQuery, user?.id, addNumberMutation, showError, t])
 
   const handleClose = useCallback(() => {
     clearQuery()

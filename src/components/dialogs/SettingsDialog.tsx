@@ -2,27 +2,26 @@ import { AccountCircle, Delete, Explore, History, Logout, RestartAltOutlined, Tu
 import { Avatar, Box, ButtonGroup, Dialog, DialogActions, DialogContent, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
+import QrDialog from '@/components/dialogs/QrDialog'
 import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
 import type { Locale } from '@/i18n/config'
-import { useFriends } from '@/providers/friendsProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import type { Country, Language } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { setUserLocale } from '@/utils/locale'
 import { vibrate } from '@/utils/vibrate'
-import QrDialog from './QrDialog'
 
 const SettingsDialog = () => {
   const t = useTranslations()
   const { user, saveUser, resetUser, logout, isAuthenticated } = useUser()
-  const { resetFriends } = useFriends()
   const { settings, saveSettings, setTheme, resetSettings } = useSettings()
-
+  const { showError } = useSnackbar()
   const removeLastNumberMutation = useRemoveLastNumber()
   const removeAllNumbersMutation = useRemoveAllNumbers()
 
@@ -53,14 +52,24 @@ const SettingsDialog = () => {
 
   const handleResetLastPlate = () => {
     if (user?.id) {
-      removeLastNumberMutation.mutate(user.id)
+      removeLastNumberMutation.mutate(user.id, {
+        onError: error => {
+          console.error(error)
+          showError(t('notifications.remove_number_failed'))
+        },
+      })
     }
     setConfirmResetLastDialogOpen(false)
   }
 
   const handleResetAllPlates = () => {
     if (user?.id) {
-      removeAllNumbersMutation.mutate(user.id)
+      removeAllNumbersMutation.mutate(user.id, {
+        onError: error => {
+          console.error(error)
+          showError(t('notifications.remove_number_failed'))
+        },
+      })
     }
     setConfirmResetAllDialogOpen(false)
   }
@@ -73,7 +82,6 @@ const SettingsDialog = () => {
 
   const handleResetAccount = () => {
     resetUser()
-    resetFriends()
     resetSettings()
     setConfirmResetAccountDialogOpen(false)
     setDialogOpen(false)

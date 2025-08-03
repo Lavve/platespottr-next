@@ -15,6 +15,9 @@ export const useLogin = () => {
         queryClient.invalidateQueries({ queryKey: ['user'] })
       }
     },
+    onError: error => {
+      console.error(error)
+    },
   })
 }
 
@@ -24,7 +27,6 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: (userId: string) => apiService.logout(userId),
     onSuccess: () => {
-      // Clear all user-related queries on logout
       queryClient.clear()
     },
   })
@@ -42,6 +44,9 @@ export const useCreateUser = () => {
         queryClient.setQueryData(['user', appUser.id], appUser)
         queryClient.invalidateQueries({ queryKey: ['user'] })
       }
+    },
+    onError: error => {
+      console.error(error)
     },
   })
 }
@@ -68,6 +73,9 @@ export const useDeleteUser = () => {
     mutationFn: ({ userId, pin }: { userId: string; pin: string }) => apiService.deleteUser(userId, pin),
     onSuccess: () => {
       queryClient.clear()
+    },
+    onError: error => {
+      console.error(error)
     },
   })
 }
@@ -125,6 +133,9 @@ export const useAddFriendRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', requesterId] })
     },
+    onError: error => {
+      console.error(error)
+    },
   })
 }
 
@@ -139,6 +150,9 @@ export const useConfirmFriendRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'incoming', receiverId] })
     },
+    onError: error => {
+      console.error(error)
+    },
   })
 }
 
@@ -151,6 +165,9 @@ export const useRemoveFriend = () => {
     onSuccess: (_, { userId }) => {
       queryClient.invalidateQueries({ queryKey: ['friends', userId] })
     },
+    onError: error => {
+      console.error(error)
+    },
   })
 }
 
@@ -161,8 +178,10 @@ export const useAddNumber = () => {
   return useMutation({
     mutationFn: (userId: string) => apiService.addNumber(userId),
     onSuccess: (_, userId) => {
-      // Invalidate the user query to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
+    },
+    onError: error => {
+      console.error(error)
     },
   })
 }
@@ -173,8 +192,10 @@ export const useRemoveLastNumber = () => {
   return useMutation({
     mutationFn: (userId: string) => apiService.removeLastNumber(userId),
     onSuccess: (_, userId) => {
-      // Invalidate the user query to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
+    },
+    onError: error => {
+      console.error(error)
     },
   })
 }
@@ -185,8 +206,10 @@ export const useRemoveAllNumbers = () => {
   return useMutation({
     mutationFn: (userId: string) => apiService.removeAllNumbers(userId),
     onSuccess: (_, userId) => {
-      // Invalidate the user query to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
+    },
+    onError: error => {
+      console.error(error)
     },
   })
 }

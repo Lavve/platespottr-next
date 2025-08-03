@@ -1,20 +1,5 @@
-// Security utilities for better data handling
+import { AUTH_KEY, DEFAULT_AUTH_DATA, LEGACY_AUTH_KEYS } from '@/constants/app'
 import type { AuthData } from '@/types/auth'
-
-// Default auth data
-const DEFAULT_AUTH_DATA: AuthData = {
-  currentUserId: null,
-  currentUserSlug: null,
-  isAuthenticated: false,
-}
-
-// Constants for localStorage keys
-const AUTH_STORAGE_KEY = 'PS_auth'
-const LEGACY_AUTH_KEYS = {
-  CURRENT_USER_ID: 'currentUserId',
-  CURRENT_USER_SLUG: 'currentUserSlug',
-  IS_AUTHENTICATED: 'isAuthenticated',
-} as const
 
 /**
  * Safely stores data in localStorage with error handling
@@ -73,7 +58,7 @@ export const getAuthData = (): AuthData => {
     }
 
     // Try to get the new consolidated auth object
-    const authDataString = localStorage.getItem(AUTH_STORAGE_KEY)
+    const authDataString = localStorage.getItem(AUTH_KEY)
     if (authDataString) {
       const parsedData = JSON.parse(authDataString)
       return { ...DEFAULT_AUTH_DATA, ...parsedData }
@@ -128,7 +113,7 @@ export const getAuthData = (): AuthData => {
  */
 export const setAuthData = (authData: AuthData): boolean => {
   try {
-    return safeLocalStorageSet(AUTH_STORAGE_KEY, JSON.stringify(authData))
+    return safeLocalStorageSet(AUTH_KEY, JSON.stringify(authData))
   } catch (error) {
     console.error('Failed to set auth data:', error)
     return false
@@ -155,7 +140,7 @@ export const updateAuthData = (updates: Partial<AuthData>): boolean => {
 export const clearAuthData = (): void => {
   try {
     // Remove the new consolidated key
-    safeLocalStorageRemove(AUTH_STORAGE_KEY)
+    safeLocalStorageRemove(AUTH_KEY)
 
     // Also clean up any legacy keys that might still exist
     Object.values(LEGACY_AUTH_KEYS).forEach(key => {

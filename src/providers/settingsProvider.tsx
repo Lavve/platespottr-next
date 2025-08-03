@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { SETTINGS_KEY } from '@/constants/app'
 import { defaultSettings } from '@/constants/settings'
 import type { IProviderProps } from '@/types/common'
 import type { ISettings, ISettingsContext, ThemeMode } from '@/types/settings'
@@ -12,7 +13,7 @@ const SettingsProvider = ({ children }: IProviderProps) => {
 
   const saveSettings = useCallback((newSettings: ISettings) => {
     setSettings(newSettings)
-    localStorage.setItem('PS_settings', JSON.stringify(newSettings))
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings))
   }, [])
 
   const setTheme = useCallback((choice: ThemeMode) => {
@@ -26,14 +27,14 @@ const SettingsProvider = ({ children }: IProviderProps) => {
       }
 
       const updatedSettings = { ...prev, themeChoice: choice, theme: newTheme }
-      localStorage.setItem('PS_settings', JSON.stringify(updatedSettings))
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings))
       setSettings(updatedSettings)
       return updatedSettings
     })
   }, [])
 
   useEffect(() => {
-    const storedSettings = localStorage.getItem('PS_settings')
+    const storedSettings = localStorage.getItem(SETTINGS_KEY)
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
     let initialSettings = { ...defaultSettings }
@@ -42,7 +43,7 @@ const SettingsProvider = ({ children }: IProviderProps) => {
       const parsedSettings = JSON.parse(storedSettings)
       initialSettings = { ...defaultSettings, ...parsedSettings }
     } else {
-      localStorage.setItem('PS_settings', JSON.stringify(initialSettings))
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(initialSettings))
     }
 
     if (initialSettings.themeChoice === 'system') {
@@ -73,12 +74,17 @@ const SettingsProvider = ({ children }: IProviderProps) => {
       themeChoice: 'system',
     }
     setSettings(newSettings as ISettings)
-    localStorage.setItem('PS_settings', JSON.stringify(newSettings))
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings))
+  }, [])
+
+  const removeSettings = useCallback(() => {
+    localStorage.removeItem(SETTINGS_KEY)
+    setSettings(defaultSettings)
   }, [])
 
   const value = useMemo(
-    () => ({ settings, saveSettings, setTheme, resetSettings }),
-    [settings, saveSettings, setTheme, resetSettings]
+    () => ({ settings, saveSettings, setTheme, resetSettings, removeSettings }),
+    [settings, saveSettings, setTheme, resetSettings, removeSettings]
   )
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>

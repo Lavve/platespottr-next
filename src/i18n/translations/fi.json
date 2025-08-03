@@ -110,7 +110,18 @@
     "awaiting_friends": "Odottaa ystäväksi",
     "my_friends": "Omat ystävät",
     "awaiting": "Odottaa",
-    "requests": "Pyynnöt"
+    "requests": "Pyynnöt",
+    "accept_request": "Hyväksy pyyntö",
+    "decline_request": "Hylkää pyyntö",
+    "scan_qr_code_title": "Skannaa QR-koodi",
+    "scan_qr_code_description": "Skannaa ystäväsi QR-koodi lisätäksesi hänet joukkueeseeni",
+    "add_friend_description": "Lisää <strong>{friendName}</strong> joukkueeseeni.",
+    "scan_qr_code": "Skannaa QR-koodi",
+    "send_friend_request": "Lähetä pyyntö",
+    "send_friend_request_description": "Haluatko lähettää ystäväpyynnön <strong>{friendName}</strong>?",
+    "error_camera": "Kameraa ei löytynyt",
+    "error_finding_camera": "QR-koodin skannaamiseen tarvittavaa kameraa ei löytynyt",
+    "not_valid_qr_code": "Ei kelvollinen Platespottr QR-koodi"
   },
   "toplist": {
     "number": "Määrä",
@@ -155,6 +166,7 @@
     "logout_success": "Uloskirjautuminen onnistui",
     "account_created": "Tili luotu onnistuneesti!",
     "login_failed": "Kirjautuminen epäonnistui. Tarkista tietosi ja yritä uudelleen.",
+    "logout_failed": "Uloskirjautuminen epäonnistui. Yritä uudelleen myöhemmin.",
     "account_creation_failed": "Tilin luominen epäonnistui. Yritä uudelleen.",
     "invalid_credentials": "Virheelliset tiedot. Yritä uudelleen.",
     "network_error": "Verkkovirhe. Tarkista yhteys ja yritä uudelleen.",
@@ -164,6 +176,16 @@
     "friend_added": "{name} on lisätty ystäväksi!",
     "confirm_failed": "Ystäväpyyntöä ei voitu hyväksyä. Yritä uudelleen.",
     "friend_removed": "Ystävä poistettu!",
-    "remove_failed": "Ystävää ei voitu poistaa. Yritä uudelleen."
+    "remove_failed": "Ystävää ei voitu poistaa. Yritä uudelleen.",
+    "add_number_failed": "Numeroa ei voitu lisätä. Yritä uudelleen.",
+    "remove_number_failed": "Numeroa ei voitu poistaa. Yritä uudelleen.",
+    "reset_failed": "Nollaus epäonnistui. Yritä uudelleen.",
+    "server_error": "Palvelinvirhe. Yritä myöhemmin uudelleen."
+  },
+  "install_prompt": {
+    "title": "Asenna Platespottr",
+    "description": "Asenna Platespottr sovelluksena! Saat nopeamman pääsyn, paremman käyttökokemuksen, kokonaisvaltaisen näkymän ja myös offline-tuen.",
+    "install": "Asenna",
+    "dismiss": "Ei kiitos"
   }
 }

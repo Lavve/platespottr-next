@@ -83,7 +83,6 @@ const UserProvider = ({ children }: IProviderProps) => {
 
   const saveUser = useCallback(
     (user: IUser) => {
-      // Update auth data immediately with the new user
       updateAuth({
         currentUserId: user.id || null,
         currentUserSlug: user.slug,
@@ -94,19 +93,13 @@ const UserProvider = ({ children }: IProviderProps) => {
   )
 
   const resetUser = useCallback(() => {
-    console.log('UserProvider - resetUser called')
-
-    // Clear localStorage first
     clearAuthData()
 
-    // Reset state to defaults
     setAuthDataState({
       currentUserId: null,
       currentUserSlug: null,
       isAuthenticated: false,
     })
-
-    console.log('resetUser completed - isAuthenticated should be false')
   }, [])
 
   const createUser = useCallback(
@@ -148,18 +141,15 @@ const UserProvider = ({ children }: IProviderProps) => {
           if (response?.user) {
             saveUser(response.user)
             updateAuth({ isAuthenticated: true })
-            // showSuccess(t('notifications.login_success'))
           } else {
             const errorMsg = response?.message || t('notifications.invalid_credentials')
             setAuthError(errorMsg)
-            // showError(errorMsg)
           }
         },
         onError: error => {
           console.error('UserProvider - login error:', error)
           const errorMsg = t('notifications.login_failed')
           setAuthError(errorMsg)
-          // showError(errorMsg)
         },
       })
     },
@@ -167,33 +157,21 @@ const UserProvider = ({ children }: IProviderProps) => {
   )
 
   const logout = useCallback(() => {
-    console.log('UserProvider - logout called')
-    console.log('Before logout - isAuthenticated:', isAuthenticated)
-    console.log('Before logout - currentUserId:', currentUserId)
+    setAuthError(null)
 
-    setAuthError(null) // Clear any previous errors
-
-    // Always reset user data immediately for better UX
     resetUser()
-
-    console.log('After resetUser - isAuthenticated:', isAuthenticated)
-    console.log('After resetUser - currentUserId:', currentUserId)
 
     showSuccess(t('notifications.logout_success'))
 
-    // Try to call the logout API, but don't block on it
     if (currentUserId) {
       logoutMutation(currentUserId, {
-        onSuccess: () => {
-          console.log('UserProvider - logout API success')
-        },
         onError: error => {
           console.warn('UserProvider - logout API failed, but user already logged out locally:', error)
-          // User is already logged out locally, so this is not a problem
+          showError(t('notifications.logout_failed'))
         },
       })
     }
-  }, [logoutMutation, currentUserId, resetUser, showSuccess, t, isAuthenticated])
+  }, [logoutMutation, currentUserId, resetUser, showSuccess, showError, t])
 
   const user = userData || null
 

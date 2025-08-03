@@ -16,4 +16,5 @@ export type ISettingsContext = {
   saveSettings: (settings: ISettings) => void
   setTheme: (choice: ThemeMode) => void
   resetSettings: () => void
+  removeSettings: () => void
 }

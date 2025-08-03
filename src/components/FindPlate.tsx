@@ -3,6 +3,7 @@
 import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
+import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
 import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
@@ -15,6 +16,7 @@ const FindPlate = () => {
   const t = useTranslations()
   const { user } = useUser()
   const addNumberMutation = useAddNumber()
+  const { showError } = useSnackbar()
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
   const releaseRef = useRef<number | null>(null)
@@ -32,7 +34,12 @@ const FindPlate = () => {
       animationRef.current = requestAnimationFrame(updateProgress)
     } else {
       if (user.id) {
-        addNumberMutation.mutate(user.id)
+        addNumberMutation.mutate(user.id, {
+          onError: error => {
+            console.error(error)
+            showError(t('notifications.add_number_failed'))
+          },
+        })
       }
       vibrate(VIBRATE_SUCCESS)
       endHold()

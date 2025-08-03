@@ -1,6 +1,7 @@
 'use client'
 
 import { Box, Fade, Paper, Slide, Stack, Typography } from '@mui/material'
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import Logo from '@/components/Logo'
@@ -9,7 +10,8 @@ import useInstallPrompt from '@/hooks/useInstallPrompt'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
 
-export default function InstallPromptDialog() {
+const InstallPromptDialog = () => {
+  const t = useTranslations()
   const installPrompt = useInstallPrompt()
   const { settings, saveSettings } = useSettings()
   const [isVisible, setIsVisible] = useState(false)
@@ -83,11 +85,8 @@ export default function InstallPromptDialog() {
                 <Logo size={60} />
               </Box>
               <Box sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', md: 'center' } }}>
-                <Typography variant='h6'>Installera Platespottr</Typography>
-                <Typography variant='body1'>
-                  Installera Platespottr som en app! Då får du snabbare åtkomst, smidigare upplevelse, helskärmsläge och
-                  dessutom offline-stöd.
-                </Typography>
+                <Typography variant='h6'>{t('install_prompt.title')}</Typography>
+                <Typography variant='body1'>{t('install_prompt.description')}</Typography>
               </Box>
             </Box>
             <Stack
@@ -99,10 +98,10 @@ export default function InstallPromptDialog() {
               }}
             >
               <VibrateButton onClick={handleDismiss} variant='outlined' color='primary'>
-                Nej tack
+                {t('install_prompt.dismiss')}
               </VibrateButton>
               <VibrateButton onClick={handleInstall} variant='contained' color='primary' size='large'>
-                Installera
+                {t('install_prompt.install')}
               </VibrateButton>
             </Stack>
           </Stack>
@@ -111,3 +110,5 @@ export default function InstallPromptDialog() {
     </Slide>
   )
 }
+
+export default InstallPromptDialog

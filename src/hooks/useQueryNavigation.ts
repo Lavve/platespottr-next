@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import type { IQueryNavigationState } from '@/types/common'
-import { isValidSlug } from '@/utils/generateSlug'
+import { isValidSlug } from '@/utils/validateSlug'
 
 const DEFALULT_STATE: IQueryNavigationState = {
   friend: null,

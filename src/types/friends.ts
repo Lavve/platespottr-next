@@ -15,8 +15,6 @@ export interface IFriendsContext {
   friendList: IUser[]
   addFriend: (friendSlug: string) => number
   removeFriend: (friendId: string, tab: IFriendsTabs) => number
-  removeAllFriends: () => void
-  resetFriends: () => void
   isLoading: boolean
   confirmFriendRequest: (params: { receiverId: string; requesterId: string }) => void
   isConfirmingFriend: boolean

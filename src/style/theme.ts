@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import type { ThemeContextType, ThemeProviderProps } from '@/types/theme'
 
 // Base-konfiguration för custom färger som används i båda teman
 const base = {

@@ -60,3 +60,8 @@ export interface IStatsBlockProps {
   icon: React.ReactNode
   children: React.ReactNode
 }
+
+export interface IDeleteAccountDialogProps {
+  open: boolean
+  onClose: () => void
+}

@@ -100,16 +100,6 @@ const FriendsProvider = ({ children }: IProviderProps) => {
     ]
   )
 
-  const removeAllFriends = useCallback(() => {
-    // This would need to be implemented as a bulk operation if the API supports it
-    console.log('Remove all friends - not implemented')
-  }, [])
-
-  const resetFriends = useCallback(() => {
-    // This would clear the cache
-    console.log('Reset friends - not implemented')
-  }, [])
-
   const value = useMemo(
     () => ({
       friendsAll,
@@ -118,8 +108,6 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       friendList,
       addFriend,
       removeFriend,
-      removeAllFriends,
-      resetFriends,
       isLoading: friendsLoading || incomingLoading || outgoingLoading,
       confirmFriendRequest: confirmFriendMutation.mutate,
       isConfirmingFriend: confirmFriendMutation.isPending,
@@ -131,8 +119,6 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       friendList,
       addFriend,
       removeFriend,
-      removeAllFriends,
-      resetFriends,
       friendsLoading,
       incomingLoading,
       outgoingLoading,

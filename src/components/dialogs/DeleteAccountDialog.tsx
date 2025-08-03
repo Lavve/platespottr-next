@@ -3,20 +3,14 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useDeleteUser } from '@/hooks/useApi'
-import { useFriends } from '@/providers/friendsProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
+import type { IDeleteAccountDialogProps } from '@/types/common'
 
-interface DeleteAccountDialogProps {
-  open: boolean
-  onClose: () => void
-}
-
-const DeleteAccountDialog = ({ open, onClose }: DeleteAccountDialogProps) => {
+const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
   const t = useTranslations()
   const { user, logout } = useUser()
-  const { resetFriends } = useFriends()
-  const { resetSettings } = useSettings()
+  const { removeSettings } = useSettings()
   const deleteUserMutation = useDeleteUser()
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
@@ -42,14 +36,8 @@ const DeleteAccountDialog = ({ open, onClose }: DeleteAccountDialogProps) => {
       { userId: user.id, pin },
       {
         onSuccess: () => {
-          // Clear all user-related data
-          resetFriends()
-          resetSettings()
-
-          // Logout will clear auth data and redirect to login
+          removeSettings()
           logout()
-
-          // Close the dialog
           onClose()
         },
         onError: () => {
@@ -57,7 +45,7 @@ const DeleteAccountDialog = ({ open, onClose }: DeleteAccountDialogProps) => {
         },
       }
     )
-  }, [pin, user?.id, deleteUserMutation, onClose, t, logout, resetFriends, resetSettings])
+  }, [pin, user?.id, deleteUserMutation, onClose, t, logout, removeSettings])
 
   const handleClose = useCallback(() => {
     setPin('')
@@ -75,7 +63,7 @@ const DeleteAccountDialog = ({ open, onClose }: DeleteAccountDialogProps) => {
   )
 
   return (
-    <Dialog fullWidth maxWidth='sm' open={open} onClose={handleClose}>
+    <Dialog fullWidth maxWidth='sm' open={open}>
       <DialogHeader title={t('settings.delete_account')} />
       <DialogContent>
         <Typography variant='body1' sx={{ mb: 2 }}>

@@ -110,6 +110,8 @@
     "my_friends": "Mitt crew",
     "awaiting": "Väntande",
     "requests": "Förfrågningar",
+    "accept_request": "Accept request",
+    "decline_request": "Decline request",
     "scan_qr_code_title": "Skanna QR-kod",
     "scan_qr_code_description": "Skanna din vänns QR-kod för att lägga till i mitt crew",
     "add_friend_description": "Lägg till <strong>{friendName}</strong> i mitt crew.",
@@ -163,6 +165,7 @@
     "logout_success": "Utloggning lyckades",
     "account_created": "Konto skapat framgångsrikt!",
     "login_failed": "Inloggning misslyckades. Kontrollera dina uppgifter och försök igen.",
+    "logout_failed": "Utloggning misslyckades. Försök igen senare.",
     "account_creation_failed": "Kunde inte skapa konto. Försök igen.",
     "invalid_credentials": "Ogiltiga uppgifter. Försök igen.",
     "network_error": "Nätverksfel. Kontrollera din anslutning och försök igen.",
@@ -172,6 +175,16 @@
     "friend_added": "{name} har lagts till som vän!",
     "confirm_failed": "Kunde inte godkänna vänförfrågan. Försök igen.",
     "friend_removed": "Vän borttagen!",
-    "remove_failed": "Kunde inte ta bort vän. Försök igen."
+    "remove_failed": "Kunde inte ta bort vän. Försök igen.",
+    "add_number_failed": "Kunde inte lägga till nummer. Försök igen.",
+    "remove_number_failed": "Kunde inte ta bort nummer. Försök igen.",
+    "reset_failed": "Kunde inte återställa. Försök igen.",
+    "server_error": "Serverfel. Försök igen senare."
+  },
+  "install_prompt": {
+    "title": "Installera Platespottr",
+    "description": "Installera Platespottr som en app! Då får du snabbare åtkomst, smidigare upplevelse, helskärmsläge och dessutom offline-stöd.",
+    "install": "Installera",
+    "dismiss": "Nej tack"
   }
 }

@@ -143,7 +143,6 @@ const FriendsDialog = () => {
           }
           return 0
         }
-        console.log('countDown', ((prev - 1) / DISABLE_REFRESH_REQUESTS_TIME) * 100)
         return prev - 1
       })
     }, 1000)

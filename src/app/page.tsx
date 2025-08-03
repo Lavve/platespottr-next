@@ -2,7 +2,7 @@ import { Container } from '@mui/material'
 import AuthGuard from '@/components/AuthGuard'
 import Page from '@/components/common/Page'
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <Container
       maxWidth='sm'
@@ -21,3 +21,5 @@ export default function HomePage() {
     </Container>
   )
 }
+
+export default HomePage

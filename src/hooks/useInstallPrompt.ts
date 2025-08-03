@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { IBeforeInstallPromptEvent } from '@/types/common'
 
-export default function useInstallPrompt() {
+const useInstallPrompt = () => {
   const [promptEvent, setPromptEvent] = useState<IBeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
@@ -21,3 +21,5 @@ export default function useInstallPrompt() {
 
   return promptEvent
 }
+
+export default useInstallPrompt
