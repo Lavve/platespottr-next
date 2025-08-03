@@ -1,15 +1,5 @@
 import { AccountCircle, Delete, Explore, History, Logout, RestartAltOutlined, TuneOutlined } from '@mui/icons-material'
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonGroup,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Paper,
-  Typography,
-} from '@mui/material'
+import { Avatar, Box, ButtonGroup, Dialog, DialogActions, DialogContent, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
