@@ -37,7 +37,7 @@ const Page = () => {
           </Typography>
         </Box>
         <Typography variant='body1' sx={{ textAlign: 'center' }}>
-          {user?.slug}
+          {user?.slug.toUpperCase()}
         </Typography>
       </Paper>
 

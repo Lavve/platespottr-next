@@ -14,7 +14,7 @@ const UserInfo = ({ friend, isSelf }: IUserInfo) => {
         sx={{
           fontSize: 12,
         }}
-        title={relativeDays(new Date(friend.friendSince ?? 0))}
+        title={relativeDays(new Date(friend.friendSince ?? 0), t)}
       >
         {friend.slug}
       </Typography>

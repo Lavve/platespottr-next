@@ -112,7 +112,7 @@ const QRScannerDialog = () => {
   }
 
   const handleAddFriend = () => {
-    addFriend({ name: scannedName || '', slug: scannedCode || '', plates: [] })
+    addFriend(scannedCode || '')
     setDialogOpen(false)
   }
 

@@ -96,6 +96,8 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
             htmlInput: {
               maxLength: 4,
               pattern: '[0-9]*',
+              inputMode: 'numeric',
+              autoComplete: 'off',
             },
           }}
           disabled={isLoggingIn}

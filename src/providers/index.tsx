@@ -2,7 +2,6 @@
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NextIntlClientProvider } from 'next-intl'
 import type { ReactNode } from 'react'
 import { useMemo, useState } from 'react'
@@ -22,13 +21,7 @@ const ThemeWrapper = ({ children }: { children: ReactNode }) => {
   const { settings } = useSettings()
   const currentTheme = useMemo(() => (settings.theme === 'dark' ? darkTheme : theme), [settings.theme])
 
-  return (
-    <UserProvider>
-      <FriendsProvider>
-        <MuiThemeProvider theme={currentTheme}>{children}</MuiThemeProvider>
-      </FriendsProvider>
-    </UserProvider>
-  )
+  return <MuiThemeProvider theme={currentTheme}>{children}</MuiThemeProvider>
 }
 
 const Providers = ({ children, messages, locale }: ProvidersProps) => {
@@ -55,7 +48,6 @@ const Providers = ({ children, messages, locale }: ProvidersProps) => {
             </SettingsProvider>
           </UserProvider>
         </SnackbarProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </NextIntlClientProvider>
   )

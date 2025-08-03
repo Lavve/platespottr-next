@@ -172,7 +172,8 @@ const FriendsDialog = () => {
           px: 1,
           border: `2px solid ${theme.palette.roadsign.contrastText}`,
         }}
-        disabled={friendsAll?.length === 0}
+        // disabled={friendsAll?.length === 0}
+
         onClick={() => setDialogOpen(true)}
       >
         <Badge badgeContent={friendsRequestsLength + awaitingFriendsLength} color='warning'>
@@ -186,76 +187,80 @@ const FriendsDialog = () => {
 
           <DialogContent>
             <QRScannerDialog />
-            <Divider sx={{ my: 2 }} />
-            <Tabs value={friendsTab} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
-              <Tab
-                label={
-                  <Badge badgeContent={friendsLength} color='success'>
-                    {t('friends.my_friends')}
-                  </Badge>
-                }
-                value='friends'
-              />
-              <Tab
-                label={
-                  <Badge badgeContent={awaitingFriendsLength} color='warning'>
-                    {t('friends.awaiting')}
-                  </Badge>
-                }
-                value='awaiting'
-                disabled={awaitingFriendsLength === 0}
-              />
-              <Tab
-                label={
-                  <Badge badgeContent={friendsRequestsLength} color='warning'>
-                    {t('friends.requests')}
-                  </Badge>
-                }
-                value='requests'
-                disabled={friendsRequestsLength === 0}
-              />
-            </Tabs>
+            {friendsAll?.length > 0 && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <Tabs value={friendsTab} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
+                  <Tab
+                    label={
+                      <Badge badgeContent={friendsLength} color='success'>
+                        {t('friends.my_friends')}
+                      </Badge>
+                    }
+                    value='friends'
+                  />
+                  <Tab
+                    label={
+                      <Badge badgeContent={awaitingFriendsLength} color='warning'>
+                        {t('friends.awaiting')}
+                      </Badge>
+                    }
+                    value='awaiting'
+                    disabled={awaitingFriendsLength === 0}
+                  />
+                  <Tab
+                    label={
+                      <Badge badgeContent={friendsRequestsLength} color='warning'>
+                        {t('friends.requests')}
+                      </Badge>
+                    }
+                    value='requests'
+                    disabled={friendsRequestsLength === 0}
+                  />
+                </Tabs>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='h6' sx={{ textAlign: 'center' }}>
-                  {t(subHeader)}
-                </Typography>
-                <VibrateIconButton
-                  color='primary'
-                  size='small'
-                  onClick={handleRefreshFriends}
-                  disabled={isDisabled}
-                  loading={isRefreshing}
-                  sx={{ position: 'relative' }}
-                >
-                  <FindReplace />
-                  {isDisabled && !isRefreshing && (
-                    <CircularProgress
-                      variant='determinate'
-                      value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
-                      thickness={4}
-                      size={34}
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        color: 'primary.main',
-                        opacity: 0.5,
-                      }}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant='h6' sx={{ textAlign: 'center' }}>
+                      {t(subHeader)}
+                    </Typography>
+                    <VibrateIconButton
+                      color='primary'
+                      size='small'
+                      onClick={handleRefreshFriends}
+                      disabled={isDisabled}
+                      loading={isRefreshing}
+                      sx={{ position: 'relative' }}
+                    >
+                      <FindReplace />
+                      {isDisabled && !isRefreshing && (
+                        <CircularProgress
+                          variant='determinate'
+                          value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
+                          thickness={4}
+                          size={34}
+                          sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            color: 'primary.main',
+                            opacity: 0.5,
+                          }}
+                        />
+                      )}
+                    </VibrateIconButton>
+                  </Box>
+                  {userList.map(friend => (
+                    <User
+                      key={`${friend.slug}-${key.current++}`}
+                      friend={friend}
+                      onRemoveFriend={() => handleRemoveFriend(friend)}
+                      onAddFriend={() => handleAddFriend(friend)}
                     />
-                  )}
-                </VibrateIconButton>
-              </Box>
-              {userList.map(friend => (
-                <User
-                  key={`${friend.slug}-${key.current++}`}
-                  friend={friend}
-                  onRemoveFriend={() => handleRemoveFriend(friend)}
-                  onAddFriend={() => handleAddFriend(friend)}
-                />
-              ))}
-            </Box>
+                  ))}
+                </Box>
+              </>
+            )}
           </DialogContent>
 
           <DialogActions>

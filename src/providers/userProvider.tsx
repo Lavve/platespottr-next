@@ -1,46 +1,36 @@
 'use client'
 
-import { useQueryClient } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useSnackbar } from '@/components/common/SnackbarProvider'
-import { defaultUser } from '@/constants/user'
 import { useCreateUser, useLogin, useLogout, useUserQuery } from '@/hooks/useApi'
 import type { IProviderProps } from '@/types/common'
 import type { ILoginCredentials, IUser, IUserContext } from '@/types/user'
-import { clearAuthData, safeLocalStorageGet, safeLocalStorageSet } from '@/utils/security'
+import { type AuthData, clearAuthData, getAuthData, setAuthData } from '@/utils/security'
 
 const UserContext = createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: IProviderProps) => {
   const t = useTranslations()
   const { showSuccess, showError } = useSnackbar()
-  const queryClient = useQueryClient()
 
-  const [currentUserId, setCurrentUserId] = useState<string | null>(() => {
-    return safeLocalStorageGet('currentUserId')
+  // Initialize auth state from localStorage
+  const [authData, setAuthDataState] = useState<AuthData>(() => {
+    return getAuthData()
   })
 
-  const [currentUserSlug, setCurrentUserSlug] = useState<string | null>(() => {
-    return safeLocalStorageGet('currentUserSlug')
-  })
-
-  // Authentication state - initialize from localStorage but ensure it's cleared on logout
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    const storedAuth = safeLocalStorageGet('isAuthenticated')
-    console.log('Initializing isAuthenticated from localStorage:', storedAuth)
-    return storedAuth === 'true'
-  })
+  const { currentUserId, currentUserSlug, isAuthenticated } = authData
 
   // Error state for authentication
   const [authError, setAuthError] = useState<string | null>(null)
 
-  // Use default user if no localStorage data exists
-  const userId = currentUserId || defaultUser.id
-  const slug = currentUserSlug || defaultUser.slug
-
-  // Query user data
-  const { data: userData, isLoading: isLoadingUser } = useUserQuery(userId, slug, true)
+  // Only query user data if we have a valid user ID and are authenticated
+  const { data: userData, isLoading: isLoadingUser } = useUserQuery(
+    currentUserId || undefined,
+    currentUserSlug || undefined,
+    true,
+    !isAuthenticated || !currentUserId
+  )
 
   // Create user mutation
   const { mutate: createUserMutation, isPending: isCreatingUser } = useCreateUser()
@@ -51,81 +41,82 @@ const UserProvider = ({ children }: IProviderProps) => {
   // Logout mutation
   const { mutate: logoutMutation, isPending: isLoggingOut } = useLogout()
 
+  // Update auth data in state and localStorage
+  const updateAuth = useCallback((updates: Partial<AuthData>) => {
+    setAuthDataState(prev => {
+      const newAuthData = { ...prev, ...updates }
+      setAuthData(newAuthData)
+      return newAuthData
+    })
+  }, [])
+
   // Set user data when available
   useEffect(() => {
     if (userData) {
-      setCurrentUserId(userData.id || null)
-      setCurrentUserSlug(userData.slug)
-
-      if (userData.id) {
-        safeLocalStorageSet('currentUserId', userData.id)
-      }
-      safeLocalStorageSet('currentUserSlug', userData.slug)
+      updateAuth({
+        currentUserId: userData.id || null,
+        currentUserSlug: userData.slug,
+      })
     }
-  }, [userData])
+  }, [userData, updateAuth])
 
   // Sync authentication state with user data
   useEffect(() => {
-    if (userData?.id) {
-      // If we have valid user data, ensure we're authenticated
-      if (!isAuthenticated) {
-        setIsAuthenticated(true)
-        safeLocalStorageSet('isAuthenticated', 'true')
-      }
-    } else if (!userData && isAuthenticated) {
-      // If no user data but we think we're authenticated, clear auth state
-      setIsAuthenticated(false)
-      safeLocalStorageSet('isAuthenticated', 'false')
+    if (userData?.id && isAuthenticated) {
+      // If we have valid user data and are authenticated, ensure auth state is correct
+      updateAuth({
+        currentUserId: userData.id,
+        currentUserSlug: userData.slug,
+        isAuthenticated: true,
+      })
+    } else if (!userData && isAuthenticated && !isLoadingUser) {
+      // Only clear auth state if we're not loading and have no user data
+      // This prevents clearing auth state during the initial load
+      updateAuth({
+        currentUserId: null,
+        currentUserSlug: null,
+        isAuthenticated: false,
+      })
     }
-  }, [userData, isAuthenticated])
+  }, [userData, isAuthenticated, updateAuth, isLoadingUser])
 
-  const saveUser = useCallback((user: IUser) => {
-    setCurrentUserId(user.id || null)
-    setCurrentUserSlug(user.slug)
-
-    if (user.id) {
-      safeLocalStorageSet('currentUserId', user.id)
-    }
-    safeLocalStorageSet('currentUserSlug', user.slug)
-  }, [])
+  const saveUser = useCallback(
+    (user: IUser) => {
+      // Update auth data immediately with the new user
+      updateAuth({
+        currentUserId: user.id || null,
+        currentUserSlug: user.slug,
+        isAuthenticated: true,
+      })
+    },
+    [updateAuth]
+  )
 
   const resetUser = useCallback(() => {
-    console.log('resetUser called')
+    console.log('UserProvider - resetUser called')
 
     // Clear localStorage first
     clearAuthData()
 
-    // Then reset state
-    setCurrentUserId(null)
-    setCurrentUserSlug(null)
-    setIsAuthenticated(false)
-    setAuthError(null)
-
-    // Clear all user-related queries from cache
-    queryClient.removeQueries({ queryKey: ['user'] })
-    queryClient.removeQueries({ queryKey: ['friends'] })
-    queryClient.removeQueries({ queryKey: ['incomingRequests'] })
-    queryClient.removeQueries({ queryKey: ['outgoingRequests'] })
+    // Reset state to defaults
+    setAuthDataState({
+      currentUserId: null,
+      currentUserSlug: null,
+      isAuthenticated: false,
+    })
 
     console.log('resetUser completed - isAuthenticated should be false')
-  }, [queryClient])
-
-  const clearAuthError = useCallback(() => {
-    setAuthError(null)
   }, [])
 
   const createUser = useCallback(
     (name: string) => {
-      setAuthError(null) // Clear any previous errors
+      setAuthError(null)
       createUserMutation(name, {
         onSuccess: (data: unknown) => {
           const response = data as { success: boolean; user?: IUser; message?: string }
           if (response?.user) {
             saveUser(response.user)
-            setIsAuthenticated(true)
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('isAuthenticated', 'true')
-            }
+            updateAuth({ isAuthenticated: true })
             showSuccess(t('notifications.account_created'))
           } else {
             const errorMsg = response?.message || t('notifications.account_creation_failed')
@@ -141,7 +132,7 @@ const UserProvider = ({ children }: IProviderProps) => {
         },
       })
     },
-    [createUserMutation, saveUser, showSuccess, showError, t]
+    [createUserMutation, saveUser, updateAuth, showSuccess, showError, t]
   )
 
   const login = useCallback(
@@ -152,10 +143,7 @@ const UserProvider = ({ children }: IProviderProps) => {
           const response = data as { success: boolean; user?: IUser; message?: string }
           if (response?.user) {
             saveUser(response.user)
-            setIsAuthenticated(true)
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('isAuthenticated', 'true')
-            }
+            updateAuth({ isAuthenticated: true })
             showSuccess(t('notifications.login_success'))
           } else {
             const errorMsg = response?.message || t('notifications.invalid_credentials')
@@ -171,7 +159,7 @@ const UserProvider = ({ children }: IProviderProps) => {
         },
       })
     },
-    [loginMutation, saveUser, showSuccess, showError, t]
+    [loginMutation, saveUser, updateAuth, showSuccess, showError, t]
   )
 
   const logout = useCallback(() => {
@@ -251,6 +239,10 @@ const UserProvider = ({ children }: IProviderProps) => {
     }
   }, [user, saveUser])
 
+  const clearAuthError = useCallback(() => {
+    setAuthError(null)
+  }, [])
+
   const value = useMemo(
     () => ({
       user,
@@ -263,13 +255,11 @@ const UserProvider = ({ children }: IProviderProps) => {
       removeLastNumberFromUser,
       removeAllNumbersFromUser,
       updateUserNumbersArray,
-      // Authentication methods
       login,
       logout,
       isAuthenticated,
       isLoggingIn,
       isLoggingOut,
-      // Error handling
       authError,
       clearAuthError,
     }),
@@ -299,7 +289,7 @@ const UserProvider = ({ children }: IProviderProps) => {
 
 export const useUser = () => {
   const context = useContext(UserContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useUser must be used within a UserProvider')
   }
   return context

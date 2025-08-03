@@ -20,16 +20,21 @@ export const getDaysBetween = (date: Date): number => {
   return Math.floor(diffTime / (1000 * 60 * 60 * 24))
 }
 
-export const relativeDays = (date: Date): string => {
+export const relativeDays = (date: Date, t: (key: string) => string): string => {
   const today = new Date()
-  const diffTime = today.getTime() - date.getTime()
+
+  // Reset time to midnight for both dates to compare only the date part
+  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+  const diffTime = todayDate.getTime() - inputDate.getTime()
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
   if (diffDays === 0) {
-    return 'Idag'
+    return t('common.today')
   }
   if (diffDays === 1) {
-    return 'Igår'
+    return t('common.yesterday')
   }
 
   return formatDateToYYYYMMDD(date)

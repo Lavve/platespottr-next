@@ -241,6 +241,29 @@ const SettingsDialog = () => {
                 <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <AccountCircle /> {t('settings.user_management')}
                 </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    p: 2,
+                    mb: 1,
+                    bgcolor: 'background.default',
+                    borderRadius: 2,
+                  }}
+                >
+                  <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+                    {user?.name?.slice(0, 2)}
+                  </Avatar>
+                  <Box sx={{ width: '100%', ml: 2 }}>
+                    <Typography variant='h6'>{user?.name}</Typography>
+                    <Typography variant='body2' color='text.secondary' sx={{ display: 'flex', alignItems: 'center' }}>
+                      {user?.slug.toUpperCase()}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100px' }}>
+                    <QrDialog showText={false} />
+                  </Box>
+                </Box>
 
                 {/* Logout Button */}
                 <VibrateButton

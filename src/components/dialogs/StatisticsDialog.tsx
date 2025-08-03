@@ -61,17 +61,19 @@ const StatisticsDialog = () => {
                 title={t('statistics.latest_found_number')}
                 icon={<CalendarMonth sx={{ color: 'primary.light' }} />}
               >
-                {relativeDays(new Date(latestFinding))}
+                {relativeDays(new Date(latestFinding), t)}
               </StatsBlock>
             )}
 
             {/* Current streak */}
-            <StatsBlock
-              title={t('statistics.current_streak')}
-              icon={<LocalFireDepartment sx={{ color: 'warning.light' }} />}
-            >
-              {maxStreak > 1 ? t('statistics.streaks_days_in_a_row', { streak: maxStreak }) : '0'}
-            </StatsBlock>
+            {maxStreak > 1 && (
+              <StatsBlock
+                title={t('statistics.current_streak')}
+                icon={<LocalFireDepartment sx={{ color: 'warning.light' }} />}
+              >
+                {t('statistics.streaks_days_in_a_row', { streak: maxStreak })}
+              </StatsBlock>
+            )}
 
             {/* Finds per day */}
             {findsPerDay.days > 0 && findsPerDay.perday > 0 && (

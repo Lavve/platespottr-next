@@ -91,7 +91,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
                 {t('app.your_platespottr_code')}
               </Typography>
               <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }}>
-                {user.slug}
+                {user.slug.toUpperCase()}
               </Typography>
             </Paper>
           </DialogContent>

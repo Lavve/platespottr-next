@@ -1,6 +1,7 @@
 'use client'
 
 import { Box } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useUser } from '@/providers/userProvider'
 import AuthenticationScreen from './AuthenticationScreen'
 import LoadingSpinner from './common/LoadingSpinner'
@@ -11,9 +12,13 @@ interface AuthGuardProps {
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
   const { isAuthenticated, isLoading } = useUser()
+  const [isClient, setIsClient] = useState(false)
 
-  // Show loading spinner while checking authentication status
-  if (isLoading) {
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient || isLoading) {
     return (
       <Box
         sx={{
@@ -28,12 +33,10 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
     )
   }
 
-  // Show authentication screen if not authenticated
   if (!isAuthenticated) {
     return <AuthenticationScreen />
   }
 
-  // Show main app content if authenticated
   return <>{children}</>
 }
 
