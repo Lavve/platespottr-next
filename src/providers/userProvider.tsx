@@ -161,8 +161,6 @@ const UserProvider = ({ children }: IProviderProps) => {
 
     resetUser()
 
-    showSuccess(t('notifications.logout_success'))
-
     if (currentUserId) {
       logoutMutation(currentUserId, {
         onError: error => {
@@ -171,7 +169,7 @@ const UserProvider = ({ children }: IProviderProps) => {
         },
       })
     }
-  }, [logoutMutation, currentUserId, resetUser, showSuccess, showError, t])
+  }, [logoutMutation, currentUserId, resetUser, showError, t])
 
   const user = userData || null
 

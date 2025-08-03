@@ -40,7 +40,7 @@ const AuthenticationScreen = () => {
 
   return (
     <Container
-      maxWidth='sm'
+      maxWidth='xs'
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -52,8 +52,8 @@ const AuthenticationScreen = () => {
       }}
     >
       <Paper sx={{ p: 4, borderRadius: 2, textAlign: 'center' }} elevation={5}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 3 }}>
-          <Logo size={40} />
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+          <Logo size={50} />
           <Typography component='h1' variant='h4' sx={{ fontWeight: 100, textTransform: 'uppercase' }}>
             latespottr
           </Typography>
@@ -75,7 +75,6 @@ const AuthenticationScreen = () => {
       </Paper>
 
       <LoginDialog open={isLoginOpen} onClose={handleCloseLogin} onSwitchToRegister={handleSwitchToRegister} />
-
       <RegisterDialog open={isRegisterOpen} onClose={handleCloseRegister} onSwitchToLogin={handleSwitchToLogin} />
     </Container>
   )
