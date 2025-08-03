@@ -1,25 +1,5 @@
+import type { ApiFriend, ApiUser } from '@/types/api'
 import type { IUser } from '@/types/user'
-
-// API types for transformers
-interface ApiUser {
-  id: string
-  name: string
-  slug: string
-  member_since?: string
-  numbers?: string[]
-  friends?: ApiFriend[]
-}
-
-interface ApiFriend {
-  id: string
-  name: string
-  slug: string
-  member_since: string
-  status?: string
-  friends_since?: string
-  requested_at?: string
-  number_count: number
-}
 
 // Convert API user to app user
 export const transformApiUserToAppUser = (apiUser: ApiUser): IUser => {

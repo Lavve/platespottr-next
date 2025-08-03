@@ -4,9 +4,10 @@ import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useSnackbar } from '@/components/common/SnackbarProvider'
 import { useCreateUser, useLogin, useLogout, useUserQuery } from '@/hooks/useApi'
+import type { AuthData } from '@/types/auth'
 import type { IProviderProps } from '@/types/common'
 import type { ILoginCredentials, IUser, IUserContext } from '@/types/user'
-import { type AuthData, clearAuthData, getAuthData, setAuthData } from '@/utils/security'
+import { clearAuthData, getAuthData, setAuthData } from '@/utils/security'
 
 const UserContext = createContext<IUserContext | undefined>(undefined)
 
@@ -109,28 +110,31 @@ const UserProvider = ({ children }: IProviderProps) => {
   }, [])
 
   const createUser = useCallback(
-    (name: string) => {
+    (name: string, pin: string) => {
       setAuthError(null)
-      createUserMutation(name, {
-        onSuccess: (data: unknown) => {
-          const response = data as { success: boolean; user?: IUser; message?: string }
-          if (response?.user) {
-            saveUser(response.user)
-            updateAuth({ isAuthenticated: true })
-            showSuccess(t('notifications.account_created'))
-          } else {
-            const errorMsg = response?.message || t('notifications.account_creation_failed')
+      createUserMutation(
+        { name, pin },
+        {
+          onSuccess: (data: unknown) => {
+            const response = data as { success: boolean; user?: IUser; message?: string }
+            if (response?.user) {
+              saveUser(response.user)
+              updateAuth({ isAuthenticated: true })
+              showSuccess(t('notifications.account_created'))
+            } else {
+              const errorMsg = response?.message || t('notifications.account_creation_failed')
+              setAuthError(errorMsg)
+              showError(errorMsg)
+            }
+          },
+          onError: error => {
+            console.error('UserProvider - createUser error:', error)
+            const errorMsg = t('notifications.account_creation_failed')
             setAuthError(errorMsg)
             showError(errorMsg)
-          }
-        },
-        onError: error => {
-          console.error('UserProvider - createUser error:', error)
-          const errorMsg = t('notifications.account_creation_failed')
-          setAuthError(errorMsg)
-          showError(errorMsg)
-        },
-      })
+          },
+        }
+      )
     },
     [createUserMutation, saveUser, updateAuth, showSuccess, showError, t]
   )
@@ -144,22 +148,22 @@ const UserProvider = ({ children }: IProviderProps) => {
           if (response?.user) {
             saveUser(response.user)
             updateAuth({ isAuthenticated: true })
-            showSuccess(t('notifications.login_success'))
+            // showSuccess(t('notifications.login_success'))
           } else {
             const errorMsg = response?.message || t('notifications.invalid_credentials')
             setAuthError(errorMsg)
-            showError(errorMsg)
+            // showError(errorMsg)
           }
         },
         onError: error => {
           console.error('UserProvider - login error:', error)
           const errorMsg = t('notifications.login_failed')
           setAuthError(errorMsg)
-          showError(errorMsg)
+          // showError(errorMsg)
         },
       })
     },
-    [loginMutation, saveUser, updateAuth, showSuccess, showError, t]
+    [loginMutation, saveUser, updateAuth, t]
   )
 
   const logout = useCallback(() => {

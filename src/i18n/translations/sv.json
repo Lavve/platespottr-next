@@ -31,6 +31,7 @@
     "pin_must_be_four_digits": "PIN-koden måste vara exakt 4 siffror.",
     "pins_dont_match": "PIN-koderna matchar inte.",
     "pin_help": "Ange en 4-siffrig PIN-kod (endast siffror)",
+    "confirm_pin_help": "Bekräfta din 4-siffriga PIN-kod",
     "name_help": "Ange ditt namn (minst 2 tecken)",
     "invalid_credentials": "Ogiltigt namn eller PIN-kod. Försök igen.",
     "account_creation_failed": "Kunde inte skapa konto. Försök igen.",
@@ -55,7 +56,10 @@
     "user_management": "Användarhantering",
     "reset_account": "Återställ konto",
     "reset_account_title": "Återställ konto",
-    "reset_account_content": "Detta kommer att återställa all din data och logga ut dig. Är du säker?"
+    "reset_account_content": "Detta kommer att återställa all din data och logga ut dig. Är du säker?",
+    "delete_account": "Radera konto",
+    "delete_account_description": "För att radera ditt konto permanent, ange din PIN-kod nedan. Detta går inte att ångra.",
+    "deleting_account": "Raderar konto..."
   },
   "app": {
     "next_number_to_find": "Nästa nummer att hitta",

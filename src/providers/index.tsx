@@ -7,15 +7,10 @@ import type { ReactNode } from 'react'
 import { useMemo, useState } from 'react'
 import { SnackbarProvider } from '@/components/common/SnackbarProvider'
 import theme, { darkTheme } from '@/style/theme'
+import type { ProvidersProps } from '@/types/providers'
 import FriendsProvider from './friendsProvider'
 import SettingsProvider, { useSettings } from './settingsProvider'
 import UserProvider from './userProvider'
-
-interface ProvidersProps {
-  children: React.ReactNode
-  messages: Record<string, unknown>
-  locale: string
-}
 
 const ThemeWrapper = ({ children }: { children: ReactNode }) => {
   const { settings } = useSettings()

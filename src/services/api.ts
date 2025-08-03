@@ -1,61 +1,13 @@
+import type {
+  FriendsResponse,
+  IncomingRequestsResponse,
+  MessageResponse,
+  OutgoingRequestsResponse,
+  StatusResponse,
+  UserResponse,
+} from '@/types/api'
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ps-api.lavve.net/api'
-
-// API User type (matches the API response)
-interface ApiUser {
-  id: string
-  name: string
-  slug: string
-  member_since?: string
-  numbers?: string[]
-  friends?: ApiFriend[]
-}
-
-// API Friend type (matches the API response)
-interface ApiFriend {
-  id: string
-  name: string
-  slug: string
-  member_since: string
-  status?: string
-  friends_since?: string
-  requested_at?: string
-  number_count: number
-}
-
-// Specific response types for each endpoint
-interface UserResponse {
-  success: boolean
-  message?: string
-  user?: ApiUser
-}
-
-interface FriendsResponse {
-  success: boolean
-  message?: string
-  friends?: ApiFriend[]
-}
-
-interface IncomingRequestsResponse {
-  success: boolean
-  message?: string
-  incoming_requests?: ApiFriend[]
-}
-
-interface OutgoingRequestsResponse {
-  success: boolean
-  message?: string
-  outgoing_requests?: ApiFriend[]
-}
-
-interface MessageResponse {
-  success: boolean
-  message?: string
-}
-
-interface StatusResponse {
-  success: boolean
-  status?: string
-}
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -98,40 +50,35 @@ class ApiService {
       console.warn('Logout API call failed, but continuing with local logout:', error)
       // Return a success response even if the API call fails
       // This allows the app to continue working even if the logout endpoint doesn't exist
-      return {
-        success: true,
-        message: 'Logged out locally',
-      }
+      return { success: true, message: 'Logged out locally' }
     }
   }
 
-  // User Management
-  async createUser(name: string): Promise<UserResponse> {
+  // User management
+  async createUser(name: string, pin: string): Promise<UserResponse> {
     return this.request<UserResponse>('/user.php', {
       method: 'POST',
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name, pin }),
     })
   }
 
   async getUser(userId?: string, slug?: string, details = false): Promise<UserResponse> {
     const params = new URLSearchParams()
     if (userId) params.append('userId', userId)
-    if (slug) params.append('slug', encodeURIComponent(slug))
+    if (slug) params.append('slug', slug)
     if (details) params.append('details', 'true')
 
-    const url = `/user.php?${params.toString()}`
-
-    return this.request<UserResponse>(url)
+    return this.request<UserResponse>(`/user.php?${params.toString()}`)
   }
 
-  async deleteUser(userId: string): Promise<MessageResponse> {
+  async deleteUser(userId: string, pin: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/user.php', {
       method: 'DELETE',
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, pin }),
     })
   }
 
-  // Friend Management
+  // Friend management
   async addFriendRequest(requesterId: string, receiverSlug: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/add-friend.php', {
       method: 'POST',
@@ -169,7 +116,7 @@ class ApiService {
     return this.request<OutgoingRequestsResponse>(`/friend-requests/outgoing.php?userId=${userId}`)
   }
 
-  // Number Management
+  // Number management
   async addNumber(userId: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/user-numbers.php', {
       method: 'POST',

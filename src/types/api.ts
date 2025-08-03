@@ -1,0 +1,55 @@
+// API types for external API communication
+export interface ApiUser {
+  id: string
+  name: string
+  slug: string
+  member_since?: string
+  numbers?: string[]
+  friends?: ApiFriend[]
+}
+
+export interface ApiFriend {
+  id: string
+  name: string
+  slug: string
+  member_since: string
+  status?: string
+  friends_since?: string
+  requested_at?: string
+  number_count: number
+}
+
+// API response types
+export interface UserResponse {
+  success: boolean
+  message?: string
+  user?: ApiUser
+}
+
+export interface FriendsResponse {
+  success: boolean
+  message?: string
+  friends?: ApiFriend[]
+}
+
+export interface IncomingRequestsResponse {
+  success: boolean
+  message?: string
+  incoming_requests?: ApiFriend[]
+}
+
+export interface OutgoingRequestsResponse {
+  success: boolean
+  message?: string
+  outgoing_requests?: ApiFriend[]
+}
+
+export interface MessageResponse {
+  success: boolean
+  message?: string
+}
+
+export interface StatusResponse {
+  success: boolean
+  status?: string
+}

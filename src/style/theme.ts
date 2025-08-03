@@ -1,35 +1,5 @@
 import { createTheme } from '@mui/material/styles'
-
-// Utöka TypeScript types för custom färger
-declare module '@mui/material/styles' {
-  interface Palette {
-    roadsign: Palette['primary'] & {
-      secondary?: string
-    }
-    regplate: Palette['primary'] & {
-      secondary?: string
-    }
-    accent: Palette['primary']
-  }
-  interface PaletteOptions {
-    roadsign?: PaletteOptions['primary'] & {
-      secondary?: string
-    }
-    regplate?: PaletteOptions['primary'] & {
-      secondary?: string
-    }
-    accent?: PaletteOptions['primary']
-  }
-}
-
-// Utöka komponenter för att använda custom färger
-declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
-    roadsign: true
-    regplate: true
-    accent: true
-  }
-}
+import type { ThemeContextType, ThemeProviderProps } from '@/types/theme'
 
 // Base-konfiguration för custom färger som används i båda teman
 const base = {

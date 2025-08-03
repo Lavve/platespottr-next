@@ -21,7 +21,7 @@ export interface IUserContext {
   saveUser: (user: IUser) => void
   resetUser: () => void
   isLoading: boolean
-  createUser: (name: string) => void
+  createUser: (name: string, pin: string) => void
   isCreatingUser: boolean
   addNumberToUser: (newTimestamp: string) => void
   removeLastNumberFromUser: () => void

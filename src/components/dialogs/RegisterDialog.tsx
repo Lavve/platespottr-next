@@ -3,12 +3,7 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
-
-interface RegisterDialogProps {
-  open: boolean
-  onClose: () => void
-  onSwitchToLogin: () => void
-}
+import type { RegisterDialogProps } from '@/types/auth'
 
 const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps) => {
   const t = useTranslations()
@@ -48,7 +43,7 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
     }
 
     setLocalError('')
-    createUser(name.trim())
+    createUser(name.trim(), pin.trim())
   }, [name, pin, confirmPin, createUser, t])
 
   const handleClose = useCallback(() => {
@@ -109,6 +104,8 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
             htmlInput: {
               maxLength: 4,
               pattern: '[0-9]*',
+              inputMode: 'numeric',
+              autoComplete: 'off',
             },
           }}
           disabled={isCreatingUser}
@@ -127,23 +124,21 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
             htmlInput: {
               maxLength: 4,
               pattern: '[0-9]*',
+              inputMode: 'numeric',
+              autoComplete: 'off',
             },
           }}
           disabled={isCreatingUser}
           onKeyUp={handleKeyPress}
-          error={confirmPin.length > 0 && pin !== confirmPin}
-          helperText={confirmPin.length > 0 && pin !== confirmPin ? t('auth.pins_dont_match') : ''}
+          helperText={t('auth.confirm_pin_help')}
         />
       </DialogContent>
       <DialogActions>
-        <Button variant='outlined' color='primary' size='large' onClick={handleClose} disabled={isCreatingUser}>
-          {t('common.cancel')}
-        </Button>
-        <Button variant='text' color='primary' size='large' onClick={onSwitchToLogin} disabled={isCreatingUser}>
+        <Button onClick={onSwitchToLogin} disabled={isCreatingUser}>
           {t('auth.already_have_account')}
         </Button>
-        <Button variant='contained' color='primary' size='large' onClick={handleRegister} disabled={isCreatingUser}>
-          {isCreatingUser ? t('auth.creating_account') : t('auth.create_account')}
+        <Button onClick={handleRegister} variant='contained' disabled={isCreatingUser}>
+          {t('auth.create_account')}
         </Button>
       </DialogActions>
     </Dialog>

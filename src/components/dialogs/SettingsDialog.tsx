@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
+import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
 import type { Locale } from '@/i18n/config'
@@ -19,7 +20,7 @@ import QrDialog from './QrDialog'
 const SettingsDialog = () => {
   const t = useTranslations()
   const { user, saveUser, resetUser, logout, isAuthenticated } = useUser()
-  const { resetFriends, removeAllFriends } = useFriends()
+  const { resetFriends } = useFriends()
   const { settings, saveSettings, setTheme, resetSettings } = useSettings()
 
   const removeLastNumberMutation = useRemoveLastNumber()
@@ -29,10 +30,10 @@ const SettingsDialog = () => {
   const [country, setCountry] = useState<Country>(settings.country)
   const [confirmResetAllDialogOpen, setConfirmResetAllDialogOpen] = useState(false)
   const [confirmResetLastDialogOpen, setConfirmResetLastDialogOpen] = useState(false)
-  const [confirmDeleteUserDialogOpen, setConfirmDeleteUserDialogOpen] = useState(false)
   const [confirmLogoutUserDialogOpen, setConfirmLogoutUserDialogOpen] = useState(false)
   const [confirmChangeCountryDialogOpen, setConfirmChangeCountryDialogOpen] = useState(false)
   const [confirmResetAccountDialogOpen, setConfirmResetAccountDialogOpen] = useState(false)
+  const [deleteAccountDialogOpen, setDeleteAccountDialogOpen] = useState(false)
 
   const handleChangeLanguage = (language: Language) => {
     saveSettings({ ...settings, language })
@@ -64,15 +65,8 @@ const SettingsDialog = () => {
     setConfirmResetAllDialogOpen(false)
   }
 
-  const handleDeleteUser = () => {
-    saveUser({ ...user, numbers: [] } as IUser)
-    removeAllFriends()
-    setConfirmDeleteUserDialogOpen(false)
-    setDialogOpen(false)
-  }
-
   const handleLogoutUser = () => {
-    logout() // Use the new logout method
+    logout()
     setConfirmLogoutUserDialogOpen(false)
     setDialogOpen(false)
   }
@@ -278,6 +272,18 @@ const SettingsDialog = () => {
                 >
                   {t('settings.reset_account')}
                 </VibrateButton>
+
+                {/* Delete Account Button */}
+                <VibrateButton
+                  variant='outlined'
+                  color='error'
+                  size='large'
+                  fullWidth
+                  startIcon={<Delete />}
+                  onClick={() => setDeleteAccountDialogOpen(true)}
+                >
+                  {t('settings.delete_account')}
+                </VibrateButton>
               </Box>
             </Paper>
           </DialogContent>
@@ -324,20 +330,15 @@ const SettingsDialog = () => {
       />
 
       <ConfirmDialog
-        open={confirmDeleteUserDialogOpen}
-        title={t('confirm.delete_account_title')}
-        content={t('confirm.delete_account_content')}
-        onClose={() => setConfirmDeleteUserDialogOpen(false)}
-        onConfirm={handleDeleteUser}
-      />
-
-      <ConfirmDialog
         open={confirmChangeCountryDialogOpen}
         title={t('confirm.change_country_title')}
         content={t('confirm.change_country_content')}
         onClose={() => setConfirmChangeCountryDialogOpen(false)}
         onConfirm={() => handleConfirmChangeCountry(country)}
       />
+
+      {/* Delete Account Dialog */}
+      <DeleteAccountDialog open={deleteAccountDialogOpen} onClose={() => setDeleteAccountDialogOpen(false)} />
     </>
   )
 }

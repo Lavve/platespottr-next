@@ -17,7 +17,6 @@ const Page = () => {
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
 
   useEffect(() => {
-    console.log('user', user)
     if (user?.numbers?.length === 999) {
       setIsCompleteDialogOpen(true)
     }

@@ -77,7 +77,7 @@ When a rate limit is exceeded, the API returns:
 - **Path:** `/api/user.php`
 - **Method:** DELETE
 - **Headers:** `Content-Type: application/json`
-- **Body:** `{"userId": "uuid", "pin", "string"}`
+- **Body:** `{"userId": "uuid", "pin": "string"}`
 - **Response:** `{"success": true, "message": "string"}`
 - **Rate Limit:** 1 request per minute
 
@@ -109,7 +109,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** POST
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"requesterId": "uuid", "receiverSlug": "string"}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "Friend request sent successfully"}`
 - **Rate Limit:** 10 requests per minute
 
 ### Confirm Friend Request
@@ -118,7 +118,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** POST
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"receiverId": "uuid", "requesterId": "uuid"}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "Friend request confirmed successfully"}`
 - **Rate Limit:** 10 requests per minute
 
 ### Get Friend List
@@ -143,7 +143,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** DELETE
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"userId": "uuid", "otherUserSlug": "string"}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "Friend relationship removed successfully"}`
 - **Rate Limit:** 10 requests per minute
 
 ### Get Incoming Friend Requests
@@ -170,7 +170,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** POST
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"userId": "uuid"}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "Number added successfully"}`
 - **Rate Limit:** 30 requests per minute
 
 ### Remove Last Number
@@ -179,7 +179,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** DELETE
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"userId": "uuid"}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "Last number removed successfully"}`
 - **Rate Limit:** 20 requests per minute
 
 ### Remove All Numbers
@@ -188,7 +188,7 @@ When a rate limit is exceeded, the API returns:
 - **Method:** DELETE
 - **Headers:** `Content-Type: application/json`
 - **Body:** `{"userId": "uuid", "removeAll": true}`
-- **Response:** `{"success": true, "message": "string"}`
+- **Response:** `{"success": true, "message": "All numbers removed successfully"}`
 - **Rate Limit:** 20 requests per minute
 
 ## Error Responses
@@ -206,6 +206,14 @@ When a rate limit is exceeded, the API returns:
 ```json
 {
   "error": "Invalid credentials"
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "error": "User not found"
 }
 ```
 

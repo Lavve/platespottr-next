@@ -2,22 +2,7 @@
 
 import { Alert, Snackbar } from '@mui/material'
 import { createContext, useCallback, useContext, useState } from 'react'
-
-export type SnackbarSeverity = 'success' | 'error' | 'warning' | 'info'
-
-interface SnackbarMessage {
-  message: string
-  severity: SnackbarSeverity
-  duration?: number
-}
-
-interface SnackbarContextType {
-  showSnackbar: (message: string, severity?: SnackbarSeverity, duration?: number) => void
-  showSuccess: (message: string, duration?: number) => void
-  showError: (message: string, duration?: number) => void
-  showWarning: (message: string, duration?: number) => void
-  showInfo: (message: string, duration?: number) => void
-}
+import type { SnackbarContextType, SnackbarMessage, SnackbarProviderProps, SnackbarSeverity } from '@/types/snackbar'
 
 const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined)
 
@@ -27,10 +12,6 @@ export const useSnackbar = () => {
     throw new Error('useSnackbar must be used within a SnackbarProvider')
   }
   return context
-}
-
-interface SnackbarProviderProps {
-  children: React.ReactNode
 }
 
 export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {

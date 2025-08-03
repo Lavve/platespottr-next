@@ -3,12 +3,9 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useUser } from '@/providers/userProvider'
+import type { AuthGuardProps } from '@/types/auth'
 import AuthenticationScreen from './AuthenticationScreen'
 import LoadingSpinner from './common/LoadingSpinner'
-
-interface AuthGuardProps {
-  children: React.ReactNode
-}
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
   const { isAuthenticated, isLoading } = useUser()

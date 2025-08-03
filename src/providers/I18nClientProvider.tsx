@@ -1,13 +1,7 @@
 'use client'
 
-import { type AbstractIntlMessages, type IntlError, NextIntlClientProvider } from 'next-intl'
-import type { ReactNode } from 'react'
-
-type IntlClientProviderProps = {
-  messages: AbstractIntlMessages
-  locale: string
-  children: ReactNode
-}
+import { type IntlError, NextIntlClientProvider } from 'next-intl'
+import type { IntlClientProviderProps } from '@/types/providers'
 
 export const I18nClientProvider = ({ messages, locale, children }: IntlClientProviderProps) => {
   const onError = (error: IntlError) => {

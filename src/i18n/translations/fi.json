@@ -31,6 +31,7 @@
     "pin_must_be_four_digits": "PIN-koodin on oltava tasan 4 numeroa.",
     "pins_dont_match": "PIN-koodit eivät täsmää.",
     "pin_help": "Syötä 4-numeroinen PIN-koodi (vain numeroita)",
+    "confirm_pin_help": "Vahvista 4-numeroinen PIN-koodisi",
     "name_help": "Syötä nimesi (vähintään 2 merkkiä)",
     "invalid_credentials": "Virheellinen nimi tai PIN-koodi. Yritä uudelleen.",
     "account_creation_failed": "Tilin luominen epäonnistui. Yritä uudelleen.",
@@ -55,7 +56,10 @@
     "user_management": "Käyttäjänhallinta",
     "reset_account": "Nollaa tili",
     "reset_account_title": "Nollaa tili",
-    "reset_account_content": "Tämä nollaa kaikki tietosi ja kirjaa sinut ulos. Oletko varma?"
+    "reset_account_content": "Tämä nollaa kaikki tietosi ja kirjaa sinut ulos. Oletko varma?",
+    "delete_account": "Poista tili",
+    "delete_account_description": "Poistaaksesi tilisi pysyvästi, syötä PIN-koodisi alle. Tätä ei voi perua.",
+    "deleting_account": "Poistetaan tiliä..."
   },
   "app": {
     "next_number_to_find": "Seuraava numero löydettäväksi",

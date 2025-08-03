@@ -35,7 +35,7 @@ export const useCreateUser = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (name: string) => apiService.createUser(name),
+    mutationFn: ({ name, pin }: { name: string; pin: string }) => apiService.createUser(name, pin),
     onSuccess: data => {
       if (data.success && data.user) {
         const appUser = transformApiUserToAppUser(data.user)
@@ -50,15 +50,11 @@ export const useUserQuery = (userId?: string, slug?: string, details = false, di
   return useQuery({
     queryKey: ['user', userId, slug, details],
     queryFn: async () => {
-      console.log('Calling API with:', { userId, slug, details })
       const response = await apiService.getUser(userId, slug, details)
-      console.log('API response:', response)
       if (response.success && response.user) {
         const transformedUser = transformApiUserToAppUser(response.user)
-        console.log('Transformed user:', transformedUser)
         return transformedUser
       }
-      console.log('No user data in response')
       return null
     },
     enabled: !!(userId || slug) && !disabled,
@@ -69,7 +65,7 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (userId: string) => apiService.deleteUser(userId),
+    mutationFn: ({ userId, pin }: { userId: string; pin: string }) => apiService.deleteUser(userId, pin),
     onSuccess: () => {
       queryClient.clear()
     },

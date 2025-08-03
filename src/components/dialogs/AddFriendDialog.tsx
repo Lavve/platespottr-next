@@ -18,7 +18,7 @@ const AddFriendDialog = () => {
     (friendSlug: string) => {
       if (!friendSlug) return // TODO: Show snackbar, no slug
       if (foundFriend) return // TODO: Show snackbar, friend already in list
-      addFriend({ name: 'Stina', slug: friendSlug, plates: [Date.now() - 1000 * 60 * 60 * 24 * 27] })
+      addFriend(friendSlug)
       clearQuery()
     },
     [foundFriend, addFriend, clearQuery]

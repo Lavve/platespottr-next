@@ -3,12 +3,7 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
-
-interface LoginDialogProps {
-  open: boolean
-  onClose: () => void
-  onSwitchToRegister: () => void
-}
+import type { LoginDialogProps } from '@/types/auth'
 
 const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) => {
   const t = useTranslations()
@@ -102,18 +97,14 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
           }}
           disabled={isLoggingIn}
           onKeyUp={handleKeyPress}
-          helperText={t('auth.pin_help')}
         />
       </DialogContent>
       <DialogActions>
-        <Button variant='outlined' color='primary' size='large' onClick={handleClose} disabled={isLoggingIn}>
-          {t('common.cancel')}
-        </Button>
-        <Button variant='text' color='primary' size='large' onClick={onSwitchToRegister} disabled={isLoggingIn}>
+        <Button onClick={onSwitchToRegister} disabled={isLoggingIn}>
           {t('auth.create_account')}
         </Button>
-        <Button variant='contained' color='primary' size='large' onClick={handleLogin} disabled={isLoggingIn}>
-          {isLoggingIn ? t('auth.logging_in') : t('auth.login')}
+        <Button onClick={handleLogin} variant='contained' disabled={isLoggingIn}>
+          {t('auth.login')}
         </Button>
       </DialogActions>
     </Dialog>

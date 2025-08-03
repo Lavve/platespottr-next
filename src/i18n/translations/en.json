@@ -31,6 +31,7 @@
     "pin_must_be_four_digits": "PIN must be exactly 4 digits.",
     "pins_dont_match": "PINs don't match.",
     "pin_help": "Enter a 4-digit PIN (numbers only)",
+    "confirm_pin_help": "Confirm your 4-digit PIN",
     "name_help": "Enter your name (minimum 2 characters)",
     "invalid_credentials": "Invalid name or PIN. Please try again.",
     "account_creation_failed": "Failed to create account. Please try again.",
@@ -55,7 +56,10 @@
     "user_management": "User Management",
     "reset_account": "Reset Account",
     "reset_account_title": "Reset Account",
-    "reset_account_content": "This will reset all your data and log you out. Are you sure?"
+    "reset_account_content": "This will reset all your data and log you out. Are you sure?",
+    "delete_account": "Delete account",
+    "delete_account_description": "To permanently delete your account, enter your PIN below. This action cannot be undone.",
+    "deleting_account": "Deleting account..."
   },
   "app": {
     "next_number_to_find": "Next number to find",

@@ -1,11 +1,5 @@
 // Security utilities for better data handling
-
-// Auth data interface
-interface AuthData {
-  currentUserId: string | null
-  currentUserSlug: string | null
-  isAuthenticated: boolean
-}
+import type { AuthData } from '@/types/auth'
 
 // Default auth data
 const DEFAULT_AUTH_DATA: AuthData = {
@@ -98,10 +92,12 @@ export const getAuthData = (): AuthData => {
       legacyData.currentUserId = legacyUserId
       hasLegacyData = true
     }
+
     if (legacyUserSlug) {
       legacyData.currentUserSlug = legacyUserSlug
       hasLegacyData = true
     }
+
     if (legacyIsAuthenticated) {
       legacyData.isAuthenticated = legacyIsAuthenticated === 'true'
       hasLegacyData = true
@@ -122,7 +118,7 @@ export const getAuthData = (): AuthData => {
 
     return DEFAULT_AUTH_DATA
   } catch (error) {
-    console.error('Failed to retrieve auth data from localStorage:', error)
+    console.error('Failed to get auth data:', error)
     return DEFAULT_AUTH_DATA
   }
 }
@@ -132,52 +128,54 @@ export const getAuthData = (): AuthData => {
  */
 export const setAuthData = (authData: AuthData): boolean => {
   try {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData))
-      return true
-    }
-    return false
+    return safeLocalStorageSet(AUTH_STORAGE_KEY, JSON.stringify(authData))
   } catch (error) {
-    console.error('Failed to store auth data in localStorage:', error)
+    console.error('Failed to set auth data:', error)
     return false
   }
 }
 
 /**
- * Updates specific auth data fields
+ * Updates specific fields in the auth data
  */
 export const updateAuthData = (updates: Partial<AuthData>): boolean => {
-  const currentData = getAuthData()
-  const updatedData = { ...currentData, ...updates }
-  return setAuthData(updatedData)
+  try {
+    const currentData = getAuthData()
+    const updatedData = { ...currentData, ...updates }
+    return setAuthData(updatedData)
+  } catch (error) {
+    console.error('Failed to update auth data:', error)
+    return false
+  }
 }
 
 /**
- * Clears all authentication-related data from localStorage
+ * Clears all auth data from localStorage
  */
 export const clearAuthData = (): void => {
-  // Clear new consolidated auth object
-  safeLocalStorageRemove(AUTH_STORAGE_KEY)
+  try {
+    // Remove the new consolidated key
+    safeLocalStorageRemove(AUTH_STORAGE_KEY)
 
-  // Clear legacy keys
-  Object.values(LEGACY_AUTH_KEYS).forEach(key => {
-    safeLocalStorageRemove(key)
-  })
+    // Also clean up any legacy keys that might still exist
+    Object.values(LEGACY_AUTH_KEYS).forEach(key => {
+      safeLocalStorageRemove(key)
+    })
+  } catch (error) {
+    console.error('Failed to clear auth data:', error)
+  }
 }
 
 /**
- * Validates PIN format (4 digits)
+ * Validates PIN format
  */
 export const validatePin = (pin: string): boolean => {
   return /^\d{4}$/.test(pin)
 }
 
 /**
- * Validates name format (letters, spaces, hyphens, Swedish characters)
+ * Validates name format
  */
 export const validateName = (name: string): boolean => {
-  return /^[a-zA-ZåäöÅÄÖ\s-]{2,}$/.test(name.trim())
+  return name.trim().length >= 2 && name.trim().length <= 50
 }
-
-// Export types for use in other files
-export type { AuthData }
