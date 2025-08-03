@@ -75,7 +75,8 @@
     "add_friend": "Lisää ystävä",
     "add_friend_description": "Lisää {friendSlug} ystäväksi.",
     "show_my_qr": "Näytä QR-koodini",
-    "your_platespottr_code": "Henkilökohtainen Platespottr-koodisi"
+    "your_platespottr_code": "Henkilökohtainen Platespottr-koodisi",
+    "pending_plate_request": "Sinulla on odottava numero, joka lisätään kun kirjaudut sisään"
   },
   "completed": {
     "title": "Onnistuit!",
@@ -121,7 +122,8 @@
     "send_friend_request_description": "Haluatko lähettää ystäväpyynnön <strong>{friendName}</strong>?",
     "error_camera": "Kameraa ei löytynyt",
     "error_finding_camera": "QR-koodin skannaamiseen tarvittavaa kameraa ei löytynyt",
-    "not_valid_qr_code": "Ei kelvollinen Platespottr QR-koodi"
+    "not_valid_qr_code": "Ei kelvollinen Platespottr QR-koodi",
+    "pending_friend_request": "Sinulla on odottava ystäväpyyntö käyttäjältä {slug}"
   },
   "toplist": {
     "number": "Määrä",

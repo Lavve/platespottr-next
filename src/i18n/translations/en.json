@@ -75,7 +75,8 @@
     "add_friend": "Add to my crew",
     "add_friend_description": "Add {friendSlug} to my crew.",
     "show_my_qr": "Show my QR code",
-    "your_platespottr_code": "Your Platespottr code"
+    "your_platespottr_code": "Your Platespottr code",
+    "pending_plate_request": "You have a pending number that will be added when you log in"
   },
   "completed": {
     "title": "You did it!",
@@ -121,7 +122,8 @@
     "send_friend_request_description": "Do you want to send a friend request to <strong>{friendName}</strong>?",
     "error_camera": "Could not find camera",
     "error_finding_camera": "Could not find any camera to scan QR code",
-    "not_valid_qr_code": "Not a valid Platespottr QR code"
+    "not_valid_qr_code": "Not a valid Platespottr QR code",
+    "pending_friend_request": "You have a pending friend request from {slug}"
   },
   "toplist": {
     "number": "Number",

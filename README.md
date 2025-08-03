@@ -7,10 +7,10 @@
 - [ ] Visa ändring av nummer med animering
 - [ ] Vertical stats bars
 - [ ] If API calls fails, keep in localstorage and sync next time online
-- [ ] When new user scans QR code they land on the https://platespottr.vercel.app/ web page. If they're not logged in they will be prompted to either login or create an account. When that is done we must make sure the add friend dialog is showing
 
 # DONE
 
+- [x] When new user scans QR code they land on the https://platespottr.vercel.app/ web page. If they're not logged in they will be prompted to either login or create an account. When that is done we must make sure the add friend dialog is showing
 - [x] Add API calls to backend using react-query
 - [x] Move all types to the types folder
 - [x] Add support for getUserMedia() to start the camera. Use jsQR to extract the slug from QR code
