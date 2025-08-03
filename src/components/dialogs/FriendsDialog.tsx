@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useMemo, useRef, useState } from 'react'
+import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import VibrateIconButton from '@/components/common/VibrateIconButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
@@ -23,7 +24,9 @@ import DialogHeader from '@/components/dialogs/DialogHeader'
 import QRScannerDialog from '@/components/dialogs/QRScannerDialog'
 import User from '@/components/user/User'
 import { DISABLE_REFRESH_REQUESTS_TIME } from '@/constants/app'
+import { useConfirmFriendRequest } from '@/hooks/useApi'
 import { useFriends } from '@/providers/friendsProvider'
+import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
 import type { IFriendsTabs } from '@/types/common'
 import type { IUser } from '@/types/user'
@@ -31,8 +34,11 @@ import { vibrate } from '@/utils/vibrate'
 
 const FriendsDialog = () => {
   const t = useTranslations()
+  const { showSuccess, showError } = useSnackbar()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
-  const { friendsAll, friendRequests, awaitingFriends, friendList, addFriend, removeFriend } = useFriends()
+  const { friendsAll, friendRequests, awaitingFriends, friendList, removeFriend, isLoading } = useFriends()
+  const { user } = useUser()
+  const confirmFriendMutation = useConfirmFriendRequest()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -89,10 +95,20 @@ const FriendsDialog = () => {
   }, [friendsTab])
 
   const handleAddFriend = (friend: IUser) => {
-    const friendsRequestsLength = addFriend(friend.slug)
-
-    if (friendsRequestsLength < 1) {
-      setFriendsTab('friends')
+    // This should confirm an incoming request, not send a new one
+    if (user?.id && friend.id) {
+      confirmFriendMutation.mutate(
+        { receiverId: user.id, requesterId: friend.id },
+        {
+          onSuccess: () => {
+            showSuccess(t('friends.friend_added', { name: friend.name }))
+          },
+          onError: error => {
+            console.error('Failed to confirm friend request:', error)
+            showError(t('friends.confirm_failed'))
+          },
+        }
+      )
     }
   }
 
@@ -164,6 +180,7 @@ const FriendsDialog = () => {
         color='primary'
         size='large'
         fullWidth
+        disabled={isLoading}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -172,8 +189,6 @@ const FriendsDialog = () => {
           px: 1,
           border: `2px solid ${theme.palette.roadsign.contrastText}`,
         }}
-        // disabled={friendsAll?.length === 0}
-
         onClick={() => setDialogOpen(true)}
       >
         <Badge badgeContent={friendsRequestsLength + awaitingFriendsLength} color='warning'>

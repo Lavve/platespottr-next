@@ -154,6 +154,12 @@
     "account_creation_failed": "Failed to create account. Please try again.",
     "invalid_credentials": "Invalid credentials. Please try again.",
     "network_error": "Network error. Please check your connection and try again.",
-    "api_error": "Server error. Please try again later."
+    "api_error": "Server error. Please try again later.",
+    "request_sent": "Friend request sent successfully!",
+    "request_failed": "Failed to send friend request. Please try again.",
+    "friend_added": "{name} has been added as a friend!",
+    "confirm_failed": "Failed to accept friend request. Please try again.",
+    "friend_removed": "Friend removed successfully!",
+    "remove_failed": "Failed to remove friend. Please try again."
   }
 }

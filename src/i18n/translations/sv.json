@@ -162,6 +162,12 @@
     "account_creation_failed": "Kunde inte skapa konto. Försök igen.",
     "invalid_credentials": "Ogiltiga uppgifter. Försök igen.",
     "network_error": "Nätverksfel. Kontrollera din anslutning och försök igen.",
-    "api_error": "Serverfel. Försök igen senare."
+    "api_error": "Serverfel. Försök igen senare.",
+    "request_sent": "Vänförfrågan skickad!",
+    "request_failed": "Kunde inte skicka vänförfrågan. Försök igen.",
+    "friend_added": "{name} har lagts till som vän!",
+    "confirm_failed": "Kunde inte godkänna vänförfrågan. Försök igen.",
+    "friend_removed": "Vän borttagen!",
+    "remove_failed": "Kunde inte ta bort vän. Försök igen."
   }
 }

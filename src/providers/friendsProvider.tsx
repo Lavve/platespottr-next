@@ -1,6 +1,8 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useMemo } from 'react'
+import { useSnackbar } from '@/components/common/SnackbarProvider'
 import {
   useAddFriendRequest,
   useConfirmFriendRequest,
@@ -18,6 +20,8 @@ const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
 const FriendsProvider = ({ children }: IProviderProps) => {
   const { user } = useUser()
+  const { showSuccess, showError } = useSnackbar()
+  const t = useTranslations()
 
   const { data: friendsAll = [], isLoading: friendsLoading } = useFriendsQuery(user?.id || '')
   const { data: incomingRequests = [], isLoading: incomingLoading } = useIncomingFriendRequestsQuery(user?.id || '')
@@ -42,17 +46,39 @@ const FriendsProvider = ({ children }: IProviderProps) => {
   const addFriend = useCallback(
     (friendSlug: string) => {
       if (user?.id) {
-        addFriendMutation.mutate({ requesterId: user.id, receiverSlug: friendSlug })
+        addFriendMutation.mutate(
+          { requesterId: user.id, receiverSlug: friendSlug },
+          {
+            onSuccess: () => {
+              showSuccess(t('friends.request_sent'))
+            },
+            onError: error => {
+              console.error('Failed to add friend:', error)
+              showError(t('friends.request_failed'))
+            },
+          }
+        )
       }
       return friendRequests.length
     },
-    [user?.id, addFriendMutation, friendRequests.length]
+    [user?.id, addFriendMutation, friendRequests.length, showSuccess, showError, t]
   )
 
   const removeFriend = useCallback(
     (friendSlug: string, tab: IFriendsTabs): number => {
       if (user?.id) {
-        removeFriendMutation.mutate({ userId: user.id, otherUserSlug: friendSlug })
+        removeFriendMutation.mutate(
+          { userId: user.id, otherUserSlug: friendSlug },
+          {
+            onSuccess: () => {
+              showSuccess(t('friends.friend_removed'))
+            },
+            onError: error => {
+              console.error('Failed to remove friend:', error)
+              showError(t('friends.remove_failed'))
+            },
+          }
+        )
       }
 
       if (tab === 'awaiting') {
@@ -62,7 +88,16 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       }
       return friendList.length - 1
     },
-    [user?.id, removeFriendMutation, awaitingFriends.length, friendRequests.length, friendList.length]
+    [
+      user?.id,
+      removeFriendMutation,
+      awaitingFriends.length,
+      friendRequests.length,
+      friendList.length,
+      showSuccess,
+      showError,
+      t,
+    ]
   )
 
   const removeAllFriends = useCallback(() => {

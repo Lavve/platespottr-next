@@ -154,10 +154,10 @@ class ApiService {
     return this.request<StatusResponse>(`/friend-status.php?userId=${userId}&otherUserId=${otherUserId}`)
   }
 
-  async removeFriend(userId: string, otherUserId: string): Promise<MessageResponse> {
+  async removeFriend(userId: string, otherUserSlug: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/friend.php', {
       method: 'DELETE',
-      body: JSON.stringify({ userId, otherUserId }),
+      body: JSON.stringify({ userId, otherUserSlug }),
     })
   }
 

@@ -154,6 +154,12 @@
     "account_creation_failed": "Tilin luominen epäonnistui. Yritä uudelleen.",
     "invalid_credentials": "Virheelliset tiedot. Yritä uudelleen.",
     "network_error": "Verkkovirhe. Tarkista yhteys ja yritä uudelleen.",
-    "api_error": "Palvelinvirhe. Yritä myöhemmin uudelleen."
+    "api_error": "Palvelinvirhe. Yritä myöhemmin uudelleen.",
+    "request_sent": "Ystäväpyyntö lähetetty!",
+    "request_failed": "Ystäväpyyntöä ei voitu lähettää. Yritä uudelleen.",
+    "friend_added": "{name} on lisätty ystäväksi!",
+    "confirm_failed": "Ystäväpyyntöä ei voitu hyväksyä. Yritä uudelleen.",
+    "friend_removed": "Ystävä poistettu!",
+    "remove_failed": "Ystävää ei voitu poistaa. Yritä uudelleen."
   }
 }
