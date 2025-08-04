@@ -12,6 +12,7 @@ import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
 import type { Locale } from '@/i18n/config'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
+import { ApiError } from '@/services/api'
 import type { Country, Language } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { setUserLocale } from '@/utils/locale'
@@ -55,7 +56,11 @@ const SettingsDialog = () => {
       removeLastNumberMutation.mutate(user.id, {
         onError: error => {
           console.error(error)
-          showError(t('notifications.remove_number_failed'))
+          let errorMsg = t('notifications.remove_number_failed', { code: 0 })
+          if (error instanceof ApiError) {
+            errorMsg = t('notifications.remove_number_failed', { code: error.status })
+          }
+          showError(errorMsg)
         },
       })
     }
@@ -67,7 +72,11 @@ const SettingsDialog = () => {
       removeAllNumbersMutation.mutate(user.id, {
         onError: error => {
           console.error(error)
-          showError(t('notifications.remove_number_failed'))
+          let errorMsg = t('notifications.remove_number_failed', { code: 0 })
+          if (error instanceof ApiError) {
+            errorMsg = t('notifications.remove_number_failed', { code: error.status })
+          }
+          showError(errorMsg)
         },
       })
     }

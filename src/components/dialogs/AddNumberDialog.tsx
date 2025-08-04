@@ -9,6 +9,7 @@ import { useAddNumber } from '@/hooks/useApi'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
+import { ApiError } from '@/services/api'
 
 const AddNumberDialog = () => {
   const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
@@ -35,7 +36,11 @@ const AddNumberDialog = () => {
     addNumberMutation.mutate(user.id, {
       onError: error => {
         console.error(error)
-        showError(t('notifications.add_number_failed'))
+        let errorMsg = t('notifications.add_number_failed', { code: 0 })
+        if (error instanceof ApiError) {
+          errorMsg = t('notifications.add_number_failed', { code: error.status })
+        }
+        showError(errorMsg)
       },
     })
     setDialogOpen(false)

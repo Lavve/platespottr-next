@@ -27,6 +27,7 @@ import { DISABLE_REFRESH_REQUESTS_TIME } from '@/constants/app'
 import { useConfirmFriendRequest } from '@/hooks/useApi'
 import { useFriends } from '@/providers/friendsProvider'
 import { useUser } from '@/providers/userProvider'
+import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import type { IFriendsTabs } from '@/types/common'
 import type { IUser } from '@/types/user'
@@ -105,7 +106,11 @@ const FriendsDialog = () => {
           },
           onError: error => {
             console.error('Failed to confirm friend request:', error)
-            showError(t('friends.confirm_failed'))
+            let errorMsg = t('notifications.confirm_failed', { code: 0 })
+            if (error instanceof ApiError) {
+              errorMsg = t('notifications.confirm_failed', { code: error.status })
+            }
+            showError(errorMsg)
           },
         }
       )

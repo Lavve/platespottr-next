@@ -11,6 +11,7 @@ import {
   useOutgoingFriendRequestsQuery,
   useRemoveFriend,
 } from '@/hooks/useApi'
+import { ApiError } from '@/services/api'
 import type { IFriendsTabs, IProviderProps } from '@/types/common'
 import type { IFriendsContext } from '@/types/friends'
 import type { IUser } from '@/types/user'
@@ -54,7 +55,11 @@ const FriendsProvider = ({ children }: IProviderProps) => {
             },
             onError: error => {
               console.error('Failed to add friend:', error)
-              showError(t('friends.request_failed'))
+              let errorMsg = t('notifications.request_failed', { code: 0 })
+              if (error instanceof ApiError) {
+                errorMsg = t('notifications.request_failed', { code: error.status })
+              }
+              showError(errorMsg)
             },
           }
         )
@@ -75,7 +80,11 @@ const FriendsProvider = ({ children }: IProviderProps) => {
             },
             onError: error => {
               console.error('Failed to remove friend:', error)
-              showError(t('friends.remove_failed'))
+              let errorMsg = t('notifications.remove_failed', { code: 0 })
+              if (error instanceof ApiError) {
+                errorMsg = t('notifications.remove_failed', { code: error.status })
+              }
+              showError(errorMsg)
             },
           }
         )

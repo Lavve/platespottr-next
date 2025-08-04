@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useSnackbar } from '@/components/common/SnackbarProvider'
 import { useCreateUser, useLogin, useLogout, useUserQuery } from '@/hooks/useApi'
+import { ApiError } from '@/services/api'
 import type { AuthData } from '@/types/auth'
 import type { IProviderProps } from '@/types/common'
 import type { ILoginCredentials, IUser, IUserContext } from '@/types/user'
@@ -121,8 +122,10 @@ const UserProvider = ({ children }: IProviderProps) => {
             }
           },
           onError: error => {
-            console.error('UserProvider - createUser error:', error)
-            const errorMsg = t('notifications.account_creation_failed')
+            let errorMsg = t('notifications.login_failed', { code: 0 })
+            if (error instanceof ApiError) {
+              errorMsg = t('notifications.login_failed', { code: error.status })
+            }
             setAuthError(errorMsg)
             showError(errorMsg)
           },
@@ -135,6 +138,7 @@ const UserProvider = ({ children }: IProviderProps) => {
   const login = useCallback(
     (credentials: ILoginCredentials) => {
       setAuthError(null) // Clear any previous errors
+
       loginMutation(credentials, {
         onSuccess: (data: unknown) => {
           const response = data as { success: boolean; user?: IUser; message?: string }
@@ -148,7 +152,10 @@ const UserProvider = ({ children }: IProviderProps) => {
         },
         onError: error => {
           console.error('UserProvider - login error:', error)
-          const errorMsg = t('notifications.login_failed')
+          let errorMsg = t('notifications.login_failed', { code: 0 })
+          if (error instanceof ApiError) {
+            errorMsg = t('notifications.login_failed', { code: error.status })
+          }
           setAuthError(errorMsg)
         },
       })
@@ -165,7 +172,12 @@ const UserProvider = ({ children }: IProviderProps) => {
       logoutMutation(currentUserId, {
         onError: error => {
           console.warn('UserProvider - logout API failed, but user already logged out locally:', error)
-          showError(t('notifications.logout_failed'))
+          let errorMsg = t('notifications.logout_failed', { code: 0 })
+          if (error instanceof ApiError) {
+            errorMsg = t('notifications.logout_failed', { code: error.status })
+          }
+          setAuthError(errorMsg)
+          showError(errorMsg)
         },
       })
     }

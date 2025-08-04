@@ -45,9 +45,6 @@ export const useCreateUser = () => {
         queryClient.invalidateQueries({ queryKey: ['user'] })
       }
     },
-    onError: error => {
-      console.error(error)
-    },
   })
 }
 
@@ -73,9 +70,6 @@ export const useDeleteUser = () => {
     mutationFn: ({ userId, pin }: { userId: string; pin: string }) => apiService.deleteUser(userId, pin),
     onSuccess: () => {
       queryClient.clear()
-    },
-    onError: error => {
-      console.error(error)
     },
   })
 }
@@ -133,9 +127,6 @@ export const useAddFriendRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', requesterId] })
     },
-    onError: error => {
-      console.error(error)
-    },
   })
 }
 
@@ -150,9 +141,6 @@ export const useConfirmFriendRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'incoming', receiverId] })
     },
-    onError: error => {
-      console.error(error)
-    },
   })
 }
 
@@ -164,9 +152,6 @@ export const useRemoveFriend = () => {
       apiService.removeFriend(userId, otherUserSlug),
     onSuccess: (_, { userId }) => {
       queryClient.invalidateQueries({ queryKey: ['friends', userId] })
-    },
-    onError: error => {
-      console.error(error)
     },
   })
 }
@@ -180,9 +165,6 @@ export const useAddNumber = () => {
     onSuccess: (_, userId) => {
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
     },
-    onError: error => {
-      console.error(error)
-    },
   })
 }
 
@@ -194,9 +176,6 @@ export const useRemoveLastNumber = () => {
     onSuccess: (_, userId) => {
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
     },
-    onError: error => {
-      console.error(error)
-    },
   })
 }
 
@@ -207,9 +186,6 @@ export const useRemoveAllNumbers = () => {
     mutationFn: (userId: string) => apiService.removeAllNumbers(userId),
     onSuccess: (_, userId) => {
       queryClient.invalidateQueries({ queryKey: ['user', userId] })
-    },
-    onError: error => {
-      console.error(error)
     },
   })
 }

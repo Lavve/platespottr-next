@@ -9,6 +9,7 @@ import RegPlate from '@/components/RegPlate'
 import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
 import { useAddNumber } from '@/hooks/useApi'
 import { useUser } from '@/providers/userProvider'
+import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import { vibrate } from '@/utils/vibrate'
 
@@ -37,7 +38,11 @@ const FindPlate = () => {
         addNumberMutation.mutate(user.id, {
           onError: error => {
             console.error(error)
-            showError(t('notifications.add_number_failed'))
+            let errorMsg = t('notifications.add_number_failed', { code: 0 })
+            if (error instanceof ApiError) {
+              errorMsg = t('notifications.add_number_failed', { code: error.status })
+            }
+            showError(errorMsg)
           },
         })
       }

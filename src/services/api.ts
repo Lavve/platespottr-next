@@ -9,6 +9,17 @@ import type {
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ps-api.lavve.net/api'
 
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public statusText: string
+  ) {
+    super(message)
+    this.name = 'ApiError'
+  }
+}
+
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`
@@ -24,7 +35,11 @@ class ApiService {
     if (!response.ok) {
       const errorText = await response.text()
       console.error('API Error:', errorText)
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`)
+      throw new ApiError(
+        `API request failed: ${response.status} ${response.statusText}`,
+        response.status,
+        response.statusText
+      )
     }
 
     const data = await response.json()

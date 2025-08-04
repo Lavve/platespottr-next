@@ -1,6 +1,6 @@
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
 import type { LoginDialogProps } from '@/types/auth'
@@ -92,7 +92,7 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
   )
 
   // Show either local validation error or auth error
-  const displayError = localError || authError
+  const displayError = useMemo(() => localError || authError, [localError, authError])
 
   return (
     <Dialog fullWidth maxWidth='xs' open={open} onClose={handleClose}>
