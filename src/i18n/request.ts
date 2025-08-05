@@ -1,5 +1,6 @@
 import { IntlErrorCode } from 'next-intl'
 import { getRequestConfig } from 'next-intl/server'
+import { getTimeZoneForLocale } from '@/utils/getTimeZoneForLocale'
 import { getUserLocale } from '@/utils/locale'
 
 export default getRequestConfig(async () => {
@@ -7,7 +8,7 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    timeZone: 'Europe/Stockholm',
+    timeZone: getTimeZoneForLocale(locale),
     messages: (await import(`./translations/${locale}.json`)).default,
     now: new Date(),
     onError(error) {

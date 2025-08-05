@@ -2,6 +2,7 @@
 
 import { type IntlError, NextIntlClientProvider, useTimeZone } from 'next-intl'
 import type { IntlClientProviderProps } from '@/types/providers'
+import { getTimeZoneForLocale } from '@/utils/getTimeZoneForLocale'
 
 export const I18nClientProvider = ({ messages, locale, children }: IntlClientProviderProps) => {
   const timeZone = useTimeZone()
@@ -36,7 +37,7 @@ export const I18nClientProvider = ({ messages, locale, children }: IntlClientPro
       messages={messages}
       onError={onError}
       getMessageFallback={getMessageFallback}
-      timeZone={timeZone || 'Europe/Stockholm'}
+      timeZone={timeZone || getTimeZoneForLocale(locale)}
       now={new Date()}
     >
       {children}

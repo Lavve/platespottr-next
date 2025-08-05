@@ -6,11 +6,12 @@ import { NextIntlClientProvider } from 'next-intl'
 import type { ReactNode } from 'react'
 import { useMemo, useState } from 'react'
 import { SnackbarProvider } from '@/components/common/SnackbarProvider'
+import FriendsProvider from '@/providers/friendsProvider'
+import SettingsProvider, { useSettings } from '@/providers/settingsProvider'
+import UserProvider from '@/providers/userProvider'
 import theme, { darkTheme } from '@/style/theme'
 import type { ProvidersProps } from '@/types/providers'
-import FriendsProvider from './friendsProvider'
-import SettingsProvider, { useSettings } from './settingsProvider'
-import UserProvider from './userProvider'
+import { getTimeZoneForLocale } from '@/utils/getTimeZoneForLocale'
 
 const ThemeWrapper = ({ children }: { children: ReactNode }) => {
   const { settings } = useSettings()
@@ -32,7 +33,7 @@ const Providers = ({ children, messages, locale }: ProvidersProps) => {
   )
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
+    <NextIntlClientProvider messages={messages} locale={locale} timeZone={getTimeZoneForLocale(locale)}>
       <QueryClientProvider client={queryClient}>
         <SnackbarProvider>
           <UserProvider>
