@@ -80,7 +80,8 @@
     "add_friend": "Add to my crew",
     "add_friend_description": "Add {friendSlug} to my crew.",
     "show_my_qr": "My QR code",
-    "your_platespottr_code": "Your Platespottr code",
+    "your_platespottr_name": "Name",
+    "your_platespottr_code": "Code",
     "pending_plate_request": "You have a pending number that will be added when you log in"
   },
   "completed": {

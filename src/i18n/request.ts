@@ -15,14 +15,9 @@ export default getRequestConfig(async () => {
         console.error(error)
       }
     },
-    getMessageFallback({ namespace, key, error }) {
+    getMessageFallback({ namespace, key }) {
       const path = [namespace, key].filter(part => part != null).join('.')
-
-      if (error.code === IntlErrorCode.MISSING_MESSAGE) {
-        return `${path} is not yet translated`
-      }
-
-      return `Dear developer, please fix this message: ${path}`
+      return path
     },
   }
 })

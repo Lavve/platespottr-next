@@ -14,6 +14,7 @@ const QRScannerDialog = () => {
   const t = useTranslations()
   const { addFriend } = useFriends()
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [isScanning, setIsScanning] = useState(false)
   const [scannedName, setScannedName] = useState<string | null>(null)
   const [scannedCode, setScannedCode] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -32,6 +33,7 @@ const QRScannerDialog = () => {
 
     const startCamera = async () => {
       try {
+        setIsScanning(true)
         stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'environment' },
         })
@@ -77,6 +79,7 @@ const QRScannerDialog = () => {
                 setScannedName(name)
                 cancelAnimationFrame(frameId)
                 stream.getTracks().forEach(t => t.stop())
+                setIsScanning(false)
                 return
               }
             } catch {
@@ -91,6 +94,7 @@ const QRScannerDialog = () => {
       } catch (err) {
         setError('friends.error_finding_camera')
         console.error('Could not open camera:', err)
+        setIsScanning(false)
       }
     }
 
@@ -128,7 +132,7 @@ const QRScannerDialog = () => {
           px: 1,
           border: `2px solid ${theme.palette.roadsign.contrastText}`,
         }}
-        disabled={!!error}
+        disabled={isScanning}
         onClick={() => setDialogOpen(true)}
       >
         <CameraAlt />
@@ -140,13 +144,12 @@ const QRScannerDialog = () => {
           <DialogHeader title={t('friends.scan_qr_code_title')} />
           <DialogContent>
             {error ? (
-              <Alert severity='warning'>
-                <AlertTitle>{t('friends.error_camera')}</AlertTitle>
-                {t(error)}
-              </Alert>
-            ) : !scannedCode ? (
+              <Alert severity='warning'>{t(error)}</Alert>
+            ) : (
+              <Typography variant='body1'>{t('friends.scan_qr_code_description')}</Typography>
+            )}
+            {!scannedCode ? (
               <>
-                <Typography variant='body1'>{t('friends.scan_qr_code_description')}</Typography>
                 <Box sx={{ width: '100%', aspectRatio: '1', position: 'relative', overflow: 'hidden' }}>
                   <video
                     ref={videoRef}

@@ -88,12 +88,18 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
                 p: 1,
               }}
             >
-              <Typography variant='body2' sx={{ textAlign: 'center' }}>
-                {t('app.your_platespottr_code')}
-              </Typography>
-              <Typography variant='body1' sx={{ textAlign: 'center', color: 'secondary.light' }}>
-                {user.slug.toUpperCase()}
-              </Typography>
+              <Box sx={{ textAlign: 'center', display: 'flex', gap: 0.5 }}>
+                <Typography variant='body2'>{t('app.your_platespottr_name')}:</Typography>
+                <Typography variant='body2' sx={{ fontWeight: 700 }}>
+                  {user.name}
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center', display: 'flex', gap: 0.5 }}>
+                <Typography variant='body2'>{t('app.your_platespottr_code')}:</Typography>
+                <Typography variant='body2' sx={{ fontWeight: 700 }}>
+                  {user.slug.toUpperCase()}
+                </Typography>
+              </Box>
             </Paper>
           </DialogContent>
 

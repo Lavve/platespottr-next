@@ -1,9 +1,11 @@
 'use client'
 
-import { type IntlError, NextIntlClientProvider } from 'next-intl'
+import { type IntlError, NextIntlClientProvider, useTimeZone } from 'next-intl'
 import type { IntlClientProviderProps } from '@/types/providers'
 
 export const I18nClientProvider = ({ messages, locale, children }: IntlClientProviderProps) => {
+  const timeZone = useTimeZone()
+
   const onError = (error: IntlError) => {
     if (error.code === 'MISSING_MESSAGE') {
       if (process.env.NODE_ENV === 'development') {
@@ -34,7 +36,7 @@ export const I18nClientProvider = ({ messages, locale, children }: IntlClientPro
       messages={messages}
       onError={onError}
       getMessageFallback={getMessageFallback}
-      timeZone='Europe/Stockholm'
+      timeZone={timeZone || 'Europe/Stockholm'}
       now={new Date()}
     >
       {children}

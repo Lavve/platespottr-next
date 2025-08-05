@@ -66,3 +66,8 @@ export interface IDeleteAccountDialogProps {
   open: boolean
   onClose: () => void
 }
+
+export interface IRegPlateCharacterProps {
+  char: number | string
+  type: 'number' | 'letter'
+}

@@ -1,8 +1,10 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: // */
 'use client'
 
 import { Box, Card } from '@mui/material'
 import localFont from 'next/font/local'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import RegPlateCharacter from '@/components/RegPlateCharacter'
 import { useSettings } from '@/providers/settingsProvider'
 import theme from '@/style/theme'
 import type { IPlateProps } from '@/types/common'
@@ -21,7 +23,6 @@ const plateFontSize = 'clamp(3rem, calc((100vw - 3rem) / 6.5), 5.5rem)'
 
 const RegPlate = ({ number }: IPlateProps) => {
   const { settings } = useSettings()
-  const key = useRef(0)
   const [letters, setLetters] = useState('')
 
   useEffect(() => {
@@ -36,35 +37,23 @@ const RegPlate = ({ number }: IPlateProps) => {
     return number.toString().padStart(3, '0').split('')
   }, [number])
 
-  const wrappedLetters = useMemo(() => {
-    return lettersArray.map(letter => (
-      <Box
-        id={`letter-${letter}`}
-        key={`${letter}-${key.current++}`}
-        component='span'
-        sx={{
-          display: 'inline-block',
-          minWidth: { xs: '2rem', sm: '2.25rem' },
-          textAlign: 'center',
-          textTransform: 'uppercase',
-        }}
-      >
-        {letter}
-      </Box>
-    ))
-  }, [lettersArray])
-
-  const wrappedNumbers = useMemo(() => {
-    return numberArray.map(digit => (
-      <Box
-        key={`${digit}-${key.current++}`}
-        component='span'
-        sx={{ display: 'inline-block', minWidth: { xs: '1.5rem', sm: '3rem' }, textAlign: 'center' }}
-      >
-        {digit}
-      </Box>
-    ))
-  }, [numberArray])
+  // const wrappedLetters = useMemo(() => {
+  //   return lettersArray.map((letter, idx) => (
+  //     <Box
+  //       id={`letter-${letter}`}
+  //       key={`${idx}-${letter}`}
+  //       component='span'
+  //       sx={{
+  //         display: 'inline-block',
+  //         minWidth: { xs: '2rem', sm: '2.25rem' },
+  //         textAlign: 'center',
+  //         textTransform: 'uppercase',
+  //       }}
+  //     >
+  //       {letter}
+  //     </Box>
+  //   ))
+  // }, [lettersArray])
 
   if (!letters || !number) return null
 
@@ -124,34 +113,46 @@ const RegPlate = ({ number }: IPlateProps) => {
         sx={{
           display: 'flex',
           width: '100%',
-          p: 0,
+          px: 3,
           gap: 2,
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           background: 'var(--regplate-gradient)',
         }}
       >
         <Box
           sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
             lineHeight: 1,
+            width: '100%',
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}
         >
-          {wrappedLetters}
+          {lettersArray.map((letter, idx) => (
+            <RegPlateCharacter key={`${idx}-letter`} char={letter} type='letter' />
+          ))}
         </Box>
         <Box
           sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             fontSize: plateFontSize,
             fontFamily: fontTratex.style.fontFamily,
             lineHeight: 1,
+            width: '100%',
             color: 'regplate.contrastText',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 1)',
           }}
         >
-          {wrappedNumbers}
+          {numberArray.map((digit, idx) => (
+            <RegPlateCharacter key={`${idx}-number`} char={digit} type='number' />
+          ))}
         </Box>
       </Box>
     </Card>

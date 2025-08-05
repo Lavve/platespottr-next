@@ -80,7 +80,8 @@
     "add_friend": "Lisää ystävä",
     "add_friend_description": "Lisää {friendSlug} ystäväksi.",
     "show_my_qr": "Näytä QR-koodini",
-    "your_platespottr_code": "Henkilökohtainen Platespottr-koodisi",
+    "your_platespottr_name": "Nimi",
+    "your_platespottr_code": "Koodi",
     "pending_plate_request": "Sinulla on odottava numero, joka lisätään kun kirjaudut sisään"
   },
   "completed": {
