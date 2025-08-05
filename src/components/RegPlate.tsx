@@ -19,7 +19,6 @@ const fontTratex = localFont({
     },
   ],
 })
-const plateFontSize = 'clamp(3rem, calc((100vw - 3rem) / 6.5), 5.5rem)'
 
 const RegPlate = ({ number }: IPlateProps) => {
   const { settings } = useSettings()
@@ -36,24 +35,6 @@ const RegPlate = ({ number }: IPlateProps) => {
   const numberArray = useMemo(() => {
     return number.toString().padStart(3, '0').split('')
   }, [number])
-
-  // const wrappedLetters = useMemo(() => {
-  //   return lettersArray.map((letter, idx) => (
-  //     <Box
-  //       id={`letter-${letter}`}
-  //       key={`${idx}-${letter}`}
-  //       component='span'
-  //       sx={{
-  //         display: 'inline-block',
-  //         minWidth: { xs: '2rem', sm: '2.25rem' },
-  //         textAlign: 'center',
-  //         textTransform: 'uppercase',
-  //       }}
-  //     >
-  //       {letter}
-  //     </Box>
-  //   ))
-  // }, [lettersArray])
 
   if (!letters || !number) return null
 
@@ -125,8 +106,6 @@ const RegPlate = ({ number }: IPlateProps) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: plateFontSize,
-            fontFamily: fontTratex.style.fontFamily,
             lineHeight: 1,
             width: '100%',
             color: 'regplate.contrastText',
@@ -142,8 +121,6 @@ const RegPlate = ({ number }: IPlateProps) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: plateFontSize,
-            fontFamily: fontTratex.style.fontFamily,
             lineHeight: 1,
             width: '100%',
             color: 'regplate.contrastText',

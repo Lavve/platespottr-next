@@ -2,7 +2,7 @@
 
 import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
@@ -15,7 +15,7 @@ import { vibrate } from '@/utils/vibrate'
 
 const FindPlate = () => {
   const t = useTranslations()
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
   const addNumberMutation = useAddNumber()
   const { showError } = useSnackbar()
   const [isHolding, setIsHolding] = useState(false)
@@ -23,6 +23,8 @@ const FindPlate = () => {
   const releaseRef = useRef<number | null>(null)
   const animationRef = useRef<number | null>(null)
   const startTimeRef = useRef<number | null>(null)
+
+  const isDisabled = useMemo(() => isLoading || addNumberMutation.isPending, [isLoading, addNumberMutation.isPending])
 
   const updateProgress = () => {
     if (!startTimeRef.current || !user) return
@@ -109,6 +111,7 @@ const FindPlate = () => {
           variant='contained'
           size='large'
           color='primary'
+          disabled={isDisabled}
           onMouseDown={startHold}
           onMouseUp={endHold}
           onMouseLeave={endHold}
