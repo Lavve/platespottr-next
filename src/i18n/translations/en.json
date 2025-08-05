@@ -10,7 +10,9 @@
     "add": "Add",
     "remove": "Remove",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "on": "On",
+    "off": "Off"
   },
   "auth": {
     "login": "Login",
@@ -21,9 +23,10 @@
     "creating_account": "Creating account...",
     "already_have_account": "Already have an account?",
     "name": "Name",
+    "choose_pin": "Choose PIN",
     "pin": "PIN",
     "confirm_pin": "Confirm PIN",
-    "login_description": "Enter your name and PIN to access your account.",
+    "login_description": "Enter your name and PIN.",
     "register_description": "Create a new account by entering your name and choosing a 4-digit PIN.",
     "welcome_message": "Welcome to Platespottr! Please login or create an account to continue.",
     "please_fill_all_fields": "Please fill in all fields.",
@@ -32,7 +35,7 @@
     "pins_dont_match": "PINs don't match.",
     "pin_help": "Enter a 4-digit PIN (numbers only)",
     "confirm_pin_help": "Confirm your 4-digit PIN",
-    "name_help": "Enter your name (minimum 2 characters)",
+    "name_help": "Enter your name, minimum 2 characters. A-Z, a-z, 0-9 and hyphens are allowed.",
     "invalid_credentials": "Invalid name or PIN. Please try again.",
     "account_creation_failed": "Failed to create account. Please try again.",
     "login_failed": "Login failed. Please check your credentials and try again. (Error code: {code})"
@@ -43,6 +46,7 @@
     "light": "Light",
     "dark": "Dark",
     "auto": "Auto",
+    "vibrate": "Vibrate on button press",
     "language": "Language",
     "swedish": "Svenska",
     "english": "English",
@@ -56,6 +60,7 @@
     "user_management": "User Management",
     "reset_account": "Reset Account",
     "reset_account_title": "Reset Account",
+    "member_since": "Member since: {date}",
     "reset_account_content": "This will reset all your data and log you out. Are you sure?",
     "delete_account": "Delete account",
     "delete_account_description": "To permanently delete your account, enter your PIN below. This action cannot be undone.",
@@ -74,7 +79,7 @@
     "add_plate_description_no_friends": "Click \"{add}\" to add a number. Add your friends to see who will be the first to reach the top!",
     "add_friend": "Add to my crew",
     "add_friend_description": "Add {friendSlug} to my crew.",
-    "show_my_qr": "Show my QR code",
+    "show_my_qr": "My QR code",
     "your_platespottr_code": "Your Platespottr code",
     "pending_plate_request": "You have a pending number that will be added when you log in"
   },

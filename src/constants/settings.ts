@@ -6,4 +6,5 @@ export const defaultSettings: ISettings = {
   language: 'sv',
   country: 's',
   initialRulesDialogOpen: true,
+  vibrate: true,
 }

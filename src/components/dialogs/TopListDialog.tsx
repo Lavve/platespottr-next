@@ -7,6 +7,7 @@ import DialogHeader from '@/components/dialogs/DialogHeader'
 import User from '@/components/user/User'
 import { useStatistics } from '@/hooks/useStatistics'
 import { useFriends } from '@/providers/friendsProvider'
+import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
 import type { ISortBy } from '@/types/common'
@@ -14,6 +15,7 @@ import { vibrate } from '@/utils/vibrate'
 
 const TopListDialog = () => {
   const t = useTranslations()
+  const { settings } = useSettings()
   const { friendList } = useFriends()
   const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const { user } = useUser()
@@ -62,11 +64,15 @@ const TopListDialog = () => {
   const handleTabChange = (e: React.SyntheticEvent, value: ISortBy) => {
     e.preventDefault()
     setSortBy(value)
-    vibrate()
+    if (settings.vibrate) {
+      vibrate()
+    }
   }
 
   const handleCloseDialog = () => {
-    vibrate()
+    if (settings.vibrate) {
+      vibrate()
+    }
     setDialogOpen(false)
   }
 

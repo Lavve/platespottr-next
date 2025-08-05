@@ -17,7 +17,6 @@ const QRScannerDialog = () => {
   const [scannedName, setScannedName] = useState<string | null>(null)
   const [scannedCode, setScannedCode] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [cameraSupported, setCameraSupported] = useState(true)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -27,7 +26,6 @@ const QRScannerDialog = () => {
     setScannedName(null)
     setScannedCode(null)
     setError(null)
-    setCameraSupported(true)
 
     let stream: MediaStream
     let frameId: number
@@ -73,6 +71,7 @@ const QRScannerDialog = () => {
               const url = new URL(text)
               const code = url.searchParams.get('add-friend')
               const name = url.searchParams.get('name')
+
               if (code) {
                 setScannedCode(code)
                 setScannedName(name)
@@ -90,7 +89,6 @@ const QRScannerDialog = () => {
 
         frameId = requestAnimationFrame(scan)
       } catch (err) {
-        setCameraSupported(false)
         setError('friends.error_finding_camera')
         console.error('Could not open camera:', err)
       }
@@ -118,26 +116,24 @@ const QRScannerDialog = () => {
 
   return (
     <>
-      {cameraSupported && (
-        <VibrateButton
-          variant='contained'
-          color='primary'
-          size='large'
-          fullWidth
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
-            px: 1,
-            border: `2px solid ${theme.palette.roadsign.contrastText}`,
-          }}
-          disabled={!!error}
-          onClick={() => setDialogOpen(true)}
-        >
-          <CameraAlt />
-          {t('friends.scan_qr_code')}
-        </VibrateButton>
-      )}
+      <VibrateButton
+        variant='contained'
+        color='primary'
+        size='large'
+        fullWidth
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          px: 1,
+          border: `2px solid ${theme.palette.roadsign.contrastText}`,
+        }}
+        disabled={!!error}
+        onClick={() => setDialogOpen(true)}
+      >
+        <CameraAlt />
+        {t('friends.scan_qr_code')}
+      </VibrateButton>
 
       {dialogOpen && (
         <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>

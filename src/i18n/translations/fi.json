@@ -10,7 +10,9 @@
     "add": "Lisää",
     "remove": "Poista",
     "today": "Tänään",
-    "yesterday": "Eilen"
+    "yesterday": "Eilen",
+    "on": "Päällä",
+    "off": "Pois"
   },
   "auth": {
     "login": "Kirjaudu sisään",
@@ -21,9 +23,10 @@
     "creating_account": "Luodaan tiliä...",
     "already_have_account": "Onko sinulla jo tili?",
     "name": "Nimi",
+    "choose_pin": "Valitse PIN-koodi",
     "pin": "PIN-koodi",
     "confirm_pin": "Vahvista PIN-koodi",
-    "login_description": "Syötä nimesi ja PIN-koodi kirjautuaksesi tilillesi.",
+    "login_description": "Syötä nimesi ja PIN-koodi.",
     "register_description": "Luo uusi tili syöttämällä nimesi ja valitsemalla 4-numeroinen PIN-koodi.",
     "welcome_message": "Tervetuloa Platespottriin! Kirjaudu sisään tai luo tili jatkaaksesi.",
     "please_fill_all_fields": "Täytä kaikki kentät.",
@@ -32,7 +35,7 @@
     "pins_dont_match": "PIN-koodit eivät täsmää.",
     "pin_help": "Syötä 4-numeroinen PIN-koodi (vain numeroita)",
     "confirm_pin_help": "Vahvista 4-numeroinen PIN-koodisi",
-    "name_help": "Syötä nimesi (vähintään 2 merkkiä)",
+    "name_help": "Syötä nimesi, vähintään 2 merkkiä. A-Ö, a-ö, 0-9 ja väliviivat ovat sallittuja.",
     "invalid_credentials": "Virheellinen nimi tai PIN-koodi. Yritä uudelleen.",
     "account_creation_failed": "Tilin luominen epäonnistui. Yritä uudelleen.",
     "login_failed": "Kirjautuminen epäonnistui. Tarkista tietosi ja yritä uudelleen. (Error code: {code})"
@@ -43,6 +46,7 @@
     "light": "Vaalea",
     "dark": "Tumma",
     "auto": "Auto",
+    "vibrate": "Vibraa painiketta painettaessa",
     "language": "Kieli",
     "swedish": "Svenska",
     "english": "English",
@@ -56,6 +60,7 @@
     "user_management": "Käyttäjänhallinta",
     "reset_account": "Nollaa tili",
     "reset_account_title": "Nollaa tili",
+    "member_since": "Jäsen: {date}",
     "reset_account_content": "Tämä nollaa kaikki tietosi ja kirjaa sinut ulos. Oletko varma?",
     "delete_account": "Poista tili",
     "delete_account_description": "Poistaaksesi tilisi pysyvästi, syötä PIN-koodisi alle. Tätä ei voi perua.",

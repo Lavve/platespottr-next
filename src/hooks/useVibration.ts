@@ -2,11 +2,13 @@
 
 import { useCallback } from 'react'
 import { VIBRATE_SUBTILE } from '@/constants/app'
+import { useSettings } from '@/providers/settingsProvider'
 import type { IVibrationOptions } from '@/types/common'
 import { vibrate } from '@/utils/vibrate'
 
 export const useVibration = (options: IVibrationOptions = {}) => {
-  const { pattern = VIBRATE_SUBTILE, enabled = true } = options
+  const { settings } = useSettings()
+  const { pattern = VIBRATE_SUBTILE, enabled = settings.vibrate } = options
   const hasVibrate =
     typeof window !== 'undefined' &&
     typeof navigator !== 'undefined' &&

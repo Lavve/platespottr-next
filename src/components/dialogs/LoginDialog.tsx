@@ -1,70 +1,34 @@
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
 import type { LoginDialogProps } from '@/types/auth'
+import PinField from '../common/PinField'
 
 const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) => {
   const t = useTranslations()
   const { login, isLoggingIn, authError, clearAuthError } = useUser()
   const [name, setName] = useState('')
-  const [pinDigits, setPinDigits] = useState(['', '', '', ''])
+  const [pin, setPin] = useState('')
   const [localError, setLocalError] = useState('')
-  const pinRefs = useRef<(HTMLInputElement | null)[]>([])
 
   // Clear errors when dialog opens/closes
   useEffect(() => {
     if (open) {
+      setName('')
+      setPin('')
       setLocalError('')
       clearAuthError()
-      setPinDigits(['', '', '', ''])
     }
   }, [open, clearAuthError])
 
-  const handlePinKeyDown = useCallback(
-    (index: number, event: React.KeyboardEvent) => {
-      // Handle backspace to go to previous field
-      if (event.key === 'Backspace' && !pinDigits[index] && index > 0) {
-        pinRefs.current[index - 1]?.focus()
-      }
-    },
-    [pinDigits]
-  )
-
-  const handlePinChange = useCallback(
-    (index: number, value: string) => {
-      // Only allow single digits
-      if (value.length > 1) {
-        value = value.slice(-1)
-      }
-
-      // Only allow numbers
-      if (!/^\d*$/.test(value)) {
-        return
-      }
-
-      const newPinDigits = [...pinDigits]
-      newPinDigits[index] = value
-      setPinDigits(newPinDigits)
-
-      // Auto-advance to next field if a digit was entered
-      if (value && index < 3) {
-        pinRefs.current[index + 1]?.focus()
-      } else if (!value && index > 0) {
-        pinRefs.current[index - 1]?.focus()
-      }
-    },
-    [pinDigits]
-  )
-
   const handleLogin = useCallback(() => {
-    if (!name.trim() || pinDigits.some(digit => !digit)) {
+    if (!name.trim() || !pin) {
       setLocalError(t('auth.please_fill_all_fields'))
       return
     }
 
-    const pin = pinDigits.join('')
     if (pin.length !== 4 || !/^\d+$/.test(pin)) {
       setLocalError(t('auth.pin_must_be_four_digits'))
       return
@@ -72,11 +36,11 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
 
     setLocalError('')
     login({ name: name.trim(), pin })
-  }, [name, pinDigits, login, t])
+  }, [name, pin, login, t])
 
   const handleClose = useCallback(() => {
     setName('')
-    setPinDigits(['', '', '', ''])
+    setPin('')
     setLocalError('')
     clearAuthError()
     onClose()
@@ -108,54 +72,24 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
           </Alert>
         )}
 
-        <TextField
-          fullWidth
-          label={t('auth.name')}
-          value={name}
-          onChange={e => setName(e.target.value)}
-          margin='normal'
-          autoFocus
-          disabled={isLoggingIn}
-          onKeyUp={handleKeyPress}
-        />
-
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2, mb: 1 }}>
-          <Typography variant='body2' sx={{ alignSelf: 'center' }}>
-            {t('auth.pin')}:
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {pinDigits.map((digit, idx) => (
-              <TextField
-                key={`${idx}-${digit}`}
-                inputRef={el => {
-                  pinRefs.current[idx] = el
-                }}
-                value={digit}
-                onChange={e => handlePinChange(idx, e.target.value)}
-                onKeyDown={e => handlePinKeyDown(idx, e)}
-                onKeyUp={handleKeyPress}
-                disabled={isLoggingIn}
-                slotProps={{
-                  htmlInput: {
-                    maxLength: 1,
-                    pattern: '[0-9]*',
-                    inputMode: 'numeric',
-                    autoComplete: 'off',
-                    style: { textAlign: 'center' },
-                  },
-                }}
-                sx={{
-                  width: '60px',
-                  '& .MuiInputBase-input': {
-                    textAlign: 'center',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                  },
-                }}
-              />
-            ))}
+        <form onSubmit={handleLogin}>
+          <TextField
+            fullWidth
+            label={t('auth.name')}
+            value={name}
+            onChange={e => setName(e.target.value)}
+            margin='normal'
+            autoFocus
+            disabled={isLoggingIn}
+            onKeyUp={handleKeyPress}
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2, mb: 1 }}>
+            <Typography variant='body2' sx={{ alignSelf: 'center' }}>
+              {t('auth.pin')}:
+            </Typography>
+            <PinField disabled={isLoggingIn} onChange={pin => setPin(pin)} />
           </Box>
-        </Box>
+        </form>
       </DialogContent>
       <DialogActions>
         <Button onClick={onSwitchToRegister} disabled={isLoggingIn}>
@@ -164,7 +98,7 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
         <Button
           onClick={handleLogin}
           variant='contained'
-          disabled={isLoggingIn || !name.trim() || pinDigits.some(digit => !digit)}
+          disabled={isLoggingIn || name.trim().length < 2 || !pin.length}
         >
           {t('auth.login')}
         </Button>

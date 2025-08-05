@@ -63,7 +63,9 @@ const RulesDialog = () => {
   }, [initialRulesDialogOpen])
 
   const onCloseRulesDialog = () => {
-    vibrate()
+    if (settings.vibrate) {
+      vibrate()
+    }
     saveSettings({ ...settings, initialRulesDialogOpen: false })
     setDialogOpen(false)
   }
@@ -231,7 +233,9 @@ const RulesDialog = () => {
                       <Checkbox
                         onChange={() => {
                           setUnderstood(!understood)
-                          vibrate()
+                          if (settings.vibrate) {
+                            vibrate()
+                          }
                         }}
                       />
                     }

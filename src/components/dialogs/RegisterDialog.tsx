@@ -1,9 +1,10 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
 import type { RegisterDialogProps } from '@/types/auth'
+import PinField from '../common/PinField'
 
 const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps) => {
   const t = useTranslations()
@@ -89,49 +90,23 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
           margin='normal'
           autoFocus
           disabled={isCreatingUser}
-          onKeyPress={handleKeyPress}
+          onKeyUp={handleKeyPress}
           helperText={t('auth.name_help')}
         />
 
-        <TextField
-          fullWidth
-          label={t('auth.pin')}
-          type='password'
-          value={pin}
-          onChange={e => setPin(e.target.value)}
-          margin='normal'
-          slotProps={{
-            htmlInput: {
-              maxLength: 4,
-              pattern: '[0-9]*',
-              inputMode: 'numeric',
-              autoComplete: 'off',
-            },
-          }}
-          disabled={isCreatingUser}
-          onKeyUp={handleKeyPress}
-          helperText={t('auth.pin_help')}
-        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2, mb: 1 }}>
+          <Typography variant='body2' sx={{ alignSelf: 'center' }}>
+            {t('auth.choose_pin')}:
+          </Typography>
+          <PinField disabled={isCreatingUser} onChange={pin => setPin(pin)} />
+        </Box>
 
-        <TextField
-          fullWidth
-          label={t('auth.confirm_pin')}
-          type='password'
-          value={confirmPin}
-          onChange={e => setConfirmPin(e.target.value)}
-          margin='normal'
-          slotProps={{
-            htmlInput: {
-              maxLength: 4,
-              pattern: '[0-9]*',
-              inputMode: 'numeric',
-              autoComplete: 'off',
-            },
-          }}
-          disabled={isCreatingUser}
-          onKeyUp={handleKeyPress}
-          helperText={t('auth.confirm_pin_help')}
-        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2, mb: 1 }}>
+          <Typography variant='body2' sx={{ alignSelf: 'center' }}>
+            {t('auth.confirm_pin')}:
+          </Typography>
+          <PinField disabled={isCreatingUser} onChange={pin => setConfirmPin(pin)} />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onSwitchToLogin} disabled={isCreatingUser}>

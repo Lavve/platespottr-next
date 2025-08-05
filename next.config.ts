@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin()
 const nextConfig: NextConfig = {
   devIndicators: false,
   output: 'standalone',
+  allowedDevOrigins: ['localhost', '192.168.1.221'],
   headers: async () => {
     return [
       {
