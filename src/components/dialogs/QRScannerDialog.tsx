@@ -21,6 +21,8 @@ const QRScannerDialog = () => {
   const [error, setError] = useState<string | null>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const frameIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (!dialogOpen) return
@@ -29,31 +31,46 @@ const QRScannerDialog = () => {
     setScannedCode(null)
     setError(null)
 
-    let stream: MediaStream
-    let frameId: number
-
     const startCamera = async () => {
       try {
         setIsScanning(true)
-        stream = await navigator.mediaDevices.getUserMedia({
+
+        // Check if dialog is still open before proceeding
+        if (!dialogOpen) return
+
+        const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'environment' },
         })
+
+        // Check again after permission is granted
+        if (!dialogOpen) {
+          stream.getTracks().forEach(track => track.stop())
+          return
+        }
+
+        streamRef.current = stream
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream
           videoRef.current.onloadedmetadata = () => {
-            videoRef.current?.play()
+            // Check if dialog is still open before playing
+            if (dialogOpen && videoRef.current) {
+              videoRef.current.play()
+            }
           }
         }
 
         const scan = () => {
+          // Check if dialog is still open
+          if (!dialogOpen) return
+
           const video = videoRef.current
           const canvas = canvasRef.current
           if (!video || !canvas) return
 
           // Check if video has valid dimensions
           if (video.videoWidth === 0 || video.videoHeight === 0) {
-            frameId = requestAnimationFrame(scan)
+            frameIdRef.current = requestAnimationFrame(scan)
             return
           }
 
@@ -78,8 +95,14 @@ const QRScannerDialog = () => {
               if (code) {
                 setScannedCode(code)
                 setScannedName(name)
-                cancelAnimationFrame(frameId)
-                stream.getTracks().forEach(t => t.stop())
+                if (frameIdRef.current) {
+                  cancelAnimationFrame(frameIdRef.current)
+                  frameIdRef.current = null
+                }
+                if (streamRef.current) {
+                  streamRef.current.getTracks().forEach(t => t.stop())
+                  streamRef.current = null
+                }
                 setIsScanning(false)
                 return
               }
@@ -88,10 +111,10 @@ const QRScannerDialog = () => {
             }
           }
 
-          frameId = requestAnimationFrame(scan)
+          frameIdRef.current = requestAnimationFrame(scan)
         }
 
-        frameId = requestAnimationFrame(scan)
+        frameIdRef.current = requestAnimationFrame(scan)
       } catch (err) {
         setError('friends.error_finding_camera')
         console.error('Could not open camera:', err)
@@ -102,10 +125,15 @@ const QRScannerDialog = () => {
     startCamera()
 
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop())
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop())
+        streamRef.current = null
       }
-      cancelAnimationFrame(frameId)
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current)
+        frameIdRef.current = null
+      }
+      setIsScanning(false)
     }
   }, [dialogOpen])
 
