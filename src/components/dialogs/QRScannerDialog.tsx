@@ -139,6 +139,10 @@ const QRScannerDialog = () => {
 
   const handleCloseDialog = () => {
     handleClick()
+    setIsScanning(false)
+    setScannedName(null)
+    setScannedCode(null)
+    setError(null)
     setDialogOpen(false)
   }
 

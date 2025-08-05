@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] If API calls fails (offline or error), keep in localstorage and sync next time online
+- [ ] If API calls fails (offline or error), keep in localStorage and sync next time online
 - [ ] Add Estonia plates
 - [ ] Add Lithuania plates
 
