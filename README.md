@@ -1,12 +1,12 @@
 # TODO
 
+- [ ] If API calls fails (offline or error), keep in localstorage and sync next time online
 - [ ] Add Estonia plates
 - [ ] Add Lithuania plates
-- [ ] Visa ändring av nummer med animering
-- [ ] If API calls fails, keep in localstorage and sync next time online
 
 # DONE
 
+- [x] Visa ändring av nummer med animering
 - [x] Vertical stats bars
 - [x] Add support for authentication
 - [x] Add snackbars for feedback

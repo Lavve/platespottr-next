@@ -210,6 +210,35 @@ const FriendsDialog = () => {
 
           <DialogContent>
             <QRScannerDialog />
+
+            <Box sx={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+              <VibrateIconButton
+                color='primary'
+                size='small'
+                onClick={handleRefreshFriends}
+                disabled={isDisabled}
+                loading={isRefreshing}
+                sx={{ position: 'relative' }}
+              >
+                <FindReplace />
+                {isDisabled && !isRefreshing && (
+                  <CircularProgress
+                    variant='determinate'
+                    value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
+                    thickness={4}
+                    size={34}
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      color: 'primary.main',
+                      opacity: 0.5,
+                    }}
+                  />
+                )}
+              </VibrateIconButton>
+            </Box>
+
             {friendsAll?.length > 0 && (
               <>
                 <Divider sx={{ my: 2 }} />
@@ -243,36 +272,9 @@ const FriendsDialog = () => {
                 </Tabs>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant='h6' sx={{ textAlign: 'center' }}>
-                      {t(subHeader)}
-                    </Typography>
-                    <VibrateIconButton
-                      color='primary'
-                      size='small'
-                      onClick={handleRefreshFriends}
-                      disabled={isDisabled}
-                      loading={isRefreshing}
-                      sx={{ position: 'relative' }}
-                    >
-                      <FindReplace />
-                      {isDisabled && !isRefreshing && (
-                        <CircularProgress
-                          variant='determinate'
-                          value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
-                          thickness={4}
-                          size={34}
-                          sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            color: 'primary.main',
-                            opacity: 0.5,
-                          }}
-                        />
-                      )}
-                    </VibrateIconButton>
-                  </Box>
+                  <Typography variant='h6' sx={{ textAlign: 'center' }}>
+                    {t(subHeader)}
+                  </Typography>
                   {userList.map(friend => (
                     <User
                       key={`${friend.slug}-${key.current++}`}
