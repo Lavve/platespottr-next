@@ -12,7 +12,8 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "on": "On",
-    "off": "Off"
+    "off": "Off",
+    "max": "Max"
   },
   "auth": {
     "login": "Login",

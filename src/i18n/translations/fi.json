@@ -12,7 +12,8 @@
     "today": "Tänään",
     "yesterday": "Eilen",
     "on": "Päällä",
-    "off": "Pois"
+    "off": "Pois",
+    "max": "Max"
   },
   "auth": {
     "login": "Kirjaudu sisään",

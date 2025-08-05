@@ -12,7 +12,8 @@
     "today": "Idag",
     "yesterday": "I går",
     "on": "På",
-    "off": "Av"
+    "off": "Av",
+    "max": "Max"
   },
   "auth": {
     "login": "Logga in",

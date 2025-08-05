@@ -1,4 +1,4 @@
-import { Delete, Explore, History, Logout, RestartAltOutlined } from '@mui/icons-material'
+import { Delete, Explore, History, Logout } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -20,6 +20,7 @@ import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import QrDialog from '@/components/dialogs/QrDialog'
 import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
+import { useVibration } from '@/hooks/useVibration'
 import type { Locale } from '@/i18n/config'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
@@ -29,13 +30,13 @@ import type { Country, Language } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 import { setUserLocale } from '@/utils/locale'
-import { vibrate } from '@/utils/vibrate'
 
 const SettingsDialog = () => {
   const t = useTranslations()
   const { user, saveUser, resetUser, logout, isAuthenticated } = useUser()
   const { settings, saveSettings, setTheme, resetSettings } = useSettings()
   const { showError } = useSnackbar()
+  const { handleClick } = useVibration()
   const removeLastNumberMutation = useRemoveLastNumber()
   const removeAllNumbersMutation = useRemoveAllNumbers()
 
@@ -111,9 +112,7 @@ const SettingsDialog = () => {
   }
 
   const handleCloseDialog = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     setDialogOpen(false)
     setSettingsTab('user')
   }
@@ -195,7 +194,7 @@ const SettingsDialog = () => {
                   </VibrateButton>
 
                   {/* Reset Account Button */}
-                  <VibrateButton
+                  {/* <VibrateButton
                     variant='outlined'
                     color='error'
                     size='large'
@@ -204,7 +203,7 @@ const SettingsDialog = () => {
                     onClick={() => setConfirmResetAccountDialogOpen(true)}
                   >
                     {t('settings.reset_account')}
-                  </VibrateButton>
+                  </VibrateButton> */}
 
                   {/* Delete Account Button */}
                   <VibrateButton
@@ -259,7 +258,7 @@ const SettingsDialog = () => {
                       variant={settings.vibrate ? 'contained' : 'outlined'}
                       color={settings.vibrate ? 'primary' : 'secondary'}
                       size='large'
-                      onClick={() => saveSettings({ ...settings, vibrate: true })}
+                      onClick={() => saveSettings({ ...settings, vibrate: 'on' })}
                     >
                       {t('common.on')}
                     </VibrateButton>
@@ -267,9 +266,17 @@ const SettingsDialog = () => {
                       variant={!settings.vibrate ? 'contained' : 'outlined'}
                       color={!settings.vibrate ? 'primary' : 'secondary'}
                       size='large'
-                      onClick={() => saveSettings({ ...settings, vibrate: false })}
+                      onClick={() => saveSettings({ ...settings, vibrate: 'off' })}
                     >
                       {t('common.off')}
+                    </VibrateButton>
+                    <VibrateButton
+                      variant={settings.vibrate === 'max' ? 'contained' : 'outlined'}
+                      color={settings.vibrate === 'max' ? 'primary' : 'secondary'}
+                      size='large'
+                      onClick={() => saveSettings({ ...settings, vibrate: 'max' })}
+                    >
+                      {t('common.max')}
                     </VibrateButton>
                   </ButtonGroup>
                 </Box>

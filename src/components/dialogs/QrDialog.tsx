@@ -8,11 +8,12 @@ import QRCode from 'react-qr-code'
 import VibrateButton from '@/components/common/VibrateButton'
 import VibrateIconButton from '@/components/common/VibrateIconButton'
 import { useScreenWakeLock } from '@/hooks/useScreenWakeLock'
+import { useVibration } from '@/hooks/useVibration'
 import { useUser } from '@/providers/userProvider'
-import { vibrate } from '@/utils/vibrate'
 
 const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const t = useTranslations()
+  const { handleClick } = useVibration()
   const { user } = useUser()
   const [qrOpen, setQrOpen] = useState(false)
   const { isSupported, isActive, requestWakeLock, releaseWakeLock } = useScreenWakeLock()
@@ -37,7 +38,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   }, [qrOpen, isSupported, isActive, requestWakeLock, releaseWakeLock])
 
   const handleCloseDialog = () => {
-    vibrate()
+    handleClick()
     setQrOpen(false)
   }
 

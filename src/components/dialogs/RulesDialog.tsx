@@ -22,6 +22,7 @@ import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import Logo from '@/components/Logo'
 import { VIBRATE_ALERT } from '@/constants/app'
+import { useVibration } from '@/hooks/useVibration'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
 import packageJson from '../../../package.json'
@@ -29,6 +30,7 @@ import packageJson from '../../../package.json'
 const RulesDialog = () => {
   const t = useTranslations()
   const { settings, saveSettings } = useSettings()
+  const { handleClick } = useVibration()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [understood, setUnderstood] = useState(false)
   const initialRuleTimer = useRef<NodeJS.Timeout | null>(null)
@@ -63,9 +65,7 @@ const RulesDialog = () => {
   }, [initialRulesDialogOpen])
 
   const onCloseRulesDialog = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     saveSettings({ ...settings, initialRulesDialogOpen: false })
     setDialogOpen(false)
   }
@@ -233,9 +233,7 @@ const RulesDialog = () => {
                       <Checkbox
                         onChange={() => {
                           setUnderstood(!understood)
-                          if (settings.vibrate) {
-                            vibrate()
-                          }
+                          handleClick()
                         }}
                       />
                     }

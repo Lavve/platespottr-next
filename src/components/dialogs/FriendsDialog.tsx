@@ -25,19 +25,18 @@ import QRScannerDialog from '@/components/dialogs/QRScannerDialog'
 import User from '@/components/user/User'
 import { DISABLE_REFRESH_REQUESTS_TIME } from '@/constants/app'
 import { useConfirmFriendRequest } from '@/hooks/useApi'
+import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
-import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import type { IFriendsTabs } from '@/types/common'
 import type { IUser } from '@/types/user'
-import { vibrate } from '@/utils/vibrate'
 
 const FriendsDialog = () => {
   const t = useTranslations()
   const { showSuccess, showError } = useSnackbar()
-  const { settings } = useSettings()
+  const { handleClick } = useVibration()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
   const { friendsAll, friendRequests, awaitingFriends, friendList, removeFriend, isLoading } = useFriends()
   const { user } = useUser()
@@ -136,9 +135,7 @@ const FriendsDialog = () => {
   }
 
   const handleCloseDialog = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     setDialogOpen(false)
   }
 

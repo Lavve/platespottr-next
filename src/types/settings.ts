@@ -9,7 +9,7 @@ export type ISettings = {
   themeChoice: ThemeMode
   initialRulesDialogOpen?: boolean
   supressedInstallAt?: number
-  vibrate?: boolean
+  vibrate?: 'on' | 'off' | 'max'
 }
 
 export type ISettingsContext = {

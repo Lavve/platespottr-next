@@ -1,18 +1,19 @@
 import { CameraAlt } from '@mui/icons-material'
-import { Alert, AlertTitle, Box, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
+import { Alert, Box, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import jsQR from 'jsqr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
+import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
 import theme from '@/style/theme'
-import { vibrate } from '@/utils/vibrate'
 
 const QRScannerDialog = () => {
   const t = useTranslations()
   const { addFriend } = useFriends()
+  const { handleClick } = useVibration()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
   const [scannedName, setScannedName] = useState<string | null>(null)
@@ -109,7 +110,7 @@ const QRScannerDialog = () => {
   }, [dialogOpen])
 
   const handleCloseDialog = () => {
-    vibrate()
+    handleClick()
     setDialogOpen(false)
   }
 

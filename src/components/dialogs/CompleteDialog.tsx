@@ -1,20 +1,17 @@
 import { EmojiEvents } from '@mui/icons-material'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useSettings } from '@/providers/settingsProvider'
-import { vibrate } from '@/utils/vibrate'
+import { useVibration } from '@/hooks/useVibration'
 import DialogHeader from './DialogHeader'
 
 const CompleteDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const t = useTranslations()
-  const { settings } = useSettings()
+  const { handleClick } = useVibration()
 
   if (!open) return null
 
   const handleClose = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     onClose()
   }
 

@@ -6,16 +6,15 @@ import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import User from '@/components/user/User'
 import { useStatistics } from '@/hooks/useStatistics'
+import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
-import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
 import type { ISortBy } from '@/types/common'
-import { vibrate } from '@/utils/vibrate'
 
 const TopListDialog = () => {
   const t = useTranslations()
-  const { settings } = useSettings()
+  const { handleClick } = useVibration()
   const { friendList } = useFriends()
   const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const { user } = useUser()
@@ -64,15 +63,11 @@ const TopListDialog = () => {
   const handleTabChange = (e: React.SyntheticEvent, value: ISortBy) => {
     e.preventDefault()
     setSortBy(value)
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
   }
 
   const handleCloseDialog = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     setDialogOpen(false)
   }
 

@@ -6,15 +6,14 @@ import StatsBlock from '@/components/common/StatsBlock'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useStatistics } from '@/hooks/useStatistics'
-import { useSettings } from '@/providers/settingsProvider'
+import { useVibration } from '@/hooks/useVibration'
 import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
 import { relativeDays } from '@/utils/dates'
-import { vibrate } from '@/utils/vibrate'
 
 const StatisticsDialog = () => {
   const t = useTranslations()
-  const { settings } = useSettings()
+  const { handleClick } = useVibration()
   const { user } = useUser()
   const { maxStreak, maxWeek, latestFinding, findingsByWeek, findsPerDay } = useStatistics(user?.numbers || [])
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -26,9 +25,7 @@ const StatisticsDialog = () => {
   }, [findingsByWeek])
 
   const handleCloseDialog = () => {
-    if (settings.vibrate) {
-      vibrate()
-    }
+    handleClick()
     setDialogOpen(false)
   }
 
