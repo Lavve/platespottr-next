@@ -92,45 +92,29 @@ const StatisticsDialog = () => {
                 <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Timeline sx={{ color: 'success.light' }} /> {t('statistics.numbers_per_week')}
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.5 }}>
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
                   {sortedFindingsByWeek.map(([week, count]) => {
                     return (
                       <Box
-                        key={week}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: 0,
-                          flexGrow: 1,
-                          flexBasis: 0,
-                        }}
+                        key={`w${week}`}
+                        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}
                       >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'flex-end',
-                            height: 80,
-                            width: '100%',
-                          }}
-                        >
+                        <Typography variant='caption' color='text.secondary'>
+                          V{week}
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, width: '100%', height: 15 }}>
                           <Box
                             sx={{
-                              width: '100%',
-                              height: (count / maxWeek) * 70,
-                              backgroundColor: 'primary.main',
+                              width: `${(count / maxWeek) * 100}%`,
+                              height: '100%',
+                              backgroundColor: count === maxWeek ? 'primary.light' : 'primary.dark',
                               borderRadius: 1,
-                              borderBottomLeftRadius: 0,
-                              borderBottomRightRadius: 0,
                             }}
                           />
                         </Box>
-                        <Typography variant='body1' sx={{ fontWeight: 700, pt: 1 }}>
+                        <Typography variant='body1' sx={{ textAlign: 'right' }}>
                           {count}
-                        </Typography>
-                        <Typography variant='caption' color='text.secondary'>
-                          V{week}
                         </Typography>
                       </Box>
                     )
