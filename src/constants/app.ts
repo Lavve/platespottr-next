@@ -6,7 +6,7 @@ export const VIBRATE_SUBTILE = 3
 export const VIBRATE_SUCCESS = 100
 export const VIBRATE_ALERT = [20, 100, 200]
 export const VIBRATE_MAX_MULTIPLYER = 10
-export const DISABLE_REFRESH_REQUESTS_TIME = 20
+export const DISABLE_REFRESH_REQUESTS_TIME = 30
 
 // Local storage keys
 export const SETTINGS_KEY = 'PS_settings'

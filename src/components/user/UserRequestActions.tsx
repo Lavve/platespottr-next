@@ -11,6 +11,16 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
 
   return (
     <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
+      <VibrateButton
+        variant='outlined'
+        color='error'
+        size='small'
+        sx={{ minWidth: 40 }}
+        onClick={() => onRemoveFriend?.(friend)}
+        title={t('friends.decline_request')}
+      >
+        <Close />
+      </VibrateButton>
       {friend.awaiting && (
         <VibrateButton
           variant='contained'
@@ -23,16 +33,6 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
           <Check />
         </VibrateButton>
       )}
-      <VibrateButton
-        variant='contained'
-        color='error'
-        size='small'
-        sx={{ minWidth: 40 }}
-        onClick={() => onRemoveFriend?.(friend)}
-        title={t('friends.decline_request')}
-      >
-        <Close />
-      </VibrateButton>
     </Box>
   )
 }

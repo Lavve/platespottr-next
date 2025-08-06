@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import apiService from '@/services/api'
-import { transformApiFriendToAppUser, transformApiUserToAppUser } from '@/utils/apiTransformers'
+import {
+  transformApiFriendToAppUser,
+  transformApiFriendToAppUserConfirmed,
+  transformApiUserToAppUser,
+} from '@/utils/apiTransformers'
 
 // Authentication hooks
 export const useLogin = () => {
@@ -81,7 +85,7 @@ export const useFriendsQuery = (userId: string) => {
     queryFn: async () => {
       const response = await apiService.getFriends(userId)
       if (response.success && response.friends) {
-        return response.friends.map(transformApiFriendToAppUser)
+        return response.friends.map(transformApiFriendToAppUserConfirmed)
       }
       return []
     },
@@ -95,7 +99,7 @@ export const useIncomingFriendRequestsQuery = (userId: string) => {
     queryFn: async () => {
       const response = await apiService.getIncomingFriendRequests(userId)
       if (response.success && response.incoming_requests) {
-        return response.incoming_requests.map(transformApiFriendToAppUser)
+        return response.incoming_requests.map(friend => transformApiFriendToAppUser(friend, true))
       }
       return []
     },
@@ -109,7 +113,7 @@ export const useOutgoingFriendRequestsQuery = (userId: string) => {
     queryFn: async () => {
       const response = await apiService.getOutgoingFriendRequests(userId)
       if (response.success && response.outgoing_requests) {
-        return response.outgoing_requests.map(transformApiFriendToAppUser)
+        return response.outgoing_requests.map(friend => transformApiFriendToAppUser(friend, false))
       }
       return []
     },

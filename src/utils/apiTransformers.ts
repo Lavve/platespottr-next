@@ -13,16 +13,29 @@ export const transformApiUserToAppUser = (apiUser: ApiUser): IUser => {
 }
 
 // Convert API friend to app user
-export const transformApiFriendToAppUser = (apiFriend: ApiFriend): IUser => {
+export const transformApiFriendToAppUser = (apiFriend: ApiFriend, isIncoming = false): IUser => {
   return {
     id: apiFriend.id,
     name: apiFriend.name,
     slug: apiFriend.slug,
     member_since: apiFriend.member_since,
-    numbers: [], // API doesn't return numbers for friends
     friendSince: apiFriend.friends_since ? new Date(apiFriend.friends_since).getTime() : undefined,
-    requesting: apiFriend.status === 'pending' && !!apiFriend.requested_at,
-    awaiting: apiFriend.status === 'pending' && !apiFriend.requested_at,
+    requesting: !isIncoming,
+    awaiting: isIncoming,
+    requested_at: apiFriend.requested_at,
+  }
+}
+
+// Convert API friend to app user for confirmed friends
+export const transformApiFriendToAppUserConfirmed = (apiFriend: ApiFriend): IUser => {
+  return {
+    id: apiFriend.id,
+    name: apiFriend.name,
+    slug: apiFriend.slug,
+    member_since: apiFriend.member_since,
+    friendSince: apiFriend.friends_since ? new Date(apiFriend.friends_since).getTime() : undefined,
+    requesting: false,
+    awaiting: false,
     requested_at: apiFriend.requested_at,
   }
 }

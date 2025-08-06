@@ -14,6 +14,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
@@ -39,6 +40,7 @@ const FriendsDialog = () => {
   const { handleClick } = useVibration()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
   const { friendList, friendRequests, awaitingFriends, removeFriend, isLoading } = useFriends()
+  const queryClient = useQueryClient()
   const { user } = useUser()
   const confirmFriendMutation = useConfirmFriendRequest()
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -178,6 +180,12 @@ const FriendsDialog = () => {
 
     setCountDown(DISABLE_REFRESH_REQUESTS_TIME)
     setIsRefreshing(true)
+
+    if (user?.id) {
+      queryClient.invalidateQueries({ queryKey: ['friends', user.id] })
+      queryClient.invalidateQueries({ queryKey: ['friend-requests', 'incoming', user.id] })
+      queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', user.id] })
+    }
 
     // TODO: Add loading state
     refreshTimer.current = setTimeout(() => {

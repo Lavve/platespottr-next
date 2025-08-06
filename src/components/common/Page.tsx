@@ -1,7 +1,6 @@
 'use client'
 
 import { Box, Paper, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
 import { useUser } from '@/providers/userProvider'
 import AddFriendDialog from '../dialogs/AddFriendDialog'
 import AddNumberDialog from '../dialogs/AddNumberDialog'
@@ -14,13 +13,6 @@ import Streak from '../Streak'
 
 const Page = () => {
   const { user } = useUser()
-  const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
-
-  useEffect(() => {
-    if (user?.numbers?.length === 999) {
-      setIsCompleteDialogOpen(true)
-    }
-  }, [user])
 
   return (
     <>
@@ -51,7 +43,7 @@ const Page = () => {
       <AddFriendDialog />
 
       <InstallPromptDialog />
-      <CompleteDialog open={isCompleteDialogOpen} onClose={() => setIsCompleteDialogOpen(false)} />
+      <CompleteDialog user={user} />
     </>
   )
 }
