@@ -37,10 +37,10 @@ const FriendsProvider = ({ children }: IProviderProps) => {
     [incomingRequests]
   )
 
-  const friendRequests = useMemo(
-    () => outgoingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)),
-    [outgoingRequests]
-  )
+  const friendRequests = useMemo(() => {
+    console.log('outgoingRequests', outgoingRequests)
+    return outgoingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name))
+  }, [outgoingRequests])
 
   const friendList = useMemo(() => friendsAll.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)), [friendsAll])
 

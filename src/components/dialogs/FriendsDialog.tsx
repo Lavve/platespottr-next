@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import VibrateIconButton from '@/components/common/VibrateIconButton'
@@ -38,7 +38,7 @@ const FriendsDialog = () => {
   const { showSuccess, showError } = useSnackbar()
   const { handleClick } = useVibration()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
-  const { friendsAll, friendRequests, awaitingFriends, friendList, removeFriend, isLoading } = useFriends()
+  const { friendList, friendRequests, awaitingFriends, removeFriend, isLoading } = useFriends()
   const { user } = useUser()
   const confirmFriendMutation = useConfirmFriendRequest()
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -51,17 +51,31 @@ const FriendsDialog = () => {
   const countDownTimer = useRef<NodeJS.Timeout | null>(null)
   const key = useRef(0)
 
+  useEffect(() => {
+    if (friendList.length > 0) {
+      setFriendsTab('friends')
+    } else if (awaitingFriends.length > 0) {
+      setFriendsTab('awaiting')
+    } else if (friendRequests.length > 0) {
+      setFriendsTab('requests')
+    }
+  }, [friendList, friendRequests, awaitingFriends])
+
+  const totalFriends = useMemo(() => {
+    return friendList.length + awaitingFriends.length + friendRequests.length
+  }, [friendList, awaitingFriends, friendRequests])
+
   const friendsLength = useMemo(() => {
-    return friendsAll?.filter(friend => !friend.awaiting && !friend.requesting).length || 0
-  }, [friendsAll])
+    return friendList.length
+  }, [friendList])
 
   const awaitingFriendsLength = useMemo(() => {
-    return friendsAll?.filter(friend => friend.awaiting).length || 0
-  }, [friendsAll])
+    return awaitingFriends.length
+  }, [awaitingFriends])
 
   const friendsRequestsLength = useMemo(() => {
-    return friendsAll?.filter(friend => friend.requesting).length || 0
-  }, [friendsAll])
+    return friendRequests.length
+  }, [friendRequests])
 
   const userList = useMemo(() => {
     if (friendsTab === 'friends') {
@@ -236,7 +250,7 @@ const FriendsDialog = () => {
               </VibrateIconButton>
             </Box>
 
-            {friendsAll?.length > 0 && (
+            {totalFriends > 0 && (
               <>
                 <Divider sx={{ my: 2 }} />
                 <Tabs value={friendsTab} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
@@ -247,6 +261,7 @@ const FriendsDialog = () => {
                       </Badge>
                     }
                     value='friends'
+                    disabled={friendList.length === 0}
                   />
                   <Tab
                     label={
