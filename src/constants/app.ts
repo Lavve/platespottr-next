@@ -5,7 +5,7 @@ export const HOLD_DURATION = 1000
 export const VIBRATE_SUBTILE = 3
 export const VIBRATE_SUCCESS = 100
 export const VIBRATE_ALERT = [20, 100, 200]
-export const VIBRATE_MAX_MULTIPLYER = 4
+export const VIBRATE_MAX_MULTIPLYER = 10
 export const DISABLE_REFRESH_REQUESTS_TIME = 20
 
 // Local storage keys
