@@ -16,9 +16,9 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   const { maxStreak, findsPerDay } = useStatistics(friend.numbers)
   const isSelf = user?.name === friend.name
 
-  const friendRequesting = useMemo(() => {
-    return friend.requesting
-  }, [friend.requesting])
+  const friendAwaiting = useMemo(() => {
+    return friend.awaiting
+  }, [friend.awaiting])
 
   const scale = useMemo(() => {
     return Math.min(1.5, 1 + 0.15 * maxStreak)
@@ -47,7 +47,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         <UserStatsDisplay friend={friend} maxStreak={maxStreak} findsPerDay={findsPerDay} scale={scale} place={place} />
       )}
 
-      {friendRequesting ? (
+      {friendAwaiting ? (
         <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />
       ) : (
         !place && (
