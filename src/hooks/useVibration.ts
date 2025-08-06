@@ -8,33 +8,47 @@ import { vibrate } from '@/utils/vibrate'
 
 export const useVibration = (options: IVibrationOptions = {}) => {
   const { settings } = useSettings()
-  const { pattern = VIBRATE_SUBTILE, enabled = settings.vibrate !== 'off' } = options
+  const { pattern = VIBRATE_SUBTILE } = options
   const hasVibrate =
     typeof window !== 'undefined' &&
     typeof navigator !== 'undefined' &&
     'vibrate' in navigator &&
     window.innerWidth <= 830
+  const enabled = settings.vibrate !== 'off' && hasVibrate
+
+  const calculatePattern = useCallback(
+    (inputPattern: number | number[]) => {
+      if (settings.vibrate === 'off') {
+        return 0
+      }
+
+      if (settings.vibrate === 'max') {
+        return Array.isArray(inputPattern)
+          ? inputPattern.map((p: number, index: number) => (index % 2 === 1 ? p * VIBRATE_MAX_MULTIPLYER : p))
+          : inputPattern * VIBRATE_MAX_MULTIPLYER
+      }
+
+      return Array.isArray(inputPattern) ? inputPattern : [inputPattern]
+    },
+    [settings.vibrate]
+  )
 
   const vibes = useMemo(() => {
-    if (settings.vibrate === 'max') {
-      return Array.isArray(pattern)
-        ? pattern.map((p: number, index: number) => (index % 2 === 1 ? p * VIBRATE_MAX_MULTIPLYER : p))
-        : pattern * VIBRATE_MAX_MULTIPLYER
-    }
-    return Array.isArray(pattern) ? pattern : [pattern]
-  }, [settings.vibrate, pattern])
+    return calculatePattern(pattern)
+  }, [calculatePattern, pattern])
 
   const handleClick = useCallback(() => {
-    if (enabled && hasVibrate) {
+    if (enabled) {
       vibrate(vibes)
     }
-  }, [vibes, enabled, hasVibrate])
+  }, [vibes, enabled])
 
   return {
     handleClick,
     vibrate: (customPattern?: number | number[]) => {
       if (enabled) {
-        vibrate(customPattern || pattern)
+        const processedPattern = calculatePattern(customPattern || pattern)
+        vibrate(processedPattern)
       }
     },
   }

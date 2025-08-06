@@ -1,3 +1,5 @@
+'use client'
+
 import { LocalFireDepartment } from '@mui/icons-material'
 import { Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'

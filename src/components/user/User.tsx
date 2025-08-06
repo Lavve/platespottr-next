@@ -1,7 +1,7 @@
-import { Close } from '@mui/icons-material'
+'use client'
+
 import { Box, Paper } from '@mui/material'
 import { useMemo } from 'react'
-import VibrateButton from '@/components/common/VibrateButton'
 import UserAvatar from '@/components/user/UserAvatar'
 import UserInfo from '@/components/user/UserInfo'
 import UserPlaceDisplay from '@/components/user/UserPlaceDisplay'
@@ -15,10 +15,6 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   const { user } = useUser()
   const { maxStreak, findsPerDay } = useStatistics(friend.numbers)
   const isSelf = user?.name === friend.name
-
-  const friendAwaiting = useMemo(() => {
-    return friend.awaiting
-  }, [friend.awaiting])
 
   const scale = useMemo(() => {
     return Math.min(1.5, 1 + 0.15 * maxStreak)
@@ -47,21 +43,7 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         <UserStatsDisplay friend={friend} maxStreak={maxStreak} findsPerDay={findsPerDay} scale={scale} place={place} />
       )}
 
-      {friendAwaiting ? (
-        <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />
-      ) : (
-        !place && (
-          <VibrateButton
-            variant='contained'
-            color='error'
-            size='small'
-            sx={{ minWidth: 40, ml: 'auto' }}
-            onClick={() => onRemoveFriend?.(friend)}
-          >
-            <Close />
-          </VibrateButton>
-        )
-      )}
+      {!place && <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />}
     </Paper>
   )
 }

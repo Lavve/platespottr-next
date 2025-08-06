@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'

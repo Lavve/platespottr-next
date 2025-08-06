@@ -1,3 +1,5 @@
+'use client'
+
 import { AccountBalanceWallet, CalendarMonth, LocalFireDepartment, Percent, Timeline } from '@mui/icons-material'
 import { Box, Button, Dialog, DialogActions, DialogContent, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'

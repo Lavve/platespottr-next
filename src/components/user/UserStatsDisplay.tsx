@@ -1,3 +1,5 @@
+'use client'
+
 import { LocalFireDepartment } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import type { IUserStatsDisplay } from '@/types/user'

@@ -1,3 +1,5 @@
+'use client'
+
 import { Box } from '@mui/material'
 import localFont from 'next/font/local'
 import { memo, useMemo } from 'react'

@@ -7,6 +7,7 @@ export interface IUser {
   friendSince?: number
   requesting?: boolean
   awaiting?: boolean
+  requested_at?: string
 }
 
 export interface IUserProps {

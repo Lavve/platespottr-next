@@ -1,3 +1,5 @@
+'use client'
+
 import { Delete, Explore, History, Logout } from '@mui/icons-material'
 import {
   Avatar,
@@ -13,7 +15,6 @@ import {
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
@@ -22,6 +23,7 @@ import QrDialog from '@/components/dialogs/QrDialog'
 import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
 import { useVibration } from '@/hooks/useVibration'
 import type { Locale } from '@/i18n/config'
+import { useSnackbar } from '@/providers/SnackbarProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
@@ -161,14 +163,14 @@ const SettingsDialog = () => {
                     }}
                   >
                     <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
-                      {user?.name?.slice(0, 2)}
+                      {user?.name?.slice(0, 2).toUpperCase()}
                     </Avatar>
                     <Box sx={{ width: '100%', ml: 2 }}>
                       <Typography variant='h6'>{user?.name}</Typography>
                       <Typography
                         variant='body2'
                         color='text.secondary'
-                        sx={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}
+                        sx={{ display: 'flex', alignItems: 'center', fontWeight: 700 }}
                       >
                         {user?.slug.toUpperCase()}
                       </Typography>
@@ -255,16 +257,16 @@ const SettingsDialog = () => {
                   <Typography>{t('settings.vibrate')}</Typography>
                   <ButtonGroup fullWidth>
                     <VibrateButton
-                      variant={settings.vibrate ? 'contained' : 'outlined'}
-                      color={settings.vibrate ? 'primary' : 'secondary'}
+                      variant={settings.vibrate === 'on' ? 'contained' : 'outlined'}
+                      color={settings.vibrate === 'on' ? 'primary' : 'secondary'}
                       size='large'
                       onClick={() => saveSettings({ ...settings, vibrate: 'on' })}
                     >
                       {t('common.on')}
                     </VibrateButton>
                     <VibrateButton
-                      variant={!settings.vibrate ? 'contained' : 'outlined'}
-                      color={!settings.vibrate ? 'primary' : 'secondary'}
+                      variant={settings.vibrate === 'off' ? 'contained' : 'outlined'}
+                      color={settings.vibrate === 'off' ? 'primary' : 'secondary'}
                       size='large'
                       onClick={() => saveSettings({ ...settings, vibrate: 'off' })}
                     >

@@ -1,3 +1,5 @@
+'use client'
+
 import { Logout, Person } from '@mui/icons-material'
 import { Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
@@ -58,7 +60,7 @@ const LogoutButton = () => {
           </ListItemIcon>
           <ListItemText
             primary={user.name}
-            secondary={user.slug}
+            secondary={user.slug.toUpperCase()}
             primaryTypographyProps={{ variant: 'body2' }}
             secondaryTypographyProps={{ variant: 'caption' }}
           />

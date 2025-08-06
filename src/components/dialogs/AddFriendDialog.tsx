@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo } from 'react'
@@ -32,11 +34,11 @@ const AddFriendDialog = () => {
       <DialogContent>
         <Typography variant='body1'>
           {t.rich('friends.send_friend_request_description', {
-            slug: friend?.name ? friend?.name : friend?.slug || '',
+            slug: friend?.name ? friend?.name : friend?.slug.toUpperCase() || '',
             strong: chunks => <strong>{chunks}</strong>,
           })}
         </Typography>
-        <Typography variant='body1'>{friend?.name ? friend?.slug : ''}</Typography>
+        <Typography variant='body1'>{friend?.name ? friend?.slug.toUpperCase() : ''}</Typography>
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' color='primary' size='large' onClick={clearQuery}>

@@ -23,5 +23,6 @@ export const transformApiFriendToAppUser = (apiFriend: ApiFriend): IUser => {
     friendSince: apiFriend.friends_since ? new Date(apiFriend.friends_since).getTime() : undefined,
     requesting: apiFriend.status === 'pending' && !!apiFriend.requested_at,
     awaiting: apiFriend.status === 'pending' && !apiFriend.requested_at,
+    requested_at: apiFriend.requested_at,
   }
 }

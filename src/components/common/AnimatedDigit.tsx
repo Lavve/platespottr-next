@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Typography } from '@mui/material'
 import localFont from 'next/font/local'
 import { useEffect, useState } from 'react'

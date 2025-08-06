@@ -1,3 +1,5 @@
+'use client'
+
 import { DialogTitle } from '@mui/material'
 import Roadsign from '@/components/Roadsign'
 

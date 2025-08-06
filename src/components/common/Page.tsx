@@ -35,7 +35,7 @@ const Page = () => {
             latespottr
           </Typography>
         </Box>
-        <Typography variant='body1' sx={{ textAlign: 'center' }}>
+        <Typography variant='body1' sx={{ textAlign: 'center', fontWeight: 700 }}>
           {user?.slug.toUpperCase()}
         </Typography>
       </Paper>

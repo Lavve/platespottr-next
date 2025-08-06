@@ -130,7 +130,8 @@
     "error_camera": "Kameraa ei löytynyt",
     "error_finding_camera": "QR-koodin skannaamiseen tarvittavaa kameraa ei löytynyt",
     "not_valid_qr_code": "Ei kelvollinen Platespottr QR-koodi",
-    "pending_friend_request": "Sinulla on odottava ystäväpyyntö käyttäjältä {slug}"
+    "pending_friend_request": "Sinulla on odottava ystäväpyyntö käyttäjältä {slug}",
+    "requested_at": "Pyyntö lähetetty: {date}"
   },
   "toplist": {
     "number": "Määrä",

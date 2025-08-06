@@ -1,3 +1,5 @@
+'use client'
+
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'

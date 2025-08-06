@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useMemo } from 'react'
-import { useSnackbar } from '@/components/common/SnackbarProvider'
 import {
   useAddFriendRequest,
   useConfirmFriendRequest,
@@ -11,6 +10,7 @@ import {
   useOutgoingFriendRequestsQuery,
   useRemoveFriend,
 } from '@/hooks/useApi'
+import { useSnackbar } from '@/providers/SnackbarProvider'
 import { ApiError } from '@/services/api'
 import type { IFriendsTabs, IProviderProps } from '@/types/common'
 import type { IFriendsContext } from '@/types/friends'
@@ -32,13 +32,12 @@ const FriendsProvider = ({ children }: IProviderProps) => {
   const confirmFriendMutation = useConfirmFriendRequest()
   const removeFriendMutation = useRemoveFriend()
 
-  const awaitingFriends = useMemo(
+  const incomingFriendRequests = useMemo(
     () => incomingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name)),
     [incomingRequests]
   )
 
-  const friendRequests = useMemo(() => {
-    console.log('outgoingRequests', outgoingRequests)
+  const outgoingFriendRequests = useMemo(() => {
     return outgoingRequests.sort((a: IUser, b: IUser) => a.name.localeCompare(b.name))
   }, [outgoingRequests])
 
@@ -64,9 +63,9 @@ const FriendsProvider = ({ children }: IProviderProps) => {
           }
         )
       }
-      return friendRequests.length
+      return outgoingFriendRequests.length + 1
     },
-    [user?.id, addFriendMutation, friendRequests.length, showSuccess, showError, t]
+    [user?.id, addFriendMutation, outgoingFriendRequests.length, showSuccess, showError, t]
   )
 
   const removeFriend = useCallback(
@@ -91,17 +90,17 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       }
 
       if (tab === 'awaiting') {
-        return awaitingFriends.length - 1
+        return incomingFriendRequests.length - 1
       } else if (tab === 'requests') {
-        return friendRequests.length - 1
+        return outgoingFriendRequests.length - 1
       }
       return friendList.length - 1
     },
     [
       user?.id,
       removeFriendMutation,
-      awaitingFriends.length,
-      friendRequests.length,
+      incomingFriendRequests.length,
+      outgoingFriendRequests.length,
       friendList.length,
       showSuccess,
       showError,
@@ -112,8 +111,8 @@ const FriendsProvider = ({ children }: IProviderProps) => {
   const value = useMemo(
     () => ({
       friendsAll,
-      friendRequests,
-      awaitingFriends,
+      friendRequests: outgoingFriendRequests,
+      awaitingFriends: incomingFriendRequests,
       friendList,
       addFriend,
       removeFriend,
@@ -123,8 +122,8 @@ const FriendsProvider = ({ children }: IProviderProps) => {
     }),
     [
       friendsAll,
-      friendRequests,
-      awaitingFriends,
+      outgoingFriendRequests,
+      incomingFriendRequests,
       friendList,
       addFriend,
       removeFriend,

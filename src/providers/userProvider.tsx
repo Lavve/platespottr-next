@@ -2,8 +2,8 @@
 
 import { useTranslations } from 'next-intl'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { useSnackbar } from '@/components/common/SnackbarProvider'
 import { useCreateUser, useLogin, useLogout, useUserQuery } from '@/hooks/useApi'
+import { useSnackbar } from '@/providers/SnackbarProvider'
 import { ApiError } from '@/services/api'
 import type { AuthData } from '@/types/auth'
 import type { IProviderProps } from '@/types/common'

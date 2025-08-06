@@ -1,6 +1,7 @@
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type Language = 'sv' | 'en' | 'fi'
 export type Country = 's' | 'fi'
+export type Vibrate = 'on' | 'off' | 'max'
 
 export type ISettings = {
   theme: ThemeMode
@@ -9,7 +10,7 @@ export type ISettings = {
   themeChoice: ThemeMode
   initialRulesDialogOpen?: boolean
   supressedInstallAt?: number
-  vibrate?: 'on' | 'off' | 'max'
+  vibrate?: Vibrate
 }
 
 export type ISettingsContext = {

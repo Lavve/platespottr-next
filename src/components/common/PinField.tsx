@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, TextField } from '@mui/material'
 import { useCallback, useRef, useState } from 'react'
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, Close, HelpCenter, Info, MenuBook, Warning } from '@mui/icons-material'
 import {
   Box,

@@ -1,3 +1,5 @@
+'use client'
+
 import { Grid } from '@mui/material'
 import StatisticsDialog from '@/components/dialogs/StatisticsDialog'
 import FriendsDialog from './dialogs/FriendsDialog'

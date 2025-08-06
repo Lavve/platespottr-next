@@ -1,13 +1,15 @@
+'use client'
+
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSnackbar } from '@/components/common/SnackbarProvider'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import RegPlate from '@/components/RegPlate'
 import { useAddNumber } from '@/hooks/useApi'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
+import { useSnackbar } from '@/providers/SnackbarProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 

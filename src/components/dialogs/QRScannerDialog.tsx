@@ -1,3 +1,5 @@
+'use client'
+
 import { CameraAlt } from '@mui/icons-material'
 import { Alert, Box, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import jsQR from 'jsqr'

@@ -1,3 +1,5 @@
+'use client'
+
 import { EmojiEvents } from '@mui/icons-material'
 import { Box, Button, Dialog, DialogActions, DialogContent, Tab, Tabs, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'

@@ -13,7 +13,7 @@ export interface ApiFriend {
   name: string
   slug: string
   member_since: string
-  status?: string
+  status?: 'pending' | 'accepted' | 'rejected'
   friends_since?: string
   requested_at?: string
   number_count: number

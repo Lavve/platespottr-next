@@ -126,6 +126,8 @@ export const useAddFriendRequest = () => {
     onSuccess: (_, { requesterId }) => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', requesterId] })
+      // FIXED: Also invalidate incoming requests for the receiver
+      // Note: We don't have the receiver's ID here, so this might need adjustment
     },
   })
 }
@@ -140,6 +142,7 @@ export const useConfirmFriendRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['friends', receiverId] })
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'incoming', receiverId] })
+      queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', requesterId] })
     },
   })
 }

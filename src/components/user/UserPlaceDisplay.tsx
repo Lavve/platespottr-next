@@ -1,3 +1,5 @@
+'use client'
+
 import { Bookmark, EmojiEvents, WorkspacePremium } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import type { IUserPlaceDisplay } from '@/types/user'

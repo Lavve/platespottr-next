@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import type { IUserInfo } from '@/types/user'
@@ -12,12 +14,17 @@ const UserInfo = ({ friend, isSelf }: IUserInfo) => {
       <Typography
         variant='body2'
         sx={{
-          fontSize: 12,
+          fontWeight: 700,
         }}
         title={relativeDays(new Date(friend.friendSince ?? 0), t)}
       >
-        {friend.slug}
+        {friend.slug.toUpperCase()}
       </Typography>
+      {friend.requested_at && (
+        <Typography variant='body2'>
+          {t('friends.requested_at', { date: relativeDays(new Date(friend.requested_at), t) })}
+        </Typography>
+      )}
     </Box>
   )
 }

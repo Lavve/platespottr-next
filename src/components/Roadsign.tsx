@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, Typography } from '@mui/material'
 import localFont from 'next/font/local'
 import type { IRoadsignProps } from '@/types/common'

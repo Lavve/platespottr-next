@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, Close } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import { useTranslations } from 'next-intl'
@@ -9,16 +11,18 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
 
   return (
     <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
-      <VibrateButton
-        variant='contained'
-        color='success'
-        size='small'
-        sx={{ minWidth: 40, backgroundColor: 'success.dark', color: 'success.contrastText' }}
-        onClick={() => onAddFriend?.(friend)}
-        title={t('friends.accept_request')}
-      >
-        <Check />
-      </VibrateButton>
+      {friend.awaiting && (
+        <VibrateButton
+          variant='contained'
+          color='success'
+          size='small'
+          sx={{ minWidth: 40, backgroundColor: 'success.dark', color: 'success.contrastText' }}
+          onClick={() => onAddFriend?.(friend)}
+          title={t('friends.accept_request')}
+        >
+          <Check />
+        </VibrateButton>
+      )}
       <VibrateButton
         variant='contained'
         color='error'

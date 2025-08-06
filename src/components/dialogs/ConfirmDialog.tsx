@@ -1,3 +1,5 @@
+'use client'
+
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import VibrateButton from '@/components/common/VibrateButton'
