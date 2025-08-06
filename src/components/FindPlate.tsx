@@ -13,6 +13,10 @@ import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import { vibrate } from '@/utils/vibrate'
 
+const rndNumber = () => {
+  return Math.floor(Math.random() * (998 - 111 + 1)) + 111
+}
+
 const FindPlate = () => {
   const t = useTranslations()
   const { user, isLoading } = useUser()
@@ -23,8 +27,12 @@ const FindPlate = () => {
   const releaseRef = useRef<number | null>(null)
   const animationRef = useRef<number | null>(null)
   const startTimeRef = useRef<number | null>(null)
+  const initialRandomNumber = useRef(rndNumber())
 
   const isDisabled = useMemo(() => isLoading || addNumberMutation.isPending, [isLoading, addNumberMutation.isPending])
+  const currentNumber = useMemo(() => {
+    return (user?.numbers?.length ?? initialRandomNumber.current) + 1
+  }, [user])
 
   const updateProgress = () => {
     if (!startTimeRef.current || !user) return
@@ -104,7 +112,7 @@ const FindPlate = () => {
     >
       <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
-      <RegPlate number={(user.numbers?.length || 0) + 1} />
+      <RegPlate number={currentNumber} />
 
       <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
         <VibrateButton
