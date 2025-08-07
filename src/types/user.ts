@@ -41,7 +41,7 @@ export interface IUserContext {
 
 export interface IUserInfo {
   friend: IUserProps['friend']
-  isSelf: boolean
+  place?: number
 }
 
 export interface IUserPlaceDisplay {

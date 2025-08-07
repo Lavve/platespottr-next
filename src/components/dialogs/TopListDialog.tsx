@@ -1,6 +1,6 @@
 'use client'
 
-import { EmojiEvents } from '@mui/icons-material'
+import { EmojiEvents, KeyboardDoubleArrowRight, Numbers, Percent } from '@mui/icons-material'
 import { Box, Button, Dialog, DialogActions, DialogContent, Tab, Tabs, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
@@ -16,10 +16,10 @@ import type { ISortBy } from '@/types/common'
 
 const TopListDialog = () => {
   const t = useTranslations()
-  const { handleClick } = useVibration()
-  const { friendList } = useFriends()
-  const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const { user } = useUser()
+  const { friendList } = useFriends()
+  const { handleClick } = useVibration()
+  const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const [sortBy, setSortBy] = useState<ISortBy>('plates')
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -70,8 +70,24 @@ const TopListDialog = () => {
 
   const handleCloseDialog = () => {
     handleClick()
+    setSortBy('plates')
     setDialogOpen(false)
   }
+
+  const isPlatesDisabled = useMemo(() => {
+    const myUser = user ? [user] : []
+    return [...friendList, ...myUser].every(f => !f.numbers?.length)
+  }, [friendList, user])
+
+  const isStreakDisabled = useMemo(() => {
+    const myUser = user ? [user] : []
+    return [...friendList, ...myUser].every(f => calculateMaxStreak(f.numbers?.map(Number) ?? []) < 2)
+  }, [friendList, user, calculateMaxStreak])
+
+  const isPercentageDisabled = useMemo(() => {
+    const myUser = user ? [user] : []
+    return [...friendList, ...myUser].every(f => calculateFindsPerDay(f.numbers?.map(Number) ?? []).perday === 0)
+  }, [friendList, user, calculateFindsPerDay])
 
   return (
     <>
@@ -79,7 +95,7 @@ const TopListDialog = () => {
         variant='contained'
         color='primary'
         size='large'
-        disabled={friendList.length === 0}
+        disabled={friendList.length === 0 || isPlatesDisabled}
         fullWidth
         sx={{
           display: 'flex',
@@ -100,9 +116,9 @@ const TopListDialog = () => {
 
           <DialogContent>
             <Tabs value={sortBy} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
-              <Tab label={t('toplist.number')} value='plates' />
-              <Tab label={t('toplist.streak')} value='streak' />
-              <Tab label={t('toplist.percentage')} value='percentage' />
+              <Tab label={<Numbers />} value='plates' disabled={isPlatesDisabled} />
+              <Tab label={<KeyboardDoubleArrowRight />} value='streak' disabled={isStreakDisabled} />
+              <Tab label={<Percent />} value='percentage' disabled={isPercentageDisabled} />
             </Tabs>
 
             <Typography variant='h6'>{t(subHeader)}</Typography>

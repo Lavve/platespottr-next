@@ -6,7 +6,7 @@ import type { IUserStatsDisplay } from '@/types/user'
 
 const UserStatsDisplay = ({ friend, maxStreak, findsPerDay, scale }: IUserStatsDisplay) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
       <Typography variant='body1'>{friend.numbers?.length || 0}</Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
         <LocalFireDepartment color='warning' sx={{ transform: `scale(${scale})`, fontSize: 16 }} />

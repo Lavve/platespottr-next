@@ -1,6 +1,6 @@
 'use client'
 
-import { FindReplace, Groups } from '@mui/icons-material'
+import { FindReplace, Groups, Groups3, HourglassBottom, PersonAdd } from '@mui/icons-material'
 import {
   Badge,
   Box,
@@ -230,34 +230,6 @@ const FriendsDialog = () => {
           <DialogContent>
             <QRScannerDialog />
 
-            <Box sx={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-              <VibrateIconButton
-                color='primary'
-                size='small'
-                onClick={handleRefreshFriends}
-                disabled={isDisabled}
-                loading={isRefreshing}
-                sx={{ position: 'relative' }}
-              >
-                <FindReplace />
-                {isDisabled && !isRefreshing && (
-                  <CircularProgress
-                    variant='determinate'
-                    value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
-                    thickness={4}
-                    size={34}
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      color: 'primary.main',
-                      opacity: 0.5,
-                    }}
-                  />
-                )}
-              </VibrateIconButton>
-            </Box>
-
             {totalFriends > 0 && (
               <>
                 <Divider sx={{ my: 2 }} />
@@ -265,7 +237,7 @@ const FriendsDialog = () => {
                   <Tab
                     label={
                       <Badge badgeContent={friendsLength} color='success'>
-                        {t('friends.my_friends')}
+                        <Groups3 />
                       </Badge>
                     }
                     value='friends'
@@ -274,7 +246,7 @@ const FriendsDialog = () => {
                   <Tab
                     label={
                       <Badge badgeContent={awaitingFriendsLength} color='warning'>
-                        {t('friends.awaiting')}
+                        <PersonAdd />
                       </Badge>
                     }
                     value='awaiting'
@@ -283,7 +255,7 @@ const FriendsDialog = () => {
                   <Tab
                     label={
                       <Badge badgeContent={friendsRequestsLength} color='warning'>
-                        {t('friends.requests')}
+                        <HourglassBottom />
                       </Badge>
                     }
                     value='requests'
@@ -308,7 +280,31 @@ const FriendsDialog = () => {
             )}
           </DialogContent>
 
-          <DialogActions>
+          <DialogActions sx={{ justifyContent: 'space-between' }}>
+            <VibrateButton
+              variant='outlined'
+              color='primary'
+              onClick={handleRefreshFriends}
+              disabled={isDisabled}
+              loading={isRefreshing}
+            >
+              <FindReplace />
+              {isDisabled && !isRefreshing && (
+                <CircularProgress
+                  variant='determinate'
+                  value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
+                  thickness={4}
+                  size={34}
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    color: 'primary.main',
+                    opacity: 0.5,
+                  }}
+                />
+              )}
+            </VibrateButton>
             <Button variant='contained' color='primary' size='large' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>

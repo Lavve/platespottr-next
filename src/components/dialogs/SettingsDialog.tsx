@@ -1,6 +1,6 @@
 'use client'
 
-import { Delete, Explore, History, Logout } from '@mui/icons-material'
+import { Delete, Explore, History, Logout, PersonOutline, Settings } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -144,9 +144,9 @@ const SettingsDialog = () => {
 
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Tabs value={settingsTab} variant='fullWidth' onChange={(_, value) => setSettingsTab(value)} sx={{ mb: 2 }}>
-              <Tab label={t('settings.user_management')} value='user' />
-              <Tab label={t('settings.settings')} value='settings' />
-              <Tab label={t('settings.resetting')} value='reset' />
+              <Tab label={<PersonOutline />} value='user' />
+              <Tab label={<Settings />} value='settings' />
+              <Tab label={<History />} value='reset' />
             </Tabs>
 
             {settingsTab === 'user' && (
@@ -257,8 +257,8 @@ const SettingsDialog = () => {
                   <Typography>{t('settings.vibrate')}</Typography>
                   <ButtonGroup fullWidth>
                     <VibrateButton
-                      variant={settings.vibrate === 'on' ? 'contained' : 'outlined'}
-                      color={settings.vibrate === 'on' ? 'primary' : 'secondary'}
+                      variant={settings.vibrate ? 'contained' : 'outlined'}
+                      color={settings.vibrate ? 'primary' : 'secondary'}
                       size='large'
                       onClick={() => saveSettings({ ...settings, vibrate: 'on' })}
                     >

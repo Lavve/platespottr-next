@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, Typography } from '@mui/material'
 import { useMemo } from 'react'
 import UserAvatar from '@/components/user/UserAvatar'
 import UserInfo from '@/components/user/UserInfo'
@@ -23,20 +23,40 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
   return (
     <Paper
       sx={{
-        px: { xs: 1, md: 2 },
+        px: { xs: 1, sm: 2 },
         py: 1,
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         gap: 2,
         border: '3px solid',
         borderColor: isSelf ? 'primary.main' : 'transparent',
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '65%' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: 40, justifyContent: 'center' }}>
-          {place ? <UserPlaceDisplay place={place} /> : <UserAvatar friend={friend} />}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'row', sm: 'row' },
+          alignItems: 'center',
+          gap: { xs: 1, sm: 2 },
+          flexGrow: 1,
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {place ? (
+            <Box sx={{ width: 40 }}>
+              <UserPlaceDisplay place={place} />
+            </Box>
+          ) : (
+            <UserAvatar friend={friend} />
+          )}
         </Box>
-        <UserInfo friend={friend} isSelf={isSelf} />
+        <Box
+          sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'column' }, alignItems: 'flex-start', gap: 0.5 }}
+        >
+          <Typography variant='h6'>{friend.name}</Typography>
+          <UserInfo friend={friend} place={place} />
+        </Box>
       </Box>
 
       {place && (

@@ -5,12 +5,11 @@ import { useTranslations } from 'next-intl'
 import type { IUserInfo } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 
-const UserInfo = ({ friend, isSelf }: IUserInfo) => {
+const UserInfo = ({ friend, place }: IUserInfo) => {
   const t = useTranslations()
 
   return (
     <Box>
-      <Typography variant='h6'>{isSelf ? t('toplist.you') : friend.name}</Typography>
       <Typography
         variant='body2'
         sx={{
@@ -20,7 +19,7 @@ const UserInfo = ({ friend, isSelf }: IUserInfo) => {
       >
         {friend.slug.toUpperCase()}
       </Typography>
-      {friend.requested_at && (
+      {friend.requested_at && !place && (
         <Typography variant='body2'>
           {t('friends.requested_at', { date: relativeDays(new Date(friend.requested_at), t) })}
         </Typography>
