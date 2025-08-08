@@ -25,3 +25,6 @@ export const LEGACY_AUTH_KEYS = {
   CURRENT_USER_SLUG: 'currentUserSlug',
   IS_AUTHENTICATED: 'isAuthenticated',
 } as const
+
+// App store URLs
+export const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=app.vercel.platespottr.twa'

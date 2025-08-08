@@ -17,7 +17,7 @@
   "theme_color": "#335577",
   "background_color": "#1a1c1f",
   "url_handlers": {
-    "origin": "https://platespottr.vercel.app"
+    "origin": "https://*.platespottr.win"
   },
   "shortcuts": [
     {

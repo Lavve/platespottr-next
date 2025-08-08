@@ -23,6 +23,8 @@
     "create_account": "Create Account",
     "creating_account": "Creating account...",
     "already_have_account": "Already have an account?",
+    "what_is_platespottr": "What is Platespottr?",
+    "what_is_platespottr_description": "Platespottr is a game where you have to find license plates in a sequence of numbers, also known as plate spotting. Add numbers and compete with your friends (optional) to see who can find all the plates first! Collect your crew, see your statistics and see if you can reach the top of the prize list. A simple but fun game for everyone who likes simple games.",
     "name": "Name",
     "choose_pin": "Choose PIN",
     "pin": "PIN",
@@ -55,6 +57,9 @@
     "country": "Country",
     "sweden": "Sweden",
     "finland": "Finland",
+    "united_states": "USA",
+    "estonia": "Estonia",
+    "lithuania": "Lithuania",
     "resetting": "Resetting",
     "reset_last_plate": "Reset last number",
     "reset_all_numbers": "Reset all numbers",
@@ -195,7 +200,11 @@
   "install_prompt": {
     "title": "Install Platespottr",
     "description": "Install Platespottr as an app! You'll get faster access, a better experience, full-screen mode, and offline support.",
+    "description_google_play": "Install Platespottr from Google Play! You'll get faster access, a better experience, full-screen mode, and offline support.",
+    "description_pwa_to_play": "For the best experience, install the app from Google Play instead of the browser. You'll get better performance and more features.",
     "install": "Install",
+    "install_google_play": "Install from Google Play",
+    "install_google_play_better": "Install from Google Play (better)",
     "dismiss": "No thanks"
   }
 }

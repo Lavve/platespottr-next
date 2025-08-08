@@ -23,6 +23,8 @@
     "create_account": "Skapa konto",
     "creating_account": "Skapar konto...",
     "already_have_account": "Har du redan ett konto?",
+    "what_is_platespottr": "Vad är Platespottr?",
+    "what_is_platespottr_description": "Platespottr är ett spel där du ska hitta registreringsnummer i nummerföljd, även kallat plate-spotting. Lägg till nummer och tävla med dina vänner (valfritt) om vem som hittar alla snabbast! Samla ditt crew, se din statistik och se om du kan nå toppen av prispallen. Ett enkelt men roligt spel för alla som gillar enkla spel.",
     "name": "Namn",
     "choose_pin": "Välj PIN-kod",
     "pin": "PIN-kod",
@@ -55,6 +57,9 @@
     "country": "Land",
     "sweden": "Sverige",
     "finland": "Finland",
+    "united_states": "USA",
+    "estonia": "Estland",
+    "lithuania": "Litauen",
     "resetting": "Återställning",
     "reset_last_plate": "Återställ senaste nummer",
     "reset_all_numbers": "Återställ alla nummer",
@@ -193,8 +198,12 @@
   },
   "install_prompt": {
     "title": "Installera Platespottr",
-    "description": "Installera Platespottr som en app! Då får du snabbare åtkomst, smidigare upplevelse, helskärmsläge och dessutom offline-stöd.",
+    "description": "Installera Platespottr som en app! Du får snabbare åtkomst, bättre upplevelse, helskärmsläge och offline-stöd.",
+    "description_google_play": "Installera Platespottr från Google Play! Du får snabbare åtkomst, bättre upplevelse, helskärmsläge och offline-stöd.",
+    "description_pwa_to_play": "För bästa upplevelse, installera appen från Google Play istället för webbläsaren. Du får bättre prestanda och fler funktioner.",
     "install": "Installera",
+    "install_google_play": "Installera från Google Play",
+    "install_google_play_better": "Installera från Google Play (bättre)",
     "dismiss": "Nej tack"
   }
 }

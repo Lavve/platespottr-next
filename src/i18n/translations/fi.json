@@ -23,6 +23,8 @@
     "create_account": "Luo tili",
     "creating_account": "Luodaan tiliä...",
     "already_have_account": "Onko sinulla jo tili?",
+    "what_is_platespottr": "Mikä on Platespottr?",
+    "what_is_platespottr_description": "Platespottr on peli, jossa sinun täytyy löytää rekisterinumeroja numeerisessa jonossa, myös tunnettu plate spotting. Lisää numeroita ja kilpailu ystävien kanssa (valinnainen), joka voitko löytää kaikki numerot ensin! Kerää joukkueesi, katso tilastosi ja katso, voitko päästä huipulle. Yksinkertainen, mutta hauska peli kaikille, jotka tykkäävät yksinkertaisista peleistä.",
     "name": "Nimi",
     "choose_pin": "Valitse PIN-koodi",
     "pin": "PIN-koodi",
@@ -55,6 +57,9 @@
     "country": "Maa",
     "sweden": "Ruotsi",
     "finland": "Suomi",
+    "united_states": "USA",
+    "estonia": "Eesti",
+    "lithuania": "Liettua",
     "resetting": "Nollataan",
     "reset_last_plate": "Nollaa viimeinen numero",
     "reset_all_numbers": "Nollaa kaikki numerot",
@@ -195,7 +200,11 @@
   "install_prompt": {
     "title": "Asenna Platespottr",
     "description": "Asenna Platespottr sovelluksena! Saat nopeamman pääsyn, paremman käyttökokemuksen, kokonaisvaltaisen näkymän ja myös offline-tuen.",
+    "description_google_play": "Asenna Platespottr Google Playsta! Saat nopeamman pääsyn, paremman käyttökokemuksen, kokonaisvaltaisen näkymän ja myös offline-tuen.",
+    "description_pwa_to_play": "Parhaan käyttökokemuksen saamiseksi asenna sovellus Google Playsta selaimen sijaan. Saat paremman suorituskyvyn ja enemmän ominaisuuksia.",
     "install": "Asenna",
+    "install_google_play": "Asenna Google Playsta",
+    "install_google_play_better": "Asenna Google Playsta (parempi)",
     "dismiss": "Ei kiitos"
   }
 }

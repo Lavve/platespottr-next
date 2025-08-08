@@ -63,21 +63,23 @@ const RegPlate = ({ number }: IPlateProps) => {
           justifyContent: 'center',
           fontWeight: 700,
           gap: 1.2,
-          background: 'var(--roadsign-gradient)',
+          background: settings.country === 'us' ? theme.palette.regplate.dark : 'var(--roadsign-gradient)',
           color: 'regplate.contrastText',
         }}
       >
-        <Box
-          sx={{
-            width: '60%',
-            aspectRatio: 1,
-            borderRadius: '50%',
-            border: '2px dotted var(--regplate-stars)',
-            strokeDasharray: 20,
-            strokeDashoffset: 20,
-            textAlign: 'center',
-          }}
-        />
+        {settings.country !== 'us' && (
+          <Box
+            sx={{
+              width: '60%',
+              aspectRatio: 1,
+              borderRadius: '50%',
+              border: '2px dotted var(--regplate-stars)',
+              strokeDasharray: 20,
+              strokeDashoffset: 20,
+              textAlign: 'center',
+            }}
+          />
+        )}
         <Box
           sx={{
             color: 'regplate.light',

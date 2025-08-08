@@ -13,10 +13,11 @@ import Providers from '@/providers'
 export const metadata: Metadata = {
   title: 'Plate spottr',
   description: 'Kan du hitta alla registreringsnummer?',
+  keywords: 'platespotting,plate,spott,spotting',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Plate spottr',
     startupImage: '/icons/logo_x512.png',
   },

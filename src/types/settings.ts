@@ -1,6 +1,6 @@
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type Language = 'sv' | 'en' | 'fi'
-export type Country = 's' | 'fi'
+export type Country = 's' | 'fi' | 'us' | 'ee' | 'lt'
 export type Vibrate = 'on' | 'off' | 'max'
 
 export type ISettings = {

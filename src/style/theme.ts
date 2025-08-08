@@ -16,6 +16,7 @@ const base = {
   regplate: {
     main: '#efefef',
     light: '#fff',
+    dark: '#222',
     secondary: '#0067a6',
     contrastText: '#222',
   },

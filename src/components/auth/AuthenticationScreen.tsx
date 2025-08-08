@@ -1,6 +1,7 @@
 'use client'
 
-import { Box, Button, Container, Paper, Typography } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { Box, Button, Container, IconButton, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import LoginDialog from '@/components/dialogs/LoginDialog'
@@ -12,6 +13,7 @@ const AuthenticationScreen = () => {
   const t = useTranslations()
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+  const [whatOpen, setWhatOpen] = useState(false)
   const { friend, isAddFriendDialogOpen, isAddPlateDialogOpen } = useQueryNavigation()
 
   // Check if there are pending QR code parameters
@@ -20,12 +22,14 @@ const AuthenticationScreen = () => {
 
   const handleOpenLogin = () => {
     setIsLoginOpen(true)
+    setWhatOpen(false)
     setIsRegisterOpen(false)
   }
 
   const handleOpenRegister = () => {
     setIsRegisterOpen(true)
     setIsLoginOpen(false)
+    setWhatOpen(false)
   }
 
   const handleCloseLogin = () => {
@@ -46,6 +50,10 @@ const AuthenticationScreen = () => {
     setIsLoginOpen(true)
   }
 
+  const handleCloseWhat = () => {
+    setWhatOpen(false)
+  }
+
   return (
     <Container
       maxWidth='xs'
@@ -59,6 +67,46 @@ const AuthenticationScreen = () => {
         height: '100vh',
       }}
     >
+      <Paper
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          textAlign: 'center',
+          borderTop: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 0,
+          py: 2,
+          opacity: whatOpen ? 1 : 0.3,
+          transform: whatOpen ? 'translateY(0)' : 'translateY(100%)',
+          transition: 'transform 0.3s ease-in-out',
+        }}
+      >
+        <Box sx={{ position: 'relative' }}>
+          <IconButton
+            onClick={handleCloseWhat}
+            sx={{
+              position: 'absolute',
+              top: '-0.5rem',
+              right: 0,
+              zIndex: 1,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          <Container maxWidth='sm' sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Typography variant='h6' component='h2'>
+              {t('auth.what_is_platespottr')}
+            </Typography>
+            <Typography variant='body2' sx={{ lineHeight: 1.5 }}>
+              {t('auth.what_is_platespottr_description')}
+            </Typography>
+          </Container>
+        </Box>
+      </Paper>
+
       <Paper sx={{ p: 4, borderRadius: 2, textAlign: 'center' }} elevation={5}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
           <Logo size={50} />
@@ -93,6 +141,10 @@ const AuthenticationScreen = () => {
 
           <Button variant='outlined' color='primary' size='large' onClick={handleOpenRegister} sx={{ py: 1.5 }}>
             {t('auth.create_account')}
+          </Button>
+
+          <Button variant='text' onClick={() => setWhatOpen(!whatOpen)}>
+            {t('auth.what_is_platespottr')}
           </Button>
         </Box>
       </Paper>

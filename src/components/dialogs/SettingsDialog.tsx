@@ -8,7 +8,11 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Tab,
   Tabs,
   Typography,
@@ -313,24 +317,22 @@ const SettingsDialog = () => {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography>{t('settings.country')}</Typography>
-                  <ButtonGroup fullWidth>
-                    <VibrateButton
-                      variant={settings.country === 's' ? 'contained' : 'outlined'}
-                      color={settings.country === 's' ? 'primary' : 'secondary'}
-                      size='large'
-                      onClick={() => handleChangeCountry('s')}
+                  <FormControl fullWidth>
+                    <InputLabel id='country_select'>{t('settings.country')}</InputLabel>
+                    <Select
+                      labelId='country_select'
+                      id='demo-simple-select'
+                      value={settings.country}
+                      label='Age'
+                      onChange={e => handleChangeCountry(e.target.value as Country)}
                     >
-                      {t('settings.sweden')}
-                    </VibrateButton>
-                    <VibrateButton
-                      variant={settings.country === 'fi' ? 'contained' : 'outlined'}
-                      color={settings.country === 'fi' ? 'primary' : 'secondary'}
-                      size='large'
-                      onClick={() => handleChangeCountry('fi')}
-                    >
-                      {t('settings.finland')}
-                    </VibrateButton>
-                  </ButtonGroup>
+                      <MenuItem value={'s'}>{t('settings.sweden')}</MenuItem>
+                      <MenuItem value={'fi'}>{t('settings.finland')}</MenuItem>
+                      <MenuItem value={'us'}>{t('settings.united_states')}</MenuItem>
+                      <MenuItem value={'ee'}>{t('settings.estonia')}</MenuItem>
+                      <MenuItem value={'lt'}>{t('settings.lithuania')}</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
               </Paper>
             )}

@@ -5,14 +5,14 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import Logo from '@/components/Logo'
-import { SUPPRESS_INSTALL_DURATION_DAYS, VIBRATE_ALERT } from '@/constants/app'
+import { GOOGLE_PLAY_URL, SUPPRESS_INSTALL_DURATION_DAYS, VIBRATE_ALERT } from '@/constants/app'
 import useInstallPrompt from '@/hooks/useInstallPrompt'
 import { useSettings } from '@/providers/settingsProvider'
 import { vibrate } from '@/utils/vibrate'
 
 const InstallPromptDialog = () => {
   const t = useTranslations()
-  const installPrompt = useInstallPrompt()
+  const { type: installType, promptEvent: installPrompt } = useInstallPrompt()
   const { settings, saveSettings } = useSettings()
   const [isVisible, setIsVisible] = useState(false)
 
@@ -29,10 +29,14 @@ const InstallPromptDialog = () => {
   }, [settings])
 
   const handleInstall = async () => {
-    if (!installPrompt) return
-    installPrompt.prompt()
-    const result = await installPrompt.userChoice
-    console.log('Användarval:', result.outcome)
+    if (installType === 'pwa' && installPrompt) {
+      installPrompt.prompt()
+      const result = await installPrompt.userChoice
+      console.log('Användarval:', result.outcome)
+    } else if (installType === 'google-play') {
+      // Open Google Play Store
+      window.open(GOOGLE_PLAY_URL, '_blank')
+    }
     setIsVisible(false)
   }
 
@@ -45,7 +49,7 @@ const InstallPromptDialog = () => {
     const checkInstallation = () => {
       const suppressed = !shouldShowInstallPrompt()
 
-      if (installPrompt && !suppressed) {
+      if (installType && !suppressed) {
         vibrate(VIBRATE_ALERT)
         setIsVisible(true)
       }
@@ -54,9 +58,27 @@ const InstallPromptDialog = () => {
     const timer = setTimeout(checkInstallation, 8000)
 
     return () => clearTimeout(timer)
-  }, [installPrompt, shouldShowInstallPrompt])
+  }, [installType, shouldShowInstallPrompt])
 
   if (!isVisible) return null
+
+  const getInstallButtonText = () => {
+    if (installType === 'google-play') {
+      return t('install_prompt.install_google_play')
+    } else if (installType === 'pwa-to-play') {
+      return t('install_prompt.install_google_play_better')
+    }
+    return t('install_prompt.install')
+  }
+
+  const getDescription = () => {
+    if (installType === 'google-play') {
+      return t('install_prompt.description_google_play')
+    } else if (installType === 'pwa-to-play') {
+      return t('install_prompt.description_pwa_to_play')
+    }
+    return t('install_prompt.description')
+  }
 
   return (
     <Slide appear={true} direction='up' in={isVisible}>
@@ -86,7 +108,7 @@ const InstallPromptDialog = () => {
               </Box>
               <Box sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', md: 'center' } }}>
                 <Typography variant='h6'>{t('install_prompt.title')}</Typography>
-                <Typography variant='body1'>{t('install_prompt.description')}</Typography>
+                <Typography variant='body1'>{getDescription()}</Typography>
               </Box>
             </Box>
             <Stack
@@ -101,7 +123,7 @@ const InstallPromptDialog = () => {
                 {t('install_prompt.dismiss')}
               </VibrateButton>
               <VibrateButton onClick={handleInstall} variant='contained' color='primary' size='large'>
-                {t('install_prompt.install')}
+                {getInstallButtonText()}
               </VibrateButton>
             </Stack>
           </Stack>
