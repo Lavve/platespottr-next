@@ -25,14 +25,14 @@ const ConfirmDialog = ({ open, title, content, confirmText, cancelText, onClose,
           gap: 2,
         }}
       >
-        <Typography variant='body1'>{content}</Typography>
+        <Typography>{content}</Typography>
       </DialogContent>
 
       <DialogActions>
-        <VibrateButton size='large' variant='outlined' onClick={onClose}>
+        <VibrateButton size='large' variant='outlined' color='primary' onClick={onClose}>
           {cancelText || t('common.cancel')}
         </VibrateButton>
-        <VibrateButton size='large' onClick={onConfirm} color='primary' variant='contained' autoFocus>
+        <VibrateButton size='large' color='primary' variant='contained' onClick={onConfirm} autoFocus>
           {confirmText || t('confirm.confirm')}
         </VibrateButton>
       </DialogActions>

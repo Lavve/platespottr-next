@@ -32,7 +32,7 @@ import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 import type { ISettingsTabs } from '@/types/common'
-import type { Country, Language } from '@/types/settings'
+import type { Country, Language, LatLang } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 import { setUserLocale } from '@/utils/locale'
@@ -56,9 +56,40 @@ const SettingsDialog = () => {
   const [deleteAccountDialogOpen, setDeleteAccountDialogOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<ISettingsTabs>('user')
 
+  const hasGeolocation = typeof navigator !== 'undefined' && 'geolocation' in navigator
+
   const handleChangeLanguage = (language: Language) => {
     saveSettings({ ...settings, language })
     setUserLocale(language as Locale)
+  }
+
+  const handleChangeLatLang = async (latlang: LatLang) => {
+    if (latlang === 'on') {
+      try {
+        if (!hasGeolocation) {
+          saveSettings({ ...settings, latlang: 'off' })
+          return
+        }
+
+        const permissionStatus = await navigator.permissions.query({ name: 'geolocation' as PermissionName })
+
+        if (permissionStatus.state === 'granted') {
+          saveSettings({ ...settings, latlang })
+        } else if (permissionStatus.state === 'denied') {
+          saveSettings({ ...settings, latlang: 'off' })
+        } else if (permissionStatus.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(
+            () => saveSettings({ ...settings, latlang }),
+            () => saveSettings({ ...settings, latlang: 'off' }),
+            { timeout: 10000, enableHighAccuracy: false }
+          )
+        }
+      } catch {
+        saveSettings({ ...settings, latlang: 'off' })
+      }
+    } else {
+      saveSettings({ ...settings, latlang })
+    }
   }
 
   const handleChangeCountry = (country: Country) => {
@@ -227,7 +258,8 @@ const SettingsDialog = () => {
             )}
 
             {settingsTab === 'settings' && (
-              <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
+              <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+                {/* Appearance Select */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography>{t('settings.appearance')}</Typography>
                   <ButtonGroup fullWidth>
@@ -257,12 +289,14 @@ const SettingsDialog = () => {
                     </VibrateButton>
                   </ButtonGroup>
                 </Box>
+
+                {/* Vibrate Select */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography>{t('settings.vibrate')}</Typography>
                   <ButtonGroup fullWidth>
                     <VibrateButton
-                      variant={settings.vibrate ? 'contained' : 'outlined'}
-                      color={settings.vibrate ? 'primary' : 'secondary'}
+                      variant={settings.vibrate === 'on' ? 'contained' : 'outlined'}
+                      color={settings.vibrate === 'on' ? 'primary' : 'secondary'}
                       size='large'
                       onClick={() => saveSettings({ ...settings, vibrate: 'on' })}
                     >
@@ -286,6 +320,8 @@ const SettingsDialog = () => {
                     </VibrateButton>
                   </ButtonGroup>
                 </Box>
+
+                {/* Language Select */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography>{t('settings.language')}</Typography>
                   <ButtonGroup fullWidth>
@@ -315,6 +351,35 @@ const SettingsDialog = () => {
                     </VibrateButton>
                   </ButtonGroup>
                 </Box>
+
+                {/* LatLang Select */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography>{t('settings.latlang')}</Typography>
+                  <ButtonGroup fullWidth>
+                    <VibrateButton
+                      variant={settings.latlang === 'off' ? 'contained' : 'outlined'}
+                      color={settings.latlang === 'off' ? 'primary' : 'secondary'}
+                      size='large'
+                      onClick={() => handleChangeLatLang('off')}
+                    >
+                      {t('common.off')}
+                    </VibrateButton>
+                    <VibrateButton
+                      variant={settings.latlang === 'on' ? 'contained' : 'outlined'}
+                      color={settings.latlang === 'on' ? 'primary' : 'secondary'}
+                      size='large'
+                      onClick={() => handleChangeLatLang('on')}
+                      disabled={!hasGeolocation}
+                    >
+                      {t('common.on')}
+                    </VibrateButton>
+                  </ButtonGroup>
+                  <Typography variant='body2' color='text.secondary'>
+                    {t('settings.latlang_description')}
+                  </Typography>
+                </Box>
+
+                {/* Country Select */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography>{t('settings.country')}</Typography>
                   <FormControl fullWidth>

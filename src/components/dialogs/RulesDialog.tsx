@@ -248,11 +248,11 @@ const RulesDialog = () => {
 
           <DialogActions>
             <Button
-              variant='contained'
+              variant='outlined'
               size='large'
+              color='primary'
               onClick={onCloseRulesDialog}
               disabled={!understood && initialRulesDialogOpen}
-              color='primary'
             >
               {t('common.close')}
             </Button>

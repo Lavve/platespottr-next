@@ -34,7 +34,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
     return <AuthenticationScreen />
   }
 
-  return <>{children}</>
+  return children
 }
 
 export default AuthGuard

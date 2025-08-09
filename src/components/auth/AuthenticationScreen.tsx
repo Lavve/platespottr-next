@@ -115,9 +115,7 @@ const AuthenticationScreen = () => {
           </Typography>
         </Box>
 
-        <Typography variant='body1' sx={{ mb: 3 }}>
-          {t('auth.welcome_message')}
-        </Typography>
+        <Typography sx={{ mb: 3 }}>{t('auth.welcome_message')}</Typography>
 
         {hasPendingFriendRequest && (
           <Typography variant='body2' color='primary' sx={{ mb: 2 }}>

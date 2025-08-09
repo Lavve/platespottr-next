@@ -1,30 +1,17 @@
 import { useCallback, useMemo } from 'react'
-import { getDaysBetween, getWeekNumber } from '@/utils/dates'
+import type { IUserNumber } from '@/types/user'
+import { getDaysBetweenDates, getWeekNumber } from '@/utils/dates'
 
-export const useStatistics = (findings?: string[] | number[]) => {
-  // Convert string timestamps to numbers for processing
-  const convertFindingsToNumbers = useCallback((findings: string[] | number[] | undefined): number[] => {
-    if (!findings) return []
-    return findings.map(finding => {
-      if (typeof finding === 'string') {
-        return new Date(finding).getTime()
-      }
-      return finding
-    })
-  }, [])
+export const useStatistics = (findings?: IUserNumber[]) => {
+  const getFindingsByWeek = useCallback((findings: IUserNumber[] | undefined): Map<number, number> => {
+    if (!findings || findings.length === 0) return new Map<number, number>()
 
-  const numericFindings = useMemo(() => convertFindingsToNumbers(findings), [findings, convertFindingsToNumbers])
-
-  const getFindingsByWeek = useCallback((findings: number[]): Map<number, number> => {
     const findingsByWeek = new Map<number, number>()
 
-    if (findings.length === 0) {
-      return findingsByWeek
-    }
+    const sortedFindings = findings.sort((a, b) => new Date(a.found_at).getTime() - new Date(b.found_at).getTime())
 
-    const sortedFindings = findings.sort((a, b) => a - b)
-    const earliestDate = new Date(sortedFindings[0])
-    const latestDate = new Date(sortedFindings[sortedFindings.length - 1])
+    const earliestDate = new Date(sortedFindings[0].found_at)
+    const latestDate = new Date(sortedFindings[sortedFindings.length - 1].found_at)
     const earliestWeek = getWeekNumber(earliestDate)
     const latestWeek = getWeekNumber(latestDate)
 
@@ -33,7 +20,7 @@ export const useStatistics = (findings?: string[] | number[]) => {
     }
 
     sortedFindings.forEach(finding => {
-      const date = new Date(finding)
+      const date = new Date(finding.found_at)
       const weekKey = getWeekNumber(date)
       findingsByWeek.set(weekKey, (findingsByWeek.get(weekKey) ?? 0) + 1)
     })
@@ -41,14 +28,19 @@ export const useStatistics = (findings?: string[] | number[]) => {
     return findingsByWeek
   }, [])
 
-  const calculateMaxStreak = useCallback((findings: number[]): number => {
-    const findingsByDay = new Map<number, number[]>()
+  const calculateMaxStreak = useCallback((findings: IUserNumber[] | undefined): number => {
+    if (!findings || findings.length === 0) return 0
+
+    const findingsByDay = new Map<string, IUserNumber[]>()
 
     findings.forEach(finding => {
-      if (!findingsByDay.has(finding)) {
-        findingsByDay.set(finding, [])
+      const date = new Date(finding.found_at)
+      const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
+      if (!findingsByDay.has(dayKey)) {
+        findingsByDay.set(dayKey, [])
       }
-      findingsByDay.get(finding)?.push(finding)
+      findingsByDay.get(dayKey)?.push(finding)
     })
 
     const sortedDays = Array.from(findingsByDay.keys()).sort()
@@ -56,14 +48,14 @@ export const useStatistics = (findings?: string[] | number[]) => {
     let maxStreak = 0
     let previousDate: Date | null = null
 
-    for (const finding of sortedDays) {
-      const currentDate = new Date(finding)
+    for (const dayKey of sortedDays) {
+      const currentDate = new Date(dayKey)
 
       if (previousDate === null) {
         currentStreak = 1
       } else {
         const diffTime = currentDate.getTime() - previousDate.getTime()
-        const diffDays = diffTime / (1000 * 60 * 60 * 24)
+        const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24))
 
         if (diffDays === 1) {
           currentStreak++
@@ -79,38 +71,44 @@ export const useStatistics = (findings?: string[] | number[]) => {
     return maxStreak
   }, [])
 
-  const calculateFindsPerDay = useCallback((findings: number[]): { days: number; perday: number } => {
-    if (!findings || findings.length < 2) {
+  const calculateFindsPerDay = useCallback((findings: IUserNumber[] | undefined): { days: number; perday: number } => {
+    if (!findings || findings.length === 0) return { days: 0, perday: 0 }
+    if (findings.length < 2) {
       return { days: 0, perday: 0 }
     }
 
-    const days = getDaysBetween(new Date(findings[0]))
+    const sortedFindings = findings.sort((a, b) => new Date(a.found_at).getTime() - new Date(b.found_at).getTime())
+
+    const firstDate = new Date(sortedFindings[0].found_at)
+    const days = getDaysBetweenDates(firstDate)
     const perday = Math.round((findings.length / days) * 10) / 10
 
     return { days, perday }
   }, [])
 
   const findsPerDay = useMemo(() => {
-    if (!numericFindings || numericFindings.length < 2) {
+    if (!findings || findings.length < 2) {
       return { days: 0, perday: 0 }
     }
-    return calculateFindsPerDay(numericFindings)
-  }, [numericFindings, calculateFindsPerDay])
+    return calculateFindsPerDay(findings)
+  }, [findings, calculateFindsPerDay])
 
   const latestFinding = useMemo(() => {
-    if (!numericFindings || numericFindings.length === 0) {
+    if (!findings || findings.length === 0) {
       return null
     }
-    return numericFindings[numericFindings.length - 1]
-  }, [numericFindings])
+
+    const sortedFindings = findings.sort((a, b) => new Date(a.found_at).getTime() - new Date(b.found_at).getTime())
+    return sortedFindings[sortedFindings.length - 1]
+  }, [findings])
 
   const findingsByWeek = useMemo(() => {
-    return getFindingsByWeek(numericFindings)
-  }, [numericFindings, getFindingsByWeek])
+    return getFindingsByWeek(findings)
+  }, [findings, getFindingsByWeek])
 
   const maxStreak = useMemo(() => {
-    return calculateMaxStreak(numericFindings)
-  }, [numericFindings, calculateMaxStreak])
+    return calculateMaxStreak(findings)
+  }, [findings, calculateMaxStreak])
 
   const maxWeek = useMemo(() => {
     if (!findingsByWeek || findingsByWeek.size === 0) return 0

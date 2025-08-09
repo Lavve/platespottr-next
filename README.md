@@ -1,10 +1,10 @@
 # TODO
 
-- [ ] If API calls fails (offline or error), keep in localStorage and sync next time online
-- [ ] Add setting for saving lat/lng for each plate. Requeires location permission (BE is done, API routes needs to be updated)
+- [ ] If API calls fails (offline or error), keep in localStorage (using NUMBERS_KEY constant) and sync next time online
 
 # DONE
 
+- [x] Add setting for saving lat/lng for each plate. Requeires location permission (BE is done, API routes needs to be updated)
 - [x] Add Estonia plates
 - [x] Add Lithuania plates
 - [x] Visa ändring av nummer med animering

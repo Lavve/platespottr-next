@@ -108,7 +108,7 @@ const InstallPromptDialog = () => {
               </Box>
               <Box sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', md: 'center' } }}>
                 <Typography variant='h6'>{t('install_prompt.title')}</Typography>
-                <Typography variant='body1'>{getDescription()}</Typography>
+                <Typography>{getDescription()}</Typography>
               </Box>
             </Box>
             <Stack

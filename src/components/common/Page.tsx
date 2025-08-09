@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Container, Paper, Typography } from '@mui/material'
 import { useUser } from '@/providers/userProvider'
 import AddFriendDialog from '../dialogs/AddFriendDialog'
 import AddNumberDialog from '../dialogs/AddNumberDialog'
@@ -16,28 +16,34 @@ const Page = () => {
 
   return (
     <>
-      <Paper sx={{ p: 2, borderRadius: 2 }} elevation={5}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
-          <Logo size={50} />
-          <Typography
-            component='h1'
-            variant='h4'
-            sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
-          >
-            latespottr
-          </Typography>
+      <Container maxWidth='sm' sx={{ my: 2 }}>
+        <Paper sx={{ p: 2, borderRadius: 2 }} elevation={5}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
+            <Logo size={50} />
+            <Typography
+              component='h1'
+              variant='h4'
+              sx={{ textAlign: 'center', m: 0, p: 0, fontWeight: 100, textTransform: 'uppercase' }}
+            >
+              latespottr
+            </Typography>
+          </Box>
+          <Typography sx={{ textAlign: 'center', fontWeight: 700 }}>{user?.slug.toUpperCase()}</Typography>
+        </Paper>
+      </Container>
+
+      <Container maxWidth='md'>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <FindPlate />
+          <Container maxWidth='sm' sx={{ p: 0 }}>
+            <Streak />
+          </Container>
         </Box>
-        <Typography variant='body1' sx={{ textAlign: 'center', fontWeight: 700 }}>
-          {user?.slug.toUpperCase()}
-        </Typography>
-      </Paper>
+      </Container>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <FindPlate />
-        <Streak />
-      </Box>
-
-      <PageActionButtons />
+      <Container maxWidth='sm' sx={{ my: 2 }}>
+        <PageActionButtons />
+      </Container>
 
       <AddNumberDialog />
       <AddFriendDialog />

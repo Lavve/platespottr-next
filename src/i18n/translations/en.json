@@ -50,6 +50,8 @@
     "dark": "Dark",
     "auto": "Auto",
     "vibrate": "Vibrate on button press",
+    "latlang": "Save coordinates for each number",
+    "latlang_description": "If on, coordinates will be saved for each number.",
     "language": "Language",
     "swedish": "Svenska",
     "english": "English",
@@ -114,7 +116,10 @@
     "streaks_days_in_a_row": "{streak} days in a row",
     "numbers_per_week": "Numbers per week",
     "latest_found_number": "Latest found number",
-    "finds_per_day": "Finds per day"
+    "finds_per_day": "Finds per day",
+    "findings_at_locations": "{count} numbers found in this area",
+    "no_location_data_available": "No location data available",
+    "show_on_map": "Show on map"
   },
   "friends": {
     "add": "Add to my crew",
@@ -195,7 +200,8 @@
     "add_number_failed": "Failed to add number. Please try again. (Error code: {code})",
     "remove_number_failed": "Failed to remove number. Please try again. (Error code: {code})",
     "reset_failed": "Failed to reset. Please try again.",
-    "server_error": "Server error. Please try again later."
+    "server_error": "Server error. Please try again later.",
+    "add_friend_failed": "Failed to add friend. Please try again. (Error code: {code})"
   },
   "install_prompt": {
     "title": "Install Platespottr",

@@ -132,10 +132,10 @@ class ApiService {
   }
 
   // Number management
-  async addNumber(userId: string): Promise<MessageResponse> {
+  async addNumber(userId: string, latlng?: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/user-numbers.php', {
       method: 'POST',
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, latlng }),
     })
   }
 

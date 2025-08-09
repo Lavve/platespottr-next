@@ -1,10 +1,17 @@
 // API types for external API communication
+
+export interface ApiNumber {
+  found_at: string
+  lat: string | null
+  lng: string | null
+}
+
 export interface ApiUser {
   id: string
   name: string
   slug: string
   member_since?: string
-  numbers?: string[]
+  numbers?: ApiNumber[]
   friends?: ApiFriend[]
 }
 

@@ -45,7 +45,7 @@ const CompleteDialog = ({ user }: { user: IUser | null }) => {
         </DialogContent>
 
         <DialogActions>
-          <Button size='large' variant='contained' onClick={handleClose}>
+          <Button size='large' variant='outlined' color='primary' onClick={handleClose}>
             {t('common.close')}
           </Button>
         </DialogActions>

@@ -55,6 +55,7 @@ export interface IVibrationOptions {
 export type ISortBy = 'plates' | 'streak' | 'percentage'
 export type IFriendsTabs = 'friends' | 'awaiting' | 'requests'
 export type ISettingsTabs = 'settings' | 'reset' | 'user'
+export type IStatisticsTabs = 'stats' | 'list' | 'map'
 
 export interface IStatsBlockProps {
   title: string

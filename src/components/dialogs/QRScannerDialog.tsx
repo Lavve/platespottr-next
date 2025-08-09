@@ -181,7 +181,7 @@ const QRScannerDialog = () => {
             {error ? (
               <Alert severity='warning'>{t(error)}</Alert>
             ) : (
-              <Typography variant='body1'>{t('friends.scan_qr_code_description')}</Typography>
+              <Typography>{t('friends.scan_qr_code_description')}</Typography>
             )}
             {!scannedCode ? (
               <>
@@ -205,7 +205,7 @@ const QRScannerDialog = () => {
               </>
             ) : (
               <>
-                <Typography variant='body1' textAlign='center' sx={{ mt: 2 }}>
+                <Typography textAlign='center' sx={{ mt: 2 }}>
                   {t.rich('friends.send_friend_request_description', {
                     friendName: scannedName || scannedCode || '',
                     strong: chunks => <strong>{chunks}</strong>,
@@ -218,10 +218,16 @@ const QRScannerDialog = () => {
             )}
           </DialogContent>
           <DialogActions>
-            <VibrateButton variant='outlined' color='primary' onClick={handleCloseDialog}>
+            <VibrateButton variant='outlined' color='primary' size='large' onClick={handleCloseDialog}>
               {t('common.cancel')}
             </VibrateButton>
-            <VibrateButton variant='contained' color='primary' disabled={!scannedCode} onClick={handleAddFriend}>
+            <VibrateButton
+              variant='contained'
+              color='primary'
+              size='large'
+              disabled={!scannedCode}
+              onClick={handleAddFriend}
+            >
               {t('friends.send_friend_request')}
             </VibrateButton>
           </DialogActions>

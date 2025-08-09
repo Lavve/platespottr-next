@@ -8,7 +8,12 @@ export const transformApiUserToAppUser = (apiUser: ApiUser): IUser => {
     name: apiUser.name,
     slug: apiUser.slug,
     member_since: apiUser.member_since,
-    numbers: apiUser.numbers || [],
+    numbers:
+      apiUser.numbers?.map(number => ({
+        found_at: number.found_at,
+        lat: number.lat,
+        lng: number.lng,
+      })) || [],
   }
 }
 

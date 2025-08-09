@@ -74,9 +74,7 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
     <Dialog fullWidth maxWidth='xs' open={open} onClose={handleClose}>
       <DialogHeader title={t('auth.create_account')} />
       <DialogContent>
-        <Typography variant='body1' sx={{ mb: 2 }}>
-          {t('auth.register_description')}
-        </Typography>
+        <Typography sx={{ mb: 2 }}>{t('auth.register_description')}</Typography>
 
         {displayError && (
           <Alert severity='error' sx={{ mb: 2 }} onClose={() => setLocalError('')}>
@@ -111,10 +109,12 @@ const RegisterDialog = ({ open, onClose, onSwitchToLogin }: RegisterDialogProps)
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onSwitchToLogin} disabled={isCreatingUser}>
+        <Button variant='outlined' color='primary' size='large' onClick={onSwitchToLogin} disabled={isCreatingUser}>
           {t('auth.already_have_account')}
         </Button>
         <Button
+          size='large'
+          color='primary'
           onClick={handleRegister}
           variant='contained'
           disabled={isCreatingUser || !name.trim() || !pin.trim() || !confirmPin.trim()}

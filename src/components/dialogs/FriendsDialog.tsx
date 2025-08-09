@@ -32,6 +32,7 @@ import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import type { IFriendsTabs } from '@/types/common'
 import type { IUser } from '@/types/user'
+import VibrateIconButton from '../common/VibrateIconButton'
 
 const FriendsDialog = () => {
   const t = useTranslations()
@@ -280,14 +281,13 @@ const FriendsDialog = () => {
           </DialogContent>
 
           <DialogActions sx={{ justifyContent: 'space-between' }}>
-            <VibrateButton
-              variant='outlined'
+            <VibrateIconButton
               color='primary'
               onClick={handleRefreshFriends}
               disabled={isDisabled}
               loading={isRefreshing}
             >
-              <FindReplace />
+              <FindReplace sx={{ fontSize: 20 }} />
               {isDisabled && !isRefreshing && (
                 <CircularProgress
                   variant='determinate'
@@ -303,8 +303,8 @@ const FriendsDialog = () => {
                   }}
                 />
               )}
-            </VibrateButton>
-            <Button variant='contained' color='primary' size='large' onClick={handleCloseDialog}>
+            </VibrateIconButton>
+            <Button variant='outlined' color='primary' size='large' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>
           </DialogActions>

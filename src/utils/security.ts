@@ -1,4 +1,4 @@
-import { AUTH_KEY, DEFAULT_AUTH_DATA, LEGACY_AUTH_KEYS } from '@/constants/app'
+import { AUTH_KEY, DEFAULT_AUTH_DATA, LEGACY_AUTH_KEYS, SETTINGS_KEY } from '@/constants/app'
 import type { AuthData } from '@/types/auth'
 
 /**
@@ -139,8 +139,8 @@ export const updateAuthData = (updates: Partial<AuthData>): boolean => {
  */
 export const clearAuthData = (): void => {
   try {
-    // Remove the new consolidated key
     safeLocalStorageRemove(AUTH_KEY)
+    safeLocalStorageRemove(SETTINGS_KEY)
 
     // Also clean up any legacy keys that might still exist
     Object.values(LEGACY_AUTH_KEYS).forEach(key => {

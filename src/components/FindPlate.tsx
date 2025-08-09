@@ -1,17 +1,19 @@
 'use client'
 
-import { Box, CircularProgress, Paper, Typography } from '@mui/material'
+import { Box, CircularProgress, Container, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
 import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
 import { useAddNumber } from '@/hooks/useApi'
+import { useVibration } from '@/hooks/useVibration'
 import { useSnackbar } from '@/providers/SnackbarProvider'
+import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
-import { vibrate } from '@/utils/vibrate'
+import { getUserCoordinates } from '@/utils/getUserCoordinates'
 
 const rndNumber = () => {
   return Math.floor(Math.random() * (998 - 111 + 1)) + 111
@@ -21,15 +23,21 @@ const FindPlate = () => {
   const t = useTranslations()
   const { user, isLoading } = useUser()
   const addNumberMutation = useAddNumber()
+  const { settings } = useSettings()
   const { showError } = useSnackbar()
+  const { handleClick } = useVibration({ pattern: VIBRATE_SUCCESS })
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isGettingCoordinates, setIsGettingCoordinates] = useState(false)
   const releaseRef = useRef<number | null>(null)
   const animationRef = useRef<number | null>(null)
   const startTimeRef = useRef<number | null>(null)
   const initialRandomNumber = useRef(rndNumber())
 
-  const isDisabled = useMemo(() => isLoading || addNumberMutation.isPending, [isLoading, addNumberMutation.isPending])
+  const isDisabled = useMemo(
+    () => isLoading || addNumberMutation.isPending || isGettingCoordinates,
+    [isLoading, addNumberMutation.isPending, isGettingCoordinates]
+  )
   const currentNumber = useMemo(() => {
     return (user?.numbers?.length ?? initialRandomNumber.current) + 1
   }, [user])
@@ -44,8 +52,20 @@ const FindPlate = () => {
     if (newProgress < 100) {
       animationRef.current = requestAnimationFrame(updateProgress)
     } else {
-      if (user.id) {
-        addNumberMutation.mutate(user.id, {
+      handleCompletion()
+    }
+  }
+
+  const handleCompletion = async () => {
+    if (!user?.id) return
+
+    setIsGettingCoordinates(true)
+    try {
+      const latlng = await getUserCoordinates(settings.latlang === 'on')
+
+      addNumberMutation.mutate(
+        { userId: user.id, latlng: latlng ?? undefined },
+        {
           onError: error => {
             console.error(error)
             let errorMsg = t('notifications.add_number_failed', { code: 0 })
@@ -54,11 +74,13 @@ const FindPlate = () => {
             }
             showError(errorMsg)
           },
-        })
-      }
-      vibrate(VIBRATE_SUCCESS)
-      endHold()
+        }
+      )
+      handleClick()
+    } finally {
+      setIsGettingCoordinates(false)
     }
+    endHold()
   }
 
   const updateReleaseProgress = () => {
@@ -112,7 +134,9 @@ const FindPlate = () => {
     >
       <Typography variant='h6'>{t('app.next_number_to_find')}</Typography>
 
-      <RegPlate number={currentNumber} />
+      <Container maxWidth='sm'>
+        <RegPlate number={currentNumber} />
+      </Container>
 
       <Box sx={{ position: 'relative', width: 'fit-content', display: 'flex', justifyContent: 'center' }}>
         <VibrateButton
@@ -143,6 +167,20 @@ const FindPlate = () => {
         >
           {t('common.found')}
         </VibrateButton>
+        {isGettingCoordinates && (
+          <CircularProgress
+            thickness={2}
+            size={136}
+            sx={{
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: -8,
+              left: -8,
+              zIndex: 1,
+              opacity: 0.5,
+            }}
+          />
+        )}
         {isHolding && (
           <CircularProgress
             variant='determinate'

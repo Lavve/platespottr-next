@@ -1,9 +1,15 @@
+export interface IUserNumber {
+  found_at: string
+  lat: string | null
+  lng: string | null
+}
+
 export interface IUser {
   id?: string // Optional for backward compatibility
   name: string
   slug: string
   member_since?: string
-  numbers?: string[] // API returns timestamps as strings
+  numbers?: IUserNumber[]
   friendSince?: number
   requesting?: boolean
   awaiting?: boolean

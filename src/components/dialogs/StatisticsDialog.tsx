@@ -1,35 +1,61 @@
 'use client'
 
-import { AccountBalanceWallet, CalendarMonth, LocalFireDepartment, Percent, Timeline } from '@mui/icons-material'
-import { Box, Button, Dialog, DialogActions, DialogContent, Paper, Typography } from '@mui/material'
+import { AccountBalanceWallet, BarChart, FormatListNumbered, Map as MapIcon } from '@mui/icons-material'
+import { Button, Dialog, DialogActions, DialogContent, Tab, Tabs } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
-import StatsBlock from '@/components/common/StatsBlock'
+import { useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
-import { useStatistics } from '@/hooks/useStatistics'
+import ListBlock from '@/components/dialogs/statistics/ListBlock'
+import MapBlock from '@/components/dialogs/statistics/MapBlock'
+import Stats from '@/components/dialogs/statistics/StatsBlock'
 import { useVibration } from '@/hooks/useVibration'
+import { MapProvider } from '@/providers/MapProvider'
 import { useUser } from '@/providers/userProvider'
 import theme from '@/style/theme'
-import { relativeDays } from '@/utils/dates'
+import type { IStatisticsTabs } from '@/types/common'
 
 const StatisticsDialog = () => {
   const t = useTranslations()
   const { handleClick } = useVibration()
   const { user } = useUser()
-  const { maxStreak, maxWeek, latestFinding, findingsByWeek, findsPerDay } = useStatistics(user?.numbers || [])
   const [dialogOpen, setDialogOpen] = useState(false)
-
-  const sortedFindingsByWeek = useMemo(() => {
-    const sorted = Array.from(findingsByWeek.entries()).sort((a, b) => a[0] - b[0])
-
-    return sorted.slice(sorted.length - 10, sorted.length)
-  }, [findingsByWeek])
+  const [settingsTab, setSettingsTab] = useState<IStatisticsTabs>('stats')
+  const [shouldResetMapZoom, setShouldResetMapZoom] = useState(true)
+  const [pendingZoom, setPendingZoom] = useState<{ lat: number; lng: number } | null>(null)
 
   const handleCloseDialog = () => {
     handleClick()
     setDialogOpen(false)
+    setSettingsTab('stats')
   }
+
+  const handleTabChange = (_: React.SyntheticEvent, newValue: IStatisticsTabs) => {
+    handleClick()
+
+    if (newValue === 'map') {
+      setShouldResetMapZoom(true)
+      setPendingZoom(null)
+    }
+
+    setSettingsTab(newValue)
+  }
+
+  const switchToMapTab = (lat?: number, lng?: number) => {
+    setSettingsTab('map')
+    setShouldResetMapZoom(false)
+
+    if (lat !== undefined && lng !== undefined) {
+      setPendingZoom({ lat, lng })
+    }
+  }
+
+  useEffect(() => {
+    if (settingsTab !== 'map') {
+      setShouldResetMapZoom(true)
+      setPendingZoom(null)
+    }
+  }, [settingsTab])
 
   return (
     <>
@@ -38,7 +64,7 @@ const StatisticsDialog = () => {
         color='primary'
         size='large'
         fullWidth
-        disabled={user?.numbers?.length === 0 || !user}
+        disabled={!user || user?.numbers?.length === 0}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -54,77 +80,34 @@ const StatisticsDialog = () => {
       </VibrateButton>
 
       {dialogOpen && (
-        <Dialog fullWidth maxWidth='sm' open={dialogOpen} onClose={handleCloseDialog}>
+        <Dialog fullWidth maxWidth={settingsTab === 'map' ? 'xl' : 'sm'} open={dialogOpen} onClose={handleCloseDialog}>
           <DialogHeader title={t('app.statistics')} number={user?.numbers?.length} />
 
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            {/* Latest found number */}
-            {latestFinding && (
-              <StatsBlock
-                title={t('statistics.latest_found_number')}
-                icon={<CalendarMonth sx={{ color: 'primary.light' }} />}
-              >
-                {relativeDays(new Date(latestFinding), t)}
-              </StatsBlock>
-            )}
+            <Tabs value={settingsTab} variant='fullWidth' onChange={handleTabChange} sx={{ mb: 2 }}>
+              <Tab label={<BarChart />} value='stats' />
+              <Tab label={<FormatListNumbered />} value='list' disabled={!user || user?.numbers?.length === 0} />
+              <Tab label={<MapIcon />} value='map' disabled={!user || user?.numbers?.length === 0} />
+            </Tabs>
 
-            {/* Current streak */}
-            {maxStreak > 1 && (
-              <StatsBlock
-                title={t('statistics.current_streak')}
-                icon={<LocalFireDepartment sx={{ color: 'warning.light' }} />}
-              >
-                {t('statistics.streaks_days_in_a_row', { streak: maxStreak })}
-              </StatsBlock>
-            )}
-
-            {/* Finds per day */}
-            {findsPerDay.days > 0 && findsPerDay.perday > 0 && (
-              <StatsBlock title={t('statistics.finds_per_day')} icon={<Percent sx={{ color: 'accent.light' }} />}>
-                {findsPerDay.perday}/dag
-              </StatsBlock>
-            )}
-
-            {/* Numbers per week */}
-            {sortedFindingsByWeek.length > 1 && user?.numbers?.length && user.numbers.length > 1 && (
-              <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-                <Typography variant='body1' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Timeline sx={{ color: 'success.light' }} /> {t('statistics.numbers_per_week')}
-                </Typography>
-
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                  {sortedFindingsByWeek.map(([week, count]) => {
-                    return (
-                      <Box
-                        key={`w${week}`}
-                        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}
-                      >
-                        <Typography variant='caption' color='text.secondary'>
-                          V{week}
-                        </Typography>
-                        <Box sx={{ flexGrow: 1, width: '100%', height: 15 }}>
-                          <Box
-                            sx={{
-                              width: `${(count / maxWeek) * 100}%`,
-                              height: '100%',
-                              backgroundColor: count === maxWeek ? 'primary.light' : 'primary.dark',
-                              borderRadius: 1,
-                            }}
-                          />
-                        </Box>
-                        <Typography variant='body1' sx={{ textAlign: 'right' }}>
-                          {count}
-                        </Typography>
-                      </Box>
-                    )
-                  })}
-                </Box>
-              </Paper>
-            )}
+            <MapProvider>
+              {settingsTab === 'stats' && user && <Stats user={user} />}
+              {settingsTab === 'list' && user && user.numbers && user.numbers.length > 0 && (
+                <ListBlock user={user} onShowOnMap={switchToMapTab} />
+              )}
+              {settingsTab === 'map' && user && user.numbers && user.numbers.length > 0 && (
+                <MapBlock
+                  user={user}
+                  resetZoom={shouldResetMapZoom}
+                  pendingZoom={pendingZoom}
+                  onZoomComplete={() => setPendingZoom(null)}
+                />
+              )}
+            </MapProvider>
           </DialogContent>
 
           <DialogActions>
-            <Button variant='contained' size='large' onClick={handleCloseDialog} color='primary'>
+            <Button variant='outlined' size='large' color='primary' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>
           </DialogActions>

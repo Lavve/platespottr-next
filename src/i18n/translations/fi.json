@@ -60,6 +60,8 @@
     "united_states": "USA",
     "estonia": "Eesti",
     "lithuania": "Liettua",
+    "latlang": "Tallenna koordinaatit jokaiseen numeroon",
+    "latlang_description": "Jos päällä, koordinaatit tallennetaan jokaiseen numeroon.",
     "resetting": "Nollataan",
     "reset_last_plate": "Nollaa viimeinen numero",
     "reset_all_numbers": "Nollaa kaikki numerot",
@@ -114,7 +116,10 @@
     "streaks_days_in_a_row": "{streak} päivää peräkkäin",
     "numbers_per_week": "Numeroita per viikko",
     "latest_found_number": "Viimeisin löydetty numero",
-    "finds_per_day": "Löydettyjä numeroita per päivä"
+    "finds_per_day": "Löydettyjä numeroita per päivä",
+    "findings_at_locations": "{count} numeroita löytynyt tästä alueesta",
+    "no_location_data_available": "Paikan tiedot eivät ole saatavilla",
+    "show_on_map": "Näytä kartalla"
   },
   "friends": {
     "add": "Lisää ystävä",
@@ -195,7 +200,8 @@
     "add_number_failed": "Numeroa ei voitu lisätä. Yritä uudelleen. (Error code: {code})",
     "remove_number_failed": "Numeroa ei voitu poistaa. Yritä uudelleen. (Error code: {code})",
     "reset_failed": "Nollaus epäonnistui. Yritä uudelleen.",
-    "server_error": "Palvelinvirhe. Yritä myöhemmin uudelleen."
+    "server_error": "Palvelinvirhe. Yritä myöhemmin uudelleen.",
+    "add_friend_failed": "Ystävää ei voitu lisätä. Yritä uudelleen. (Error code: {code})"
   },
   "install_prompt": {
     "title": "Asenna Platespottr",

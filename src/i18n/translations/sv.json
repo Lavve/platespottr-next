@@ -60,6 +60,8 @@
     "united_states": "USA",
     "estonia": "Estland",
     "lithuania": "Litauen",
+    "latlang": "Spara kordinater för varje nummer",
+    "latlang_description": "Om på, sparas kordinater för varje nummer.",
     "resetting": "Återställning",
     "reset_last_plate": "Återställ senaste nummer",
     "reset_all_numbers": "Återställ alla nummer",
@@ -113,7 +115,10 @@
     "streaks_days_in_a_row": "{streak} dagar i rad",
     "numbers_per_week": "Nummer per vecka",
     "latest_found_number": "Senaste hittade nummer",
-    "finds_per_day": "Hittade nummer per dag"
+    "finds_per_day": "Hittade nummer per dag",
+    "findings_at_locations": "{count} nummer finns i detta område",
+    "no_location_data_available": "Ingen platsdata tillgänglig",
+    "show_on_map": "Visa på kartan"
   },
   "friends": {
     "add": "Lägg till i mitt crew",
@@ -194,7 +199,8 @@
     "add_number_failed": "Kunde inte lägga till nummer. Försök igen. (Error code: {code})",
     "remove_number_failed": "Kunde inte ta bort nummer. Försök igen. (Error code: {code})",
     "reset_failed": "Kunde inte återställa. Försök igen.",
-    "server_error": "Serverfel. Försök igen senare."
+    "server_error": "Serverfel. Försök igen senare.",
+    "add_friend_failed": "Kunde inte lägga till vän. Försök igen. (Error code: {code})"
   },
   "install_prompt": {
     "title": "Installera Platespottr",

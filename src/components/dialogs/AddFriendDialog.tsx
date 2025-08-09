@@ -6,9 +6,11 @@ import { useCallback, useMemo } from 'react'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
+import { useSnackbar } from '@/providers/SnackbarProvider'
 
 const AddFriendDialog = () => {
   const t = useTranslations()
+  const { showError } = useSnackbar()
   const { friend, isAddFriendDialogOpen, clearQuery } = useQueryNavigation()
   const { addFriend, friendsAll } = useFriends()
 
@@ -18,12 +20,18 @@ const AddFriendDialog = () => {
 
   const handleAddFriend = useCallback(
     (friendSlug: string) => {
-      if (!friendSlug) return // TODO: Show snackbar, no slug
-      if (foundFriend) return // TODO: Show snackbar, friend already in list
+      if (!friendSlug) {
+        showError(t('notifications.add_friend_failed', { code: 0 }))
+        return
+      }
+      if (foundFriend) {
+        showError(t('notifications.add_friend_failed', { code: 0 }))
+        return
+      }
       addFriend(friendSlug)
       clearQuery()
     },
-    [foundFriend, addFriend, clearQuery]
+    [foundFriend, addFriend, clearQuery, showError, t]
   )
 
   if (!friend || !isAddFriendDialogOpen) return null
@@ -32,13 +40,13 @@ const AddFriendDialog = () => {
     <Dialog fullWidth maxWidth='sm' open={isAddFriendDialogOpen} onClose={clearQuery}>
       <DialogHeader title={t('app.add_friend')} />
       <DialogContent>
-        <Typography variant='body1'>
+        <Typography>
           {t.rich('friends.send_friend_request_description', {
             slug: friend?.name ? friend?.name : friend?.slug.toUpperCase() || '',
             strong: chunks => <strong>{chunks}</strong>,
           })}
         </Typography>
-        <Typography variant='body1'>{friend?.name ? friend?.slug.toUpperCase() : ''}</Typography>
+        <Typography>{friend?.name ? friend?.slug.toUpperCase() : ''}</Typography>
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' color='primary' size='large' onClick={clearQuery}>

@@ -64,9 +64,7 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
     <Dialog fullWidth maxWidth='xs' open={open} onClose={handleClose}>
       <DialogHeader title={t('auth.login')} />
       <DialogContent>
-        <Typography variant='body1' sx={{ mb: 2 }}>
-          {t('auth.login_description')}
-        </Typography>
+        <Typography sx={{ mb: 2 }}>{t('auth.login_description')}</Typography>
 
         {displayError && (
           <Alert severity='error' sx={{ mb: 2 }} onClose={() => setLocalError('')}>
@@ -94,10 +92,12 @@ const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) =>
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onSwitchToRegister} disabled={isLoggingIn}>
+        <Button variant='outlined' color='primary' size='large' onClick={onSwitchToRegister} disabled={isLoggingIn}>
           {t('auth.create_account')}
         </Button>
         <Button
+          size='large'
+          color='primary'
           onClick={handleLogin}
           variant='contained'
           disabled={isLoggingIn || name.trim().length < 2 || !pin.length}

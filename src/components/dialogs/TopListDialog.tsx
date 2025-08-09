@@ -34,12 +34,12 @@ const TopListDialog = () => {
       if (sortBy === 'plates') {
         return bPlates.length - aPlates.length
       } else if (sortBy === 'streak') {
-        const aStreak = calculateMaxStreak(aPlates.map(Number))
-        const bStreak = calculateMaxStreak(bPlates.map(Number))
+        const aStreak = calculateMaxStreak(aPlates)
+        const bStreak = calculateMaxStreak(bPlates)
         return bStreak - aStreak
       } else if (sortBy === 'percentage') {
-        const aFindsPerDay = calculateFindsPerDay(aPlates.map(Number))
-        const bFindsPerDay = calculateFindsPerDay(bPlates.map(Number))
+        const aFindsPerDay = calculateFindsPerDay(aPlates)
+        const bFindsPerDay = calculateFindsPerDay(bPlates)
         return bFindsPerDay.perday - aFindsPerDay.perday
       }
       return 0
@@ -81,12 +81,12 @@ const TopListDialog = () => {
 
   const isStreakDisabled = useMemo(() => {
     const myUser = user ? [user] : []
-    return [...friendList, ...myUser].every(f => calculateMaxStreak(f.numbers?.map(Number) ?? []) < 2)
+    return [...friendList, ...myUser].every(f => calculateMaxStreak(f.numbers ?? []) < 2)
   }, [friendList, user, calculateMaxStreak])
 
   const isPercentageDisabled = useMemo(() => {
     const myUser = user ? [user] : []
-    return [...friendList, ...myUser].every(f => calculateFindsPerDay(f.numbers?.map(Number) ?? []).perday === 0)
+    return [...friendList, ...myUser].every(f => calculateFindsPerDay(f.numbers ?? []).perday === 0)
   }, [friendList, user, calculateFindsPerDay])
 
   return (
@@ -129,13 +129,13 @@ const TopListDialog = () => {
               ))}
             </Box>
 
-            <Typography variant='body1' sx={{ textAlign: 'center', mt: 2, textWrap: 'pretty' }}>
+            <Typography sx={{ textAlign: 'center', mt: 2, textWrap: 'pretty' }}>
               {t('toplist.toplist_tagline')}
             </Typography>
           </DialogContent>
 
           <DialogActions>
-            <Button variant='contained' size='large' color='primary' onClick={handleCloseDialog}>
+            <Button variant='outlined' size='large' color='primary' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>
           </DialogActions>

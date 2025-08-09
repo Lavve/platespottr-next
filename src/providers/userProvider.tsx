@@ -190,7 +190,7 @@ const UserProvider = ({ children }: IProviderProps) => {
       if (user) {
         const updatedUser = {
           ...user,
-          numbers: newNumbers,
+          numbers: newNumbers.map(number => ({ found_at: number, lat: null, lng: null })),
         }
         saveUser(updatedUser)
       }
@@ -203,7 +203,7 @@ const UserProvider = ({ children }: IProviderProps) => {
       if (user) {
         const updatedUser = {
           ...user,
-          numbers: [...(user.numbers || []), newTimestamp],
+          numbers: [...(user.numbers || []), { found_at: newTimestamp, lat: null, lng: null }],
         }
         saveUser(updatedUser)
       }

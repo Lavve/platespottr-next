@@ -10,8 +10,10 @@ import { useAddNumber } from '@/hooks/useApi'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 import { useFriends } from '@/providers/friendsProvider'
 import { useSnackbar } from '@/providers/SnackbarProvider'
+import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
+import { getUserCoordinates } from '@/utils/getUserCoordinates'
 
 const AddNumberDialog = () => {
   const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
@@ -21,6 +23,7 @@ const AddNumberDialog = () => {
   const { friendsAll } = useFriends()
   const addNumberMutation = useAddNumber()
   const { showError } = useSnackbar()
+  const { settings } = useSettings()
   const addPlateContent = useMemo(() => {
     const number = ((user?.numbers?.length || 1) + 1).toString().padStart(3, '0')
     const translateStr =
@@ -32,21 +35,26 @@ const AddNumberDialog = () => {
     })
   }, [friendsAll, t, user?.numbers])
 
-  const handleAddPlate = useCallback(() => {
+  const handleAddPlate = useCallback(async () => {
     clearQuery()
     if (!user?.id) return
-    addNumberMutation.mutate(user.id, {
-      onError: error => {
-        console.error(error)
-        let errorMsg = t('notifications.add_number_failed', { code: 0 })
-        if (error instanceof ApiError) {
-          errorMsg = t('notifications.add_number_failed', { code: error.status })
-        }
-        showError(errorMsg)
-      },
-    })
+    const latlng = await getUserCoordinates(settings.latlang === 'on')
+
+    addNumberMutation.mutate(
+      { userId: user.id, latlng: latlng ?? undefined },
+      {
+        onError: error => {
+          console.error(error)
+          let errorMsg = t('notifications.add_number_failed', { code: 0 })
+          if (error instanceof ApiError) {
+            errorMsg = t('notifications.add_number_failed', { code: error.status })
+          }
+          showError(errorMsg)
+        },
+      }
+    )
     setDialogOpen(false)
-  }, [clearQuery, user?.id, addNumberMutation, showError, t])
+  }, [clearQuery, user?.id, addNumberMutation, showError, t, settings.latlang])
 
   const handleClose = useCallback(() => {
     clearQuery()
@@ -62,17 +70,15 @@ const AddNumberDialog = () => {
       <DialogHeader title={t('app.add_plate')} />
 
       <DialogContent>
-        <Typography variant='body1' sx={{ mb: 2 }}>
-          {addPlateContent}
-        </Typography>
+        <Typography sx={{ mb: 2 }}>{addPlateContent}</Typography>
         <RegPlate number={(user?.numbers?.length || 0) + 1} />
       </DialogContent>
 
       <DialogActions>
-        <VibrateButton size='large' variant='outlined' onClick={handleClose}>
+        <VibrateButton size='large' variant='outlined' color='primary' onClick={handleClose}>
           {t('common.cancel')}
         </VibrateButton>
-        <VibrateButton size='large' variant='contained' onClick={handleAddPlate} autoFocus>
+        <VibrateButton size='large' variant='contained' color='primary' onClick={handleAddPlate} autoFocus>
           {t('common.add')}
         </VibrateButton>
       </DialogActions>

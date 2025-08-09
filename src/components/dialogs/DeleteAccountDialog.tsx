@@ -11,7 +11,7 @@ import type { IDeleteAccountDialogProps } from '@/types/common'
 
 const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
   const t = useTranslations()
-  const { user, logout } = useUser()
+  const { user, resetUser } = useUser()
   const { removeSettings } = useSettings()
   const deleteUserMutation = useDeleteUser()
   const [pin, setPin] = useState('')
@@ -39,7 +39,7 @@ const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
       {
         onSuccess: () => {
           removeSettings()
-          logout()
+          resetUser()
           onClose()
         },
         onError: () => {
@@ -47,7 +47,7 @@ const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
         },
       }
     )
-  }, [pin, user?.id, deleteUserMutation, onClose, t, logout, removeSettings])
+  }, [pin, user?.id, deleteUserMutation, onClose, t, resetUser, removeSettings])
 
   const handleClose = useCallback(() => {
     setPin('')
@@ -68,9 +68,7 @@ const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
     <Dialog fullWidth maxWidth='sm' open={open}>
       <DialogHeader title={t('settings.delete_account')} />
       <DialogContent>
-        <Typography variant='body1' sx={{ mb: 2 }}>
-          {t('settings.delete_account_description')}
-        </Typography>
+        <Typography sx={{ mb: 2 }}>{t('settings.delete_account_description')}</Typography>
 
         {error && (
           <Alert severity='error' sx={{ mb: 2 }} onClose={() => setError('')}>

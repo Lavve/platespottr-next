@@ -15,15 +15,16 @@ export const getWeekNumber = (date: Date): number => {
   return weekNumber
 }
 
-export const getDaysBetween = (date: Date): number => {
-  const diffTime = Date.now() - date.getTime()
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+export const getDaysBetweenDates = (date: Date): number => {
+  const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const currentDate = new Date(Date.now())
+  const diffTime = currentDate.getTime() - normalizedDate.getTime()
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1
 }
 
 export const relativeDays = (date: Date, t: (key: string) => string): string => {
   const today = new Date()
 
-  // Reset time to midnight for both dates to compare only the date part
   const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
   const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 

@@ -168,9 +168,9 @@ export const useAddNumber = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (userId: string) => apiService.addNumber(userId),
-    onSuccess: (_, userId) => {
-      queryClient.invalidateQueries({ queryKey: ['user', userId] })
+    mutationFn: ({ userId, latlng }: { userId: string; latlng?: string }) => apiService.addNumber(userId, latlng),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['user', variables.userId] })
     },
   })
 }
