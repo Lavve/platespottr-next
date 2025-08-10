@@ -13,6 +13,7 @@ export type ISettings = {
   supressedInstallAt?: number
   vibrate?: Vibrate
   latlang?: LatLang
+  installedVersion?: string
 }
 
 export type ISettingsContext = {
@@ -21,4 +22,6 @@ export type ISettingsContext = {
   setTheme: (choice: ThemeMode) => void
   resetSettings: () => void
   removeSettings: () => void
+  isLoadingSettings?: boolean
+  settingsError?: Error | null
 }

@@ -16,6 +16,11 @@ const Page = () => {
 
   return (
     <>
+      <AddNumberDialog />
+      <AddFriendDialog />
+      <InstallPromptDialog />
+      <CompleteDialog user={user} />
+
       <Container maxWidth='sm' sx={{ my: 2 }}>
         <Paper sx={{ p: 2, borderRadius: 2 }} elevation={5}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
@@ -44,12 +49,6 @@ const Page = () => {
       <Container maxWidth='sm' sx={{ my: 2 }}>
         <PageActionButtons />
       </Container>
-
-      <AddNumberDialog />
-      <AddFriendDialog />
-
-      <InstallPromptDialog />
-      <CompleteDialog user={user} />
     </>
   )
 }

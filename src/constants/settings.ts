@@ -8,4 +8,5 @@ export const defaultSettings: ISettings = {
   initialRulesDialogOpen: true,
   vibrate: 'on',
   latlang: 'off',
+  installedVersion: '',
 }

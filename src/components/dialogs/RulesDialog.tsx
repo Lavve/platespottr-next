@@ -23,15 +23,14 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import Logo from '@/components/Logo'
-import { VIBRATE_ALERT } from '@/constants/app'
+import { HOLD_DURATION_SECONDS } from '@/constants/app'
 import { useVibration } from '@/hooks/useVibration'
 import { useSettings } from '@/providers/settingsProvider'
-import { vibrate } from '@/utils/vibrate'
 import packageJson from '../../../package.json'
 
 const RulesDialog = () => {
   const t = useTranslations()
-  const { settings, saveSettings } = useSettings()
+  const { settings, saveSettings, isLoadingSettings } = useSettings() // Add isLoadingSettings
   const { handleClick } = useVibration()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [understood, setUnderstood] = useState(false)
@@ -46,6 +45,8 @@ const RulesDialog = () => {
   }, [])
 
   useEffect(() => {
+    if (isLoadingSettings) return
+
     if (initialRuleTimer.current) {
       clearTimeout(initialRuleTimer.current)
     }
@@ -55,7 +56,7 @@ const RulesDialog = () => {
 
       if (shouldBeOpen) {
         setDialogOpen(true)
-        vibrate(VIBRATE_ALERT)
+        handleClick()
       }
     }, 500)
 
@@ -64,7 +65,7 @@ const RulesDialog = () => {
         clearTimeout(initialRuleTimer.current)
       }
     }
-  }, [initialRulesDialogOpen])
+  }, [initialRulesDialogOpen, isLoadingSettings, handleClick])
 
   const onCloseRulesDialog = () => {
     handleClick()
@@ -127,6 +128,12 @@ const RulesDialog = () => {
                   <ListItemText
                     primary={t('rules.game_rules.traffic_safety')}
                     secondary={t('rules.game_rules.traffic_safety_description')}
+                  />
+                </ListItem>
+                <ListItem sx={{ py: 0 }}>
+                  <ListItemText
+                    primary={t('rules.game_rules.press_for_seconds')}
+                    secondary={t('rules.game_rules.press_for_seconds_description', { seconds: HOLD_DURATION_SECONDS })}
                   />
                 </ListItem>
               </List>

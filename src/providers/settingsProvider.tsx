@@ -16,22 +16,27 @@ const SettingsProvider = ({ children }: IProviderProps) => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings))
   }, [])
 
-  const setTheme = useCallback((choice: ThemeMode) => {
-    setSettings(prev => {
-      let newTheme = choice
+  const setTheme = useCallback(
+    (choice: ThemeMode) => {
+      if (settings.themeChoice !== choice) {
+        setSettings((prev: ISettings) => {
+          let newTheme = choice
 
-      // If choice is 'system', determine the actual theme
-      if (choice === 'system') {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-        newTheme = mediaQuery.matches ? 'dark' : 'light'
+          // If choice is 'system', determine the actual theme
+          if (choice === 'system') {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+            newTheme = mediaQuery.matches ? 'dark' : 'light'
+          }
+
+          const updatedSettings = { ...prev, themeChoice: choice, theme: newTheme }
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings))
+          setSettings(updatedSettings)
+          return updatedSettings
+        })
       }
-
-      const updatedSettings = { ...prev, themeChoice: choice, theme: newTheme }
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings))
-      setSettings(updatedSettings)
-      return updatedSettings
-    })
-  }, [])
+    },
+    [settings.themeChoice]
+  )
 
   useEffect(() => {
     const storedSettings = localStorage.getItem(SETTINGS_KEY)
@@ -53,7 +58,7 @@ const SettingsProvider = ({ children }: IProviderProps) => {
     setSettings(initialSettings)
 
     const handleChange = (e: MediaQueryListEvent) => {
-      setSettings(prev => {
+      setSettings((prev: ISettings) => {
         if (prev.themeChoice === 'system') {
           return { ...prev, theme: e.matches ? 'dark' : 'light' }
         }

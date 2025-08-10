@@ -5,13 +5,14 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import Logo from '@/components/Logo'
-import { GOOGLE_PLAY_URL, SUPPRESS_INSTALL_DURATION_DAYS, VIBRATE_ALERT } from '@/constants/app'
+import { GOOGLE_PLAY_URL, SUPPRESS_INSTALL_DURATION_DAYS } from '@/constants/app'
 import useInstallPrompt from '@/hooks/useInstallPrompt'
+import { useVibration } from '@/hooks/useVibration'
 import { useSettings } from '@/providers/settingsProvider'
-import { vibrate } from '@/utils/vibrate'
 
 const InstallPromptDialog = () => {
   const t = useTranslations()
+  const { handleClick } = useVibration()
   const { type: installType, promptEvent: installPrompt } = useInstallPrompt()
   const { settings, saveSettings } = useSettings()
   const [isVisible, setIsVisible] = useState(false)
@@ -50,7 +51,7 @@ const InstallPromptDialog = () => {
       const suppressed = !shouldShowInstallPrompt()
 
       if (installType && !suppressed) {
-        vibrate(VIBRATE_ALERT)
+        handleClick()
         setIsVisible(true)
       }
     }
@@ -58,7 +59,7 @@ const InstallPromptDialog = () => {
     const timer = setTimeout(checkInstallation, 8000)
 
     return () => clearTimeout(timer)
-  }, [installType, shouldShowInstallPrompt])
+  }, [installType, shouldShowInstallPrompt, handleClick])
 
   if (!isVisible) return null
 

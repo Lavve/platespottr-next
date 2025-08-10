@@ -32,7 +32,7 @@ import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 import type { ISettingsTabs } from '@/types/common'
-import type { Country, Language, LatLang } from '@/types/settings'
+import type { Country, Language, LatLang, ThemeMode, Vibrate } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 import { setUserLocale } from '@/utils/locale'
@@ -59,14 +59,28 @@ const SettingsDialog = () => {
   const hasGeolocation = typeof navigator !== 'undefined' && 'geolocation' in navigator
 
   const handleChangeLanguage = (language: Language) => {
-    saveSettings({ ...settings, language })
+    if (settings.language !== language) {
+      saveSettings({ ...settings, language })
+    }
     setUserLocale(language as Locale)
+  }
+
+  const handleChangeVibrate = (vibrate: Vibrate) => {
+    if (settings.vibrate !== vibrate) {
+      saveSettings({ ...settings, vibrate })
+    }
+  }
+
+  const handleChangeTheme = (themeChoice: ThemeMode) => {
+    if (settings.themeChoice !== themeChoice) {
+      setTheme(themeChoice)
+    }
   }
 
   const handleChangeLatLang = async (latlang: LatLang) => {
     if (latlang === 'on') {
       try {
-        if (!hasGeolocation) {
+        if (!hasGeolocation || settings.latlang !== 'off') {
           saveSettings({ ...settings, latlang: 'off' })
           return
         }
@@ -74,13 +88,19 @@ const SettingsDialog = () => {
         const permissionStatus = await navigator.permissions.query({ name: 'geolocation' as PermissionName })
 
         if (permissionStatus.state === 'granted') {
-          saveSettings({ ...settings, latlang })
+          saveSettings({ ...settings, latlang: 'on' })
         } else if (permissionStatus.state === 'denied') {
           saveSettings({ ...settings, latlang: 'off' })
         } else if (permissionStatus.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(
-            () => saveSettings({ ...settings, latlang }),
-            () => saveSettings({ ...settings, latlang: 'off' }),
+            () => {
+              if (settings.latlang !== latlang) {
+                saveSettings({ ...settings, latlang })
+              }
+            },
+            () => {
+              saveSettings({ ...settings, latlang: 'off' })
+            },
             { timeout: 10000, enableHighAccuracy: false }
           )
         }
@@ -88,7 +108,9 @@ const SettingsDialog = () => {
         saveSettings({ ...settings, latlang: 'off' })
       }
     } else {
-      saveSettings({ ...settings, latlang })
+      if (settings.latlang !== latlang) {
+        saveSettings({ ...settings, latlang })
+      }
     }
   }
 
@@ -98,7 +120,9 @@ const SettingsDialog = () => {
   }
 
   const handleConfirmChangeCountry = (country: Country) => {
-    saveSettings({ ...settings, country })
+    if (settings.country !== country) {
+      saveSettings({ ...settings, country })
+    }
     saveUser({ ...user, numbers: [] } as IUser)
     setConfirmChangeCountryDialogOpen(false)
   }
@@ -264,7 +288,7 @@ const SettingsDialog = () => {
                   <Typography>{t('settings.appearance')}</Typography>
                   <ButtonGroup fullWidth>
                     <VibrateButton
-                      onClick={() => setTheme('light')}
+                      onClick={() => handleChangeTheme('light')}
                       size='large'
                       variant={settings.themeChoice === 'light' ? 'contained' : 'outlined'}
                       color={settings.themeChoice === 'light' ? 'primary' : 'secondary'}
@@ -272,7 +296,7 @@ const SettingsDialog = () => {
                       {t('settings.light')}
                     </VibrateButton>
                     <VibrateButton
-                      onClick={() => setTheme('dark')}
+                      onClick={() => handleChangeTheme('dark')}
                       size='large'
                       variant={settings.themeChoice === 'dark' ? 'contained' : 'outlined'}
                       color={settings.themeChoice === 'dark' ? 'primary' : 'secondary'}
@@ -280,7 +304,7 @@ const SettingsDialog = () => {
                       {t('settings.dark')}
                     </VibrateButton>
                     <VibrateButton
-                      onClick={() => setTheme('system')}
+                      onClick={() => handleChangeTheme('system')}
                       size='large'
                       variant={settings.themeChoice === 'system' ? 'contained' : 'outlined'}
                       color={settings.themeChoice === 'system' ? 'primary' : 'secondary'}
@@ -298,7 +322,7 @@ const SettingsDialog = () => {
                       variant={settings.vibrate === 'on' ? 'contained' : 'outlined'}
                       color={settings.vibrate === 'on' ? 'primary' : 'secondary'}
                       size='large'
-                      onClick={() => saveSettings({ ...settings, vibrate: 'on' })}
+                      onClick={() => handleChangeVibrate('on')}
                     >
                       {t('common.on')}
                     </VibrateButton>
@@ -306,7 +330,7 @@ const SettingsDialog = () => {
                       variant={settings.vibrate === 'off' ? 'contained' : 'outlined'}
                       color={settings.vibrate === 'off' ? 'primary' : 'secondary'}
                       size='large'
-                      onClick={() => saveSettings({ ...settings, vibrate: 'off' })}
+                      onClick={() => handleChangeVibrate('off')}
                     >
                       {t('common.off')}
                     </VibrateButton>
@@ -314,7 +338,7 @@ const SettingsDialog = () => {
                       variant={settings.vibrate === 'max' ? 'contained' : 'outlined'}
                       color={settings.vibrate === 'max' ? 'primary' : 'secondary'}
                       size='large'
-                      onClick={() => saveSettings({ ...settings, vibrate: 'max' })}
+                      onClick={() => handleChangeVibrate('max')}
                     >
                       {t('common.max')}
                     </VibrateButton>

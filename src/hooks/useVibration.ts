@@ -1,14 +1,14 @@
 'use client'
 
 import { useCallback, useMemo } from 'react'
-import { VIBRATE_MAX_MULTIPLYER, VIBRATE_SUBTILE } from '@/constants/app'
+import { VIBRATES } from '@/constants/app'
 import { useSettings } from '@/providers/settingsProvider'
 import type { IVibrationOptions } from '@/types/common'
 import { vibrate } from '@/utils/vibrate'
 
 export const useVibration = (options: IVibrationOptions = {}) => {
   const { settings } = useSettings()
-  const { pattern = VIBRATE_SUBTILE } = options
+  const { pattern = VIBRATES.SUBTILE } = options
   const hasVibrate =
     typeof window !== 'undefined' &&
     typeof navigator !== 'undefined' &&
@@ -24,8 +24,8 @@ export const useVibration = (options: IVibrationOptions = {}) => {
 
       if (settings.vibrate === 'max') {
         return Array.isArray(inputPattern)
-          ? inputPattern.map((p: number, index: number) => (index % 2 === 1 ? p * VIBRATE_MAX_MULTIPLYER : p))
-          : inputPattern * VIBRATE_MAX_MULTIPLYER
+          ? inputPattern.map((p: number, index: number) => (index % 2 === 1 ? p * VIBRATES.MAX_MULTIPLIER : p))
+          : inputPattern * VIBRATES.MAX_MULTIPLIER
       }
 
       return Array.isArray(inputPattern) ? inputPattern : [inputPattern]

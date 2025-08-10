@@ -163,7 +163,9 @@
       "number_format": "Numeroformaatti",
       "number_format_description": "Vain numerot ilman kirjainta lopussa lasketaan. Esimerkiksi: ABC123 on kelvollinen, mutta ABC12A ei ole. Henkilökohtaiset kilvet eivät kelpaa.",
       "traffic_safety": "Liikenneturvallisuus",
-      "traffic_safety_description": "Ole aina varovainen etsiessäsi numeroita liikenteessä. Turvallisuutesi on tärkeämpää kuin peli."
+      "traffic_safety_description": "Ole aina varovainen etsiessäsi numeroita liikenteessä. Turvallisuutesi on tärkeämpää kuin peli.",
+      "press_for_seconds": "Pidä painiketta painettuna",
+      "press_for_seconds_description": "Pidä painiketta painettuna {seconds} sekuntia rekisteröidäksesi numeron. Tämä tekee numeron rekisteröimisen helpomman ja turvallisemman."
     },
     "examples": {
       "title": "Esimerkkinumeroita",
@@ -201,7 +203,8 @@
     "remove_number_failed": "Numeroa ei voitu poistaa. Yritä uudelleen. (Error code: {code})",
     "reset_failed": "Nollaus epäonnistui. Yritä uudelleen.",
     "server_error": "Palvelinvirhe. Yritä myöhemmin uudelleen.",
-    "add_friend_failed": "Ystävää ei voitu lisätä. Yritä uudelleen. (Error code: {code})"
+    "add_friend_failed": "Ystävää ei voitu lisätä. Yritä uudelleen. (Error code: {code})",
+    "app_updated": "Platespottr on päivitetty automaattisesti versioon {version}."
   },
   "install_prompt": {
     "title": "Asenna Platespottr",

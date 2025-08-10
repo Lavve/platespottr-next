@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import RegPlate from '@/components/RegPlate'
-import { HOLD_DURATION, VIBRATE_SUCCESS } from '@/constants/app'
+import { HOLD_DURATION_SECONDS, VIBRATES } from '@/constants/app'
 import { useAddNumber } from '@/hooks/useApi'
 import { useVibration } from '@/hooks/useVibration'
 import { useSnackbar } from '@/providers/SnackbarProvider'
@@ -25,7 +25,7 @@ const FindPlate = () => {
   const addNumberMutation = useAddNumber()
   const { settings } = useSettings()
   const { showError } = useSnackbar()
-  const { handleClick } = useVibration({ pattern: VIBRATE_SUCCESS })
+  const { handleClick } = useVibration({ pattern: VIBRATES.SUCCESS })
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
   const [isGettingCoordinates, setIsGettingCoordinates] = useState(false)
@@ -46,7 +46,7 @@ const FindPlate = () => {
     if (!startTimeRef.current || !user) return
 
     const elapsed = Date.now() - startTimeRef.current
-    const newProgress = (elapsed / HOLD_DURATION) * 100
+    const newProgress = (elapsed / (HOLD_DURATION_SECONDS * 1000)) * 100
     setProgress(Math.min(newProgress, 100))
 
     if (newProgress < 100) {
@@ -201,9 +201,6 @@ const FindPlate = () => {
           />
         )}
       </Box>
-      <Typography variant='body2' color='text.secondary' sx={{ textWrap: 'pretty' }}>
-        {t('app.press_for_seconds', { seconds: HOLD_DURATION / 1000 })}
-      </Typography>
     </Paper>
   )
 }

@@ -36,6 +36,8 @@ When a rate limit is exceeded, the API returns:
 | Get Outgoing Requests | GET    | 30 requests | per minute  |
 | Add Number            | POST   | 30 requests | per minute  |
 | Remove Number         | DELETE | 20 requests | per minute  |
+| Save settings         | POST   | 5 requests  | per minute  |
+| Get settings          | GET    | 5 requests  | per minute  |
 
 ### Best Practices
 
@@ -190,6 +192,75 @@ When a rate limit is exceeded, the API returns:
 - **Body:** `{"userId": "uuid", "removeAll": true}`
 - **Response:** `{"success": true, "message": "All numbers removed successfully"}`
 - **Rate Limit:** 20 requests per minute
+
+## Settings API
+
+### GET /api/settings
+
+Gets the user settings
+
+**Parameters:**
+
+- `user_id` (query parameter) - Användar-ID
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "settings": {
+    "theme": "dark",
+    "language": "sv",
+    "country": "s",
+    "themeChoice": "dark",
+    "initialRulesDialogOpen": true,
+    "supressedInstallAt": 1234567890,
+    "vibrate": "on",
+    "latlang": "off",
+    "installedVersion": "1.0.0"
+  },
+  "created_at": "2024-01-15T10:30:00.000Z",
+  "updated_at": "2024-01-16T14:45:00.000Z"
+}
+```
+
+### POST /api/settings
+
+Saves the user settings
+
+**Body:**
+
+```json
+{
+  "user_id": "user-uuid-here",
+  "settings": "{\"theme\":\"dark\",\"language\":\"sv\",\"country\":\"s\"}"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Settings saved successfully"
+}
+```
+
+**Error Responses:**
+
+```json
+{
+  "success": false,
+  "error": "Missing required field: user_id"
+}
+```
+
+```json
+{
+  "success": false,
+  "error": "Invalid JSON in settings field"
+}
+```
 
 ## Error Responses
 

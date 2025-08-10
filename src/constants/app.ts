@@ -1,12 +1,16 @@
 import type { AuthData } from '@/types/auth'
 
+export const HOLD_DURATION_SECONDS = 1
 export const SUPPRESS_INSTALL_DURATION_DAYS = 7
-export const HOLD_DURATION = 1000
-export const VIBRATE_SUBTILE = 3
-export const VIBRATE_SUCCESS = 100
-export const VIBRATE_ALERT = [20, 100, 200]
-export const VIBRATE_MAX_MULTIPLYER = 10
-export const DISABLE_REFRESH_REQUESTS_TIME = 30
+export const DISABLE_REFRESH_REQUESTS_SECONDS = 30
+
+// Vibrate patterns
+export const VIBRATES = {
+  SUBTILE: 3,
+  SUCCESS: 100,
+  ALERT: [20, 100, 200],
+  MAX_MULTIPLIER: 10,
+}
 
 // Local storage keys
 export const SETTINGS_KEY = 'PS_settings'

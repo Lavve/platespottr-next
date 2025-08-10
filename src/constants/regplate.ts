@@ -6,6 +6,7 @@ export const inappropriateWords = [
   'ASS',
   'BAJ',
   'BAS',
+  'BRY',
   'BSS',
   'BUS',
   'CUC',

@@ -76,7 +76,6 @@
   },
   "app": {
     "next_number_to_find": "Nästa nummer att hitta",
-    "press_for_seconds": "Håll inne knappen i {seconds} sekund för att registrera numret",
     "statistics": "Plåtboken",
     "friends": "Mitt crew",
     "toplist": "Prispallen",
@@ -162,7 +161,9 @@
       "number_format": "Nummerformat",
       "number_format_description": "Endast nummer utan bokstav i slutet räknas. Exempel: ABC 123 är giltigt, men ABC 12A är inte giltigt. Personliga registernummer räknas alltså inte.",
       "traffic_safety": "Säkerhet i trafiken",
-      "traffic_safety_description": "Var alltid försiktig när du letar efter nummer i trafiken. Din säkerhet går före spelet."
+      "traffic_safety_description": "Var alltid försiktig när du letar efter nummer i trafiken. Din säkerhet går före spelet.",
+      "press_for_seconds": "Håll inne knappen",
+      "press_for_seconds_description": "Håll inne knappen i {seconds} sekund för att registrera numret. Detta gör att du kan registrera numret med enkelhet och säkerhet."
     },
     "examples": {
       "title": "Exempel på nummer",
@@ -200,7 +201,8 @@
     "remove_number_failed": "Kunde inte ta bort nummer. Försök igen. (Error code: {code})",
     "reset_failed": "Kunde inte återställa. Försök igen.",
     "server_error": "Serverfel. Försök igen senare.",
-    "add_friend_failed": "Kunde inte lägga till vän. Försök igen. (Error code: {code})"
+    "add_friend_failed": "Kunde inte lägga till vän. Försök igen. (Error code: {code})",
+    "app_updated": "Platespottr har automatiskt uppdaterats till version {version}."
   },
   "install_prompt": {
     "title": "Installera Platespottr",

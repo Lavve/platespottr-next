@@ -22,7 +22,7 @@ import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import QRScannerDialog from '@/components/dialogs/QRScannerDialog'
 import User from '@/components/user/User'
-import { DISABLE_REFRESH_REQUESTS_TIME } from '@/constants/app'
+import { DISABLE_REFRESH_REQUESTS_SECONDS } from '@/constants/app'
 import { useConfirmFriendRequest } from '@/hooks/useApi'
 import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
@@ -48,7 +48,7 @@ const FriendsDialog = () => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
   const [friendsTab, setFriendsTab] = useState<IFriendsTabs>('friends')
-  const [countDown, setCountDown] = useState(DISABLE_REFRESH_REQUESTS_TIME / 1000)
+  const [countDown, setCountDown] = useState(DISABLE_REFRESH_REQUESTS_SECONDS / 1000)
   const refreshTimer = useRef<NodeJS.Timeout | null>(null)
   const countDownTimer = useRef<NodeJS.Timeout | null>(null)
   const key = useRef(0)
@@ -178,7 +178,7 @@ const FriendsDialog = () => {
       clearInterval(countDownTimer.current)
     }
 
-    setCountDown(DISABLE_REFRESH_REQUESTS_TIME)
+    setCountDown(DISABLE_REFRESH_REQUESTS_SECONDS)
     setIsRefreshing(true)
 
     if (user?.id) {
@@ -291,7 +291,7 @@ const FriendsDialog = () => {
               {isDisabled && !isRefreshing && (
                 <CircularProgress
                   variant='determinate'
-                  value={(countDown / DISABLE_REFRESH_REQUESTS_TIME) * 100}
+                  value={(countDown / DISABLE_REFRESH_REQUESTS_SECONDS) * 100}
                   thickness={4}
                   size={34}
                   sx={{
