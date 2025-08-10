@@ -1,6 +1,6 @@
 {
   "name": "platespottr-next",
-  "version": "2025.8.13",
+  "version": "2025.8.14",
   "private": true,
   "scripts": {
     "dev:https": "node server.js",
