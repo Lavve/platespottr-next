@@ -154,7 +154,7 @@ const FindPlate = () => {
             fontSize: '1.5rem',
             fontWeight: 700,
             userSelect: 'none',
-            border: `3px solid ${theme.palette.roadsign.contrastText}`,
+            border: `4px solid ${theme.palette.roadsign.contrastText}`,
             WebkitTouchCallout: 'none',
             touchAction: 'manipulation',
             width: 120,
@@ -185,14 +185,14 @@ const FindPlate = () => {
           <CircularProgress
             variant='determinate'
             value={progress}
-            size={145}
+            size={114}
             thickness={4}
             sx={{
               pointerEvents: 'none',
               color: 'secondary.main',
               position: 'absolute',
-              top: -12,
-              left: -12,
+              top: 3,
+              left: 3,
               zIndex: 1,
               '& .MuiCircularProgress-circle': {
                 transition: 'none',

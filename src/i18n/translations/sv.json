@@ -140,6 +140,7 @@
     "not_valid_qr_code": "Inte en giltig Platespottr QR-kod",
     "pending_friend_request": "Du har en väntande vänförfrågan från {slug}",
     "requested_at": "Förfrågan skickad: {date}",
+    "friend_since": "Crew sedan: {date}",
     "friends_list_updated": "Crew-listan har uppdaterats",
     "disabled_for": "Inaktiv i {seconds}s"
   },

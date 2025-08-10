@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev:https": "node server.js",
-    "dev": "next dev -p 3030",
-    "build": "next build",
-    "start": "next start",
     "lint": "biome lint ./src",
     "patch DATE": "npm version patch && npm run update-manifest && git push --follow-tags",
     "minor MONTH": "npm version minor && npm run update-manifest && git push --follow-tags",
     "major YEAR": "npm version major && npm run update-manifest && git push --follow-tags",
+    "dev": "next dev -p 3030",
+    "build": "next build",
+    "start": "next start",
     "sync-manifest-version": "node scripts/sync-manifest-version.js",
     "update-manifest": "npm run sync-manifest-version && git add public/manifest.json && git commit -m \"chore: sync manifest version\""
   },

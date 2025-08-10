@@ -21,7 +21,9 @@ const UserInfo = ({ friend, place }: IUserInfo) => {
       </Typography>
       {friend.requested_at && !place && (
         <Typography variant='body2'>
-          {t('friends.requested_at', { date: relativeDays(new Date(friend.requested_at), t) })}
+          {friend.friendSince
+            ? t('friends.friend_since', { date: relativeDays(new Date(friend.friendSince), t) })
+            : t('friends.requested_at', { date: relativeDays(new Date(friend.requested_at), t) })}
         </Typography>
       )}
     </Box>

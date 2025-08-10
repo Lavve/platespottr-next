@@ -219,7 +219,7 @@ const FriendsDialog = () => {
           alignItems: 'center',
           gap: 0.5,
           px: 1,
-          border: `2px solid ${theme.palette.roadsign.contrastText}`,
+          border: `1px solid ${theme.palette.roadsign.contrastText}`,
         }}
         onClick={() => setDialogOpen(true)}
       >
