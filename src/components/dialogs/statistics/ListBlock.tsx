@@ -23,43 +23,38 @@ const ListBlock = ({ user, onShowOnMap }: { user: IUser; onShowOnMap: (lat?: num
   }
 
   return (
-    <>
-      <Typography sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {t('statistics.latest_found_number')}
-      </Typography>
-      <List component='nav' sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-        {user.numbers?.sort(sortDesc).map((number, index) => {
-          const hasLocation = number.lat !== null && number.lng !== null
+    <List component='nav' sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+      {user.numbers?.sort(sortDesc).map((number, index) => {
+        const hasLocation = number.lat !== null && number.lng !== null
 
-          return (
-            <ListItem
-              component='div'
-              disablePadding
-              key={number.found_at}
-              sx={{ bgcolor: 'background.paper', borderRadius: 1 }}
-            >
-              <ListItemButtonWrapper hasLocation={hasLocation} onClick={() => handleShowOnMap(number, hasLocation)}>
-                <ListItemAvatar>
-                  <Avatar sx={{ bgcolor: 'transparent', border: '2px solid', borderColor: 'primary.main' }}>
-                    <Logo size={24} />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Typography sx={{ fontWeight: 'bold' }}>
-                      {((user.numbers?.length || 0) - index).toString().padStart(3, '0')}
-                    </Typography>
-                  }
-                  secondary={relativeDays(new Date(number.found_at), t)}
-                  sx={{ m: 0 }}
-                />
-                {hasLocation && <ChevronRight />}
-              </ListItemButtonWrapper>
-            </ListItem>
-          )
-        })}
-      </List>
-    </>
+        return (
+          <ListItem
+            component='div'
+            disablePadding
+            key={number.found_at}
+            sx={{ bgcolor: 'background.paper', borderRadius: 1 }}
+          >
+            <ListItemButtonWrapper hasLocation={hasLocation} onClick={() => handleShowOnMap(number, hasLocation)}>
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: 'transparent', border: '2px solid', borderColor: 'primary.main' }}>
+                  <Logo size={24} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography sx={{ fontWeight: 'bold' }}>
+                    {((user.numbers?.length || 0) - index).toString().padStart(3, '0')}
+                  </Typography>
+                }
+                secondary={relativeDays(new Date(number.found_at), t)}
+                sx={{ m: 0 }}
+              />
+              {hasLocation && <ChevronRight />}
+            </ListItemButtonWrapper>
+          </ListItem>
+        )
+      })}
+    </List>
   )
 }
 

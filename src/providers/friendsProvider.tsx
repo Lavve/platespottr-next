@@ -24,9 +24,11 @@ const FriendsProvider = ({ children }: IProviderProps) => {
   const { showSuccess, showError } = useSnackbar()
   const t = useTranslations()
 
-  const { data: friendsAll = [], isLoading: friendsLoading } = useFriendsQuery(user?.id || '')
-  const { data: incomingRequests = [], isLoading: incomingLoading } = useIncomingFriendRequestsQuery(user?.id || '')
-  const { data: outgoingRequests = [], isLoading: outgoingLoading } = useOutgoingFriendRequestsQuery(user?.id || '')
+  const userId = useMemo(() => user?.id || null, [user?.id])
+
+  const { data: friendsAll = [], isLoading: friendsLoading } = useFriendsQuery(userId || '')
+  const { data: incomingRequests = [], isLoading: incomingLoading } = useIncomingFriendRequestsQuery(userId || '')
+  const { data: outgoingRequests = [], isLoading: outgoingLoading } = useOutgoingFriendRequestsQuery(userId || '')
 
   const addFriendMutation = useAddFriendRequest()
   const confirmFriendMutation = useConfirmFriendRequest()
@@ -45,9 +47,9 @@ const FriendsProvider = ({ children }: IProviderProps) => {
 
   const addFriend = useCallback(
     (friendSlug: string) => {
-      if (user?.id) {
+      if (userId) {
         addFriendMutation.mutate(
-          { requesterId: user.id, receiverSlug: friendSlug },
+          { requesterId: userId, receiverSlug: friendSlug },
           {
             onSuccess: () => {
               showSuccess(t('friends.request_sent'))
@@ -65,14 +67,14 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       }
       return outgoingFriendRequests.length + 1
     },
-    [user?.id, addFriendMutation, outgoingFriendRequests.length, showSuccess, showError, t]
+    [userId, addFriendMutation, outgoingFriendRequests.length, showSuccess, showError, t]
   )
 
   const removeFriend = useCallback(
     (friendSlug: string, tab: IFriendsTabs): number => {
-      if (user?.id) {
+      if (userId) {
         removeFriendMutation.mutate(
-          { userId: user.id, otherUserSlug: friendSlug },
+          { userId, otherUserSlug: friendSlug },
           {
             onSuccess: () => {
               showSuccess(t('friends.friend_removed'))
@@ -97,7 +99,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       return friendList.length - 1
     },
     [
-      user?.id,
+      userId,
       removeFriendMutation,
       incomingFriendRequests.length,
       outgoingFriendRequests.length,

@@ -1,7 +1,7 @@
 'use client'
 
 import { AccountBalanceWallet, BarChart, FormatListNumbered, Map as MapIcon } from '@mui/icons-material'
-import { Button, Dialog, DialogActions, DialogContent, Tab, Tabs } from '@mui/material'
+import { Button, Collapse, Dialog, DialogActions, DialogContent, Tab, Tabs } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
@@ -57,6 +57,10 @@ const StatisticsDialog = () => {
     }
   }, [settingsTab])
 
+  if (!user) {
+    return null
+  }
+
   return (
     <>
       <VibrateButton
@@ -91,11 +95,13 @@ const StatisticsDialog = () => {
             </Tabs>
 
             <MapProvider>
-              {settingsTab === 'stats' && user && <Stats user={user} />}
-              {settingsTab === 'list' && user && user.numbers && user.numbers.length > 0 && (
+              <Collapse in={settingsTab === 'stats'} timeout={230}>
+                <Stats user={user} />
+              </Collapse>
+              <Collapse in={settingsTab === 'list'} timeout={230}>
                 <ListBlock user={user} onShowOnMap={switchToMapTab} />
-              )}
-              {settingsTab === 'map' && user && user.numbers && user.numbers.length > 0 && (
+              </Collapse>
+              {settingsTab === 'map' && user?.numbers && user?.numbers.length > 0 && (
                 <MapBlock
                   user={user}
                   resetZoom={shouldResetMapZoom}

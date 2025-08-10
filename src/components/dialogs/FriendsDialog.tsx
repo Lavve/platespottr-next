@@ -112,7 +112,6 @@ const FriendsDialog = () => {
   }, [friendsTab])
 
   const handleAddFriend = (friend: IUser) => {
-    // This should confirm an incoming request, not send a new one
     if (user?.id && friend.id) {
       confirmFriendMutation.mutate(
         { receiverId: user.id, requesterId: friend.id },

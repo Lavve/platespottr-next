@@ -19,7 +19,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const { isSupported, isActive, requestWakeLock, releaseWakeLock } = useScreenWakeLock()
 
   const userSlugValue = useMemo(() => {
-    if (!user || !user.slug) return ''
+    if (!user?.slug) return ''
     return `${process.env.NEXT_PUBLIC_SLUG_URL}/?add-friend=${encodeURIComponent(user.slug)}&name=${encodeURIComponent(user.name)}`
   }, [user])
 
@@ -50,7 +50,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
           fullWidth
           color='primary'
           size='large'
-          disabled={!userSlugValue || !user}
+          disabled={!userSlugValue || !user?.slug}
           startIcon={<QrCode sx={{ fontSize: '1.5rem' }} />}
           onClick={() => setQrOpen(true)}
           sx={{ fontSize: '1.5rem' }}
@@ -62,7 +62,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
           <QrCode />
         </VibrateIconButton>
       )}
-      {qrOpen && userSlugValue && user && (
+      {qrOpen && userSlugValue && user?.slug && (
         <Dialog fullWidth maxWidth='sm' open={qrOpen} onClose={handleCloseDialog}>
           <DialogContent sx={{ p: 2 }}>
             <Box
