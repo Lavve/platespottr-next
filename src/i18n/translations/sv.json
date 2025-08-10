@@ -139,7 +139,9 @@
     "error_finding_camera": "Kunde inte hitta någon kamera för att skanna QR-kod",
     "not_valid_qr_code": "Inte en giltig Platespottr QR-kod",
     "pending_friend_request": "Du har en väntande vänförfrågan från {slug}",
-    "requested_at": "Förfrågan skickad: {date}"
+    "requested_at": "Förfrågan skickad: {date}",
+    "friends_list_updated": "Crew-listan har uppdaterats",
+    "disabled_for": "Inaktiv i {seconds}s"
   },
   "toplist": {
     "number": "Nummer",

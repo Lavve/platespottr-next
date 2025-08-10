@@ -141,7 +141,9 @@
     "error_finding_camera": "Could not find any camera to scan QR code",
     "not_valid_qr_code": "Not a valid Platespottr QR code",
     "pending_friend_request": "You have a pending friend request from {slug}",
-    "requested_at": "Requested at: {date}"
+    "requested_at": "Requested at: {date}",
+    "friends_list_updated": "Crew list updated",
+    "disabled_for": "Disabled for {seconds}s"
   },
   "toplist": {
     "number": "Number",

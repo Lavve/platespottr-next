@@ -16,7 +16,7 @@ import {
 } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
@@ -32,7 +32,6 @@ import { ApiError } from '@/services/api'
 import theme from '@/style/theme'
 import type { IFriendsTabs } from '@/types/common'
 import type { IUser } from '@/types/user'
-import VibrateIconButton from '../common/VibrateIconButton'
 
 const FriendsDialog = () => {
   const t = useTranslations()
@@ -155,7 +154,7 @@ const FriendsDialog = () => {
     setDialogOpen(false)
   }
 
-  const startCountDown = () => {
+  const startCountDown = useCallback(() => {
     countDownTimer.current = setInterval(() => {
       setCountDown(prev => {
         if (prev <= 1) {
@@ -168,7 +167,7 @@ const FriendsDialog = () => {
         return prev - 1
       })
     }, 1000)
-  }
+  }, [])
 
   const handleRefreshFriends = () => {
     if (refreshTimer.current) {
@@ -186,19 +185,25 @@ const FriendsDialog = () => {
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'incoming', user.id] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', user.id] })
     }
+  }
 
-    // TODO: Add loading state
-    refreshTimer.current = setTimeout(() => {
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
       setIsRefreshing(false)
       setIsDisabled(true)
       startCountDown()
-    }, 1000)
-  }
+      showSuccess(t('friends.friends_list_updated'))
+    }
+  }, [isLoading, isRefreshing, showSuccess, t, startCountDown])
 
   const handleTabChange = (e: React.SyntheticEvent, value: IFriendsTabs) => {
     e.preventDefault()
     setFriendsTab(value)
   }
+
+  const awaitingRefresh = useMemo(() => {
+    return isDisabled && countDown > 0 && !isRefreshing
+  }, [isDisabled, countDown, isRefreshing])
 
   return (
     <>
@@ -281,29 +286,40 @@ const FriendsDialog = () => {
           </DialogContent>
 
           <DialogActions sx={{ justifyContent: 'space-between' }}>
-            <VibrateIconButton
+            <VibrateButton
               color='primary'
               onClick={handleRefreshFriends}
               disabled={isDisabled}
               loading={isRefreshing}
+              sx={{
+                minWidth: awaitingRefresh ? 64 : 0,
+                borderRadius: awaitingRefresh ? 1 : 50,
+                gap: 1.5,
+                textTransform: 'none',
+                transition: 'all 0.2s ease-in-out',
+                pointerEvents: awaitingRefresh ? 'none' : 'auto',
+              }}
             >
-              <FindReplace sx={{ fontSize: 20 }} />
-              {isDisabled && !isRefreshing && (
-                <CircularProgress
-                  variant='determinate'
-                  value={(countDown / DISABLE_REFRESH_REQUESTS_SECONDS) * 100}
-                  thickness={4}
-                  size={34}
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    color: 'primary.main',
-                    opacity: 0.5,
-                  }}
-                />
-              )}
-            </VibrateIconButton>
+              <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FindReplace sx={{ fontSize: 20 }} />
+                {awaitingRefresh && (
+                  <CircularProgress
+                    variant='determinate'
+                    value={(countDown / DISABLE_REFRESH_REQUESTS_SECONDS) * 100}
+                    thickness={4}
+                    size={34}
+                    sx={{
+                      position: 'absolute',
+                      top: -7,
+                      left: -7,
+                      color: 'primary.main',
+                      opacity: 0.5,
+                    }}
+                  />
+                )}
+              </Box>
+              {awaitingRefresh && t('friends.disabled_for', { seconds: countDown })}
+            </VibrateButton>
             <Button variant='outlined' color='primary' size='large' onClick={handleCloseDialog}>
               {t('common.close')}
             </Button>
