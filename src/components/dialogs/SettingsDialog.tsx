@@ -1,6 +1,6 @@
 'use client'
 
-import { Explore, History, PersonOutline, Settings } from '@mui/icons-material'
+import { Engineering, History, PersonOutline, Settings } from '@mui/icons-material'
 import { Box, Collapse, Dialog, DialogActions, DialogContent, Tab, Tabs } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -39,7 +39,7 @@ const SettingsDialog = () => {
         size='large'
         fullWidth
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, px: 1 }}
-        startIcon={<Explore />}
+        startIcon={<Engineering />}
         onClick={() => setDialogOpen(true)}
       >
         {t('app.settings')}

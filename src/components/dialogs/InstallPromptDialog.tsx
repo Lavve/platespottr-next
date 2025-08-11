@@ -50,18 +50,15 @@ const InstallPromptDialog = ({ isTwaApp }: { isTwaApp: boolean }) => {
     const checkInstallation = () => {
       const suppressed = !shouldShowInstallPrompt()
 
-      if (installType && !suppressed && !isTwaApp) {
+      if (installType && !suppressed) {
         handleClick()
         setIsVisible(true)
       }
     }
 
     const timer = setTimeout(checkInstallation, 8000)
-
     return () => clearTimeout(timer)
-  }, [installType, shouldShowInstallPrompt, handleClick, isTwaApp])
-
-  if (!isVisible || isTwaApp) return null
+  }, [installType, shouldShowInstallPrompt, handleClick])
 
   const getInstallButtonText = () => {
     if (installType === 'google-play') {
@@ -80,6 +77,8 @@ const InstallPromptDialog = ({ isTwaApp }: { isTwaApp: boolean }) => {
     }
     return t('install_prompt.description')
   }
+
+  if (!isVisible || isTwaApp) return null
 
   return (
     <Slide appear={true} direction='up' in={isVisible}>
