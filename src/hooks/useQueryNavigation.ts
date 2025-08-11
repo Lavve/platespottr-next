@@ -17,13 +17,14 @@ export const useQueryNavigation = () => {
     const params = new URLSearchParams(window.location.search)
     const friendSlug = decodeURIComponent(params.get('add-friend') || '')
     const friendName = decodeURIComponent(params.get('name') || '')
+    const addFriend = params.has('add-friend')
     const addPlate = params.has('add-plate')
 
-    if (params.has('add-friend') && isValidSlug(friendSlug)) {
+    if (addFriend && isValidSlug(friendSlug)) {
       return {
+        ...DEFALULT_STATE,
         friend: { name: friendName, slug: friendSlug },
         isAddFriendDialogOpen: true,
-        isAddPlateDialogOpen: false,
       }
     } else if (addPlate) {
       return {

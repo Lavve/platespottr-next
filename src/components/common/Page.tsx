@@ -11,14 +11,14 @@ import PageActionButtons from '@/components/PageActionButtons'
 import Streak from '@/components/Streak'
 import { useUser } from '@/providers/userProvider'
 
-const Page = () => {
+const Page = ({ isTwaApp }: { isTwaApp: boolean }) => {
   const { user } = useUser()
 
   return (
     <>
       <AddNumberDialog />
       <AddFriendDialog />
-      <InstallPromptDialog />
+      <InstallPromptDialog isTwaApp={isTwaApp} />
       <CompleteDialog user={user} />
 
       <Container maxWidth='sm' sx={{ my: 2 }}>

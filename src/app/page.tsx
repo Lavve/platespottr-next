@@ -1,8 +1,14 @@
 import { Box } from '@mui/material'
+import { headers } from 'next/headers'
 import AuthGuard from '@/components/auth/AuthGuard'
 import Page from '@/components/common/Page'
+import { GOOGLE_PLAY_ID } from '@/constants/app'
 
-const HomePage = () => {
+const HomePage = async () => {
+  const headersList = await headers()
+  const xRequestedWith = headersList.get('x-requested-with')
+  const isTwaApp = xRequestedWith === GOOGLE_PLAY_ID
+
   return (
     <Box
       sx={{
@@ -14,7 +20,7 @@ const HomePage = () => {
       }}
     >
       <AuthGuard>
-        <Page />
+        <Page isTwaApp={isTwaApp} />
       </AuthGuard>
     </Box>
   )

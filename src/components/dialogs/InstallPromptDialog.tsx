@@ -10,7 +10,7 @@ import useInstallPrompt from '@/hooks/useInstallPrompt'
 import { useVibration } from '@/hooks/useVibration'
 import { useSettings } from '@/providers/settingsProvider'
 
-const InstallPromptDialog = () => {
+const InstallPromptDialog = ({ isTwaApp }: { isTwaApp: boolean }) => {
   const t = useTranslations()
   const { handleClick } = useVibration()
   const { type: installType, promptEvent: installPrompt } = useInstallPrompt()
@@ -50,7 +50,7 @@ const InstallPromptDialog = () => {
     const checkInstallation = () => {
       const suppressed = !shouldShowInstallPrompt()
 
-      if (installType && !suppressed) {
+      if (installType && !suppressed && !isTwaApp) {
         handleClick()
         setIsVisible(true)
       }
@@ -59,9 +59,9 @@ const InstallPromptDialog = () => {
     const timer = setTimeout(checkInstallation, 8000)
 
     return () => clearTimeout(timer)
-  }, [installType, shouldShowInstallPrompt, handleClick])
+  }, [installType, shouldShowInstallPrompt, handleClick, isTwaApp])
 
-  if (!isVisible) return null
+  if (!isVisible || isTwaApp) return null
 
   const getInstallButtonText = () => {
     if (installType === 'google-play') {
