@@ -31,4 +31,5 @@ export const LEGACY_AUTH_KEYS = {
 } as const
 
 // App store URLs
-export const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=app.vercel.platespottr.twa'
+export const GOOGLE_PLAY_ID = 'win.platespottr'
+export const GOOGLE_PLAY_URL = `https://play.google.com/store/apps/details?id=${GOOGLE_PLAY_ID}`

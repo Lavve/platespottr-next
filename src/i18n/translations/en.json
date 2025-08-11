@@ -1,12 +1,8 @@
 {
   "common": {
-    "done": "Done!",
     "close": "Close",
     "cancel": "Cancel",
     "found": "Found!",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
     "add": "Add",
     "remove": "Remove",
     "today": "Today",
@@ -44,7 +40,6 @@
     "login_failed": "Login failed. Please check your credentials and try again. (Error code: {code})"
   },
   "settings": {
-    "settings": "Settings",
     "appearance": "Appearance",
     "light": "Light",
     "dark": "Dark",
@@ -62,10 +57,8 @@
     "united_states": "USA",
     "estonia": "Estonia",
     "lithuania": "Lithuania",
-    "resetting": "Resetting",
     "reset_last_plate": "Reset last number",
     "reset_all_numbers": "Reset all numbers",
-    "user_management": "User Management",
     "reset_account": "Reset Account",
     "reset_account_title": "Reset Account",
     "member_since": "Member since: {date}",
@@ -76,7 +69,6 @@
   },
   "app": {
     "next_number_to_find": "Next number to find",
-    "press_for_seconds": "Hold the button for {seconds} second to register the number",
     "statistics": "Plate book",
     "friends": "My crew",
     "toplist": "Prize list",
@@ -86,7 +78,6 @@
     "add_plate_description": "Click \"{add}\" to add {number}. Don't forget to check the prize list after to see if you're on your way to the top!",
     "add_plate_description_no_friends": "Click \"{add}\" to add a number. Add your friends to see who will be the first to reach the top!",
     "add_friend": "Add to my crew",
-    "add_friend_description": "Add {friendSlug} to my crew.",
     "show_my_qr": "My QR code",
     "your_platespottr_name": "Name",
     "your_platespottr_code": "Code",
@@ -122,22 +113,18 @@
     "show_on_map": "Show on map"
   },
   "friends": {
-    "add": "Add to my crew",
     "remove": "Remove from my crew",
     "friends_requests": "Friend requests",
     "awaiting_friends": "Awaiting crew",
     "my_friends": "My crew",
     "awaiting": "Awaiting",
-    "requests": "Requests",
     "accept_request": "Accept request",
     "decline_request": "Decline request",
     "scan_qr_code_title": "Scan QR code",
     "scan_qr_code_description": "Scan your friend's QR code to add them to your crew",
-    "add_friend_description": "Add <strong>{friendName}</strong> to my crew.",
     "scan_qr_code": "Scan QR code",
     "send_friend_request": "Send request",
     "send_friend_request_description": "Do you want to send a friend request to <strong>{friendName}</strong>?",
-    "error_camera": "Could not find camera",
     "error_finding_camera": "Could not find any camera to scan QR code",
     "not_valid_qr_code": "Not a valid Platespottr QR code",
     "pending_friend_request": "You have a pending friend request from {slug}",
@@ -147,11 +134,9 @@
     "disabled_for": "Disabled for {seconds}s"
   },
   "toplist": {
-    "number": "Number",
     "number_description": "Total number of found plates",
     "streak": "Streak",
     "streak_description": "Most streaks",
-    "percentage": "Percentage",
     "percentage_description": "Percentage of days that the number has been found",
     "you": "You",
     "toplist_tagline": "Can you reach the top before reaching the final number?"
@@ -187,15 +172,11 @@
     }
   },
   "notifications": {
-    "login_success": "Login successful!",
-    "logout_success": "Logged out successfully",
     "account_created": "Account created successfully!",
     "login_failed": "Login failed. Please check your credentials and try again. (Error code: {code})",
     "logout_failed": "Logout failed. Please try again later. (Error code: {code})",
     "account_creation_failed": "Failed to create account. Please try again. (Error code: {code})",
     "invalid_credentials": "Invalid credentials. Please try again.",
-    "network_error": "Network error. Please check your connection and try again.",
-    "api_error": "Server error. Please try again later.",
     "request_sent": "Friend request sent successfully!",
     "request_failed": "Failed to send friend request. Please try again. (Error code: {code})",
     "friend_added": "{name} has been added as a friend!",
@@ -204,9 +185,9 @@
     "remove_failed": "Failed to remove friend. Please try again. (Error code: {code})",
     "add_number_failed": "Failed to add number. Please try again. (Error code: {code})",
     "remove_number_failed": "Failed to remove number. Please try again. (Error code: {code})",
-    "reset_failed": "Failed to reset. Please try again.",
-    "server_error": "Server error. Please try again later.",
     "add_friend_failed": "Failed to add friend. Please try again. (Error code: {code})",
+    "add_friend_failed_no_friend_slug": "Failed to add friend, friend code is missing. (Error code: {code})",
+    "add_friend_failed_already_added": "Failed to add friend. Friend already in your crew. (Error code: {code})",
     "app_updated": "Platespottr has been automatically updated to version {version}."
   },
   "install_prompt": {

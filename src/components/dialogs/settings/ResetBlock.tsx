@@ -3,11 +3,11 @@ import { Paper } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import { useRemoveAllNumbers, useRemoveLastNumber } from '@/hooks/useApi'
 import { useSnackbar } from '@/providers/SnackbarProvider'
 import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
-import ConfirmDialog from '../ConfirmDialog'
 
 const ResetBlock = () => {
   const t = useTranslations()
@@ -23,7 +23,7 @@ const ResetBlock = () => {
       removeLastNumberMutation.mutate(user.id, {
         onError: error => {
           console.error(error)
-          let errorMsg = t('notifications.remove_number_failed', { code: 0 })
+          let errorMsg = t('notifications.remove_number_failed', { code: 'RLP' })
           if (error instanceof ApiError) {
             errorMsg = t('notifications.remove_number_failed', { code: error.status })
           }
@@ -39,7 +39,7 @@ const ResetBlock = () => {
       removeAllNumbersMutation.mutate(user.id, {
         onError: error => {
           console.error(error)
-          let errorMsg = t('notifications.remove_number_failed', { code: 0 })
+          let errorMsg = t('notifications.remove_number_failed', { code: 'RAP' })
           if (error instanceof ApiError) {
             errorMsg = t('notifications.remove_number_failed', { code: error.status })
           }

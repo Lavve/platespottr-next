@@ -5,10 +5,10 @@ import { MapContainer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef } from 'react'
+import MapContent from '@/components/dialogs/statistics/MapContent'
 import { useMapContext } from '@/providers/MapProvider'
 import { useSettings } from '@/providers/settingsProvider'
 import type { IUser } from '@/types/user'
-import MapContent from './MapContent'
 
 const MapBlock = ({
   user,

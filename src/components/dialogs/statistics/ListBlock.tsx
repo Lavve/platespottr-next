@@ -3,7 +3,7 @@
 import { ChevronRight } from '@mui/icons-material'
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import Logo from '@/components/Logo'
+import Logo from '@/components/common/Logo'
 import type { IUser, IUserNumber } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 

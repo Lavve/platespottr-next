@@ -1,15 +1,15 @@
 'use client'
 
 import { Box, Container, Paper, Typography } from '@mui/material'
+import Logo from '@/components/common/Logo'
+import AddFriendDialog from '@/components/dialogs/AddFriendDialog'
+import AddNumberDialog from '@/components/dialogs/AddNumberDialog'
+import CompleteDialog from '@/components/dialogs/CompleteDialog'
+import InstallPromptDialog from '@/components/dialogs/InstallPromptDialog'
+import FindPlate from '@/components/FindPlate'
+import PageActionButtons from '@/components/PageActionButtons'
+import Streak from '@/components/Streak'
 import { useUser } from '@/providers/userProvider'
-import AddFriendDialog from '../dialogs/AddFriendDialog'
-import AddNumberDialog from '../dialogs/AddNumberDialog'
-import CompleteDialog from '../dialogs/CompleteDialog'
-import InstallPromptDialog from '../dialogs/InstallPromptDialog'
-import FindPlate from '../FindPlate'
-import Logo from '../Logo'
-import PageActionButtons from '../PageActionButtons'
-import Streak from '../Streak'
 
 const Page = () => {
   const { user } = useUser()

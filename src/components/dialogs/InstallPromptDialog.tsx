@@ -3,9 +3,9 @@
 import { Box, Fade, Paper, Slide, Stack, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
+import Logo from '@/components/common/Logo'
 import VibrateButton from '@/components/common/VibrateButton'
-import Logo from '@/components/Logo'
-import { GOOGLE_PLAY_URL, SUPPRESS_INSTALL_DURATION_DAYS } from '@/constants/app'
+import { GOOGLE_PLAY_ID, SUPPRESS_INSTALL_DURATION_DAYS } from '@/constants/app'
 import useInstallPrompt from '@/hooks/useInstallPrompt'
 import { useVibration } from '@/hooks/useVibration'
 import { useSettings } from '@/providers/settingsProvider'
@@ -34,9 +34,9 @@ const InstallPromptDialog = () => {
       installPrompt.prompt()
       const result = await installPrompt.userChoice
       console.log('Användarval:', result.outcome)
-    } else if (installType === 'google-play') {
-      // Open Google Play Store
-      window.open(GOOGLE_PLAY_URL, '_blank')
+    } else if (installType === 'google-play' || installType === 'pwa-to-play') {
+      const intentUrl = `intent://details?id=${GOOGLE_PLAY_ID}#Intent;scheme=market;action=android.intent.action.VIEW;end`
+      window.location.href = intentUrl
     }
     setIsVisible(false)
   }

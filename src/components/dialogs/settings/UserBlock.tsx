@@ -3,12 +3,12 @@ import { Avatar, Box, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
+import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
+import QrDialog from '@/components/dialogs/QrDialog'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { relativeDays } from '@/utils/dates'
-import ConfirmDialog from '../ConfirmDialog'
-import DeleteAccountDialog from '../DeleteAccountDialog'
-import QrDialog from '../QrDialog'
 
 const UserBlock = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }) => {
   const t = useTranslations()

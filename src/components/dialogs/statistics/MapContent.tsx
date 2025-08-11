@@ -3,14 +3,14 @@
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import MapControls from '@/components/dialogs/statistics/MapControls'
+import { ClusterMarkerIcon, MapMarkerIcon } from '@/components/dialogs/statistics/MapMarkerIcon'
 import { useMapZoom } from '@/hooks/useMapZoom'
 import { useMapContext } from '@/providers/MapProvider'
 import type { IMapContentProps } from '@/types/map'
 import type { IUserNumber } from '@/types/user'
 import { relativeDays } from '@/utils/dates'
 import { clusterMarkers } from '@/utils/mapClustering'
-import MapControls from './MapControls'
-import { ClusterMarkerIcon, MapMarkerIcon } from './MapMarkerIcon'
 
 const MapContent = ({ markers, tileLayer, theme, bounds }: IMapContentProps) => {
   const t = useTranslations()

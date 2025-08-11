@@ -2,8 +2,8 @@
 
 import { ArrowBack, Security } from '@mui/icons-material'
 import { Box, Container, Paper, Typography } from '@mui/material'
+import Logo from '@/components/common/Logo'
 import VibrateIconButton from '@/components/common/VibrateIconButton'
-import Logo from '@/components/Logo'
 
 const PrivacyPolicyPage = () => {
   return (

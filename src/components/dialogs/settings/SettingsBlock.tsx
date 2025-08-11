@@ -12,13 +12,13 @@ import { Box, ButtonGroup, FormControl, InputLabel, MenuItem, Paper, Select, Typ
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import { countries, languages } from '@/constants/settings'
 import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import type { Country, Language, LatLang, ThemeMode, Vibrate } from '@/types/settings'
 import type { IUser } from '@/types/user'
 import { setUserLocale } from '@/utils/locale'
-import ConfirmDialog from '../ConfirmDialog'
 
 const SettingsBlock = () => {
   const t = useTranslations()

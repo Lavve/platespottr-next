@@ -3,10 +3,10 @@
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import PinField from '@/components/common/PinField'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import { useUser } from '@/providers/userProvider'
 import type { LoginDialogProps } from '@/types/auth'
-import PinField from '../common/PinField'
 
 const LoginDialog = ({ open, onClose, onSwitchToRegister }: LoginDialogProps) => {
   const t = useTranslations()

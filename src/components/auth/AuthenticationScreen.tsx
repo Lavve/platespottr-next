@@ -4,9 +4,9 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, Container, IconButton, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import Logo from '@/components/common/Logo'
 import LoginDialog from '@/components/dialogs/LoginDialog'
 import RegisterDialog from '@/components/dialogs/RegisterDialog'
-import Logo from '@/components/Logo'
 import { useQueryNavigation } from '@/hooks/useQueryNavigation'
 
 const AuthenticationScreen = () => {

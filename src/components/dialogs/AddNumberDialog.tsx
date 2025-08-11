@@ -45,7 +45,7 @@ const AddNumberDialog = () => {
       {
         onError: error => {
           console.error(error)
-          let errorMsg = t('notifications.add_number_failed', { code: 0 })
+          let errorMsg = t('notifications.add_number_failed', { code: 'AN' })
           if (error instanceof ApiError) {
             errorMsg = t('notifications.add_number_failed', { code: error.status })
           }

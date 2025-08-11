@@ -122,7 +122,7 @@ const UserProvider = ({ children }: IProviderProps) => {
             }
           },
           onError: error => {
-            let errorMsg = t('notifications.login_failed', { code: 0 })
+            let errorMsg = t('notifications.login_failed', { code: 'CU' })
             if (error instanceof ApiError) {
               errorMsg = t('notifications.login_failed', { code: error.status })
             }
@@ -152,7 +152,7 @@ const UserProvider = ({ children }: IProviderProps) => {
         },
         onError: error => {
           console.error('UserProvider - login error:', error)
-          let errorMsg = t('notifications.login_failed', { code: 0 })
+          let errorMsg = t('notifications.login_failed', { code: 'LI' })
           if (error instanceof ApiError) {
             errorMsg = t('notifications.login_failed', { code: error.status })
           }
@@ -172,7 +172,7 @@ const UserProvider = ({ children }: IProviderProps) => {
       logoutMutation(currentUserId, {
         onError: error => {
           console.warn('UserProvider - logout API failed, but user already logged out locally:', error)
-          let errorMsg = t('notifications.logout_failed', { code: 0 })
+          let errorMsg = t('notifications.logout_failed', { code: 'LO' })
           if (error instanceof ApiError) {
             errorMsg = t('notifications.logout_failed', { code: error.status })
           }

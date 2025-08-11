@@ -1,11 +1,11 @@
 'use client'
 
 import { Grid } from '@mui/material'
+import FriendsDialog from '@/components/dialogs/FriendsDialog'
+import RulesDialog from '@/components/dialogs/RulesDialog'
+import SettingsDialog from '@/components/dialogs/SettingsDialog'
 import StatisticsDialog from '@/components/dialogs/StatisticsDialog'
-import FriendsDialog from './dialogs/FriendsDialog'
-import RulesDialog from './dialogs/RulesDialog'
-import SettingsDialog from './dialogs/SettingsDialog'
-import TopListDialog from './dialogs/TopListDialog'
+import TopListDialog from '@/components/dialogs/TopListDialog'
 
 const PageActionButtons = () => {
   return (

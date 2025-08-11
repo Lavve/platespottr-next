@@ -21,11 +21,11 @@ const AddFriendDialog = () => {
   const handleAddFriend = useCallback(
     (friendSlug: string) => {
       if (!friendSlug) {
-        showError(t('notifications.add_friend_failed', { code: 0 }))
+        showError(t('notifications.add_friend_failed_no_friend_slug', { code: 'AFE' }))
         return
       }
       if (foundFriend) {
-        showError(t('notifications.add_friend_failed', { code: 0 }))
+        showError(t('notifications.add_friend_failed_already_added', { code: 'AFAA' }))
         return
       }
       addFriend(friendSlug)

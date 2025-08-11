@@ -11,11 +11,11 @@ import {
   useRemoveFriend,
 } from '@/hooks/useApi'
 import { useSnackbar } from '@/providers/SnackbarProvider'
+import { useUser } from '@/providers/userProvider'
 import { ApiError } from '@/services/api'
 import type { IFriendsTabs, IProviderProps } from '@/types/common'
 import type { IFriendsContext } from '@/types/friends'
 import type { IUser } from '@/types/user'
-import { useUser } from './userProvider'
 
 const FriendsContext = createContext<IFriendsContext | undefined>(undefined)
 
@@ -56,7 +56,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
             },
             onError: error => {
               console.error('Failed to add friend:', error)
-              let errorMsg = t('notifications.request_failed', { code: 0 })
+              let errorMsg = t('notifications.request_failed', { code: 'AF' })
               if (error instanceof ApiError) {
                 errorMsg = t('notifications.request_failed', { code: error.status })
               }
@@ -81,7 +81,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
             },
             onError: error => {
               console.error('Failed to remove friend:', error)
-              let errorMsg = t('notifications.remove_failed', { code: 0 })
+              let errorMsg = t('notifications.remove_failed', { code: 'RF' })
               if (error instanceof ApiError) {
                 errorMsg = t('notifications.remove_failed', { code: error.status })
               }

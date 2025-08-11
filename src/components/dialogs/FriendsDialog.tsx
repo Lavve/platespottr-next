@@ -121,7 +121,7 @@ const FriendsDialog = () => {
           },
           onError: error => {
             console.error('Failed to confirm friend request:', error)
-            let errorMsg = t('notifications.confirm_failed', { code: 0 })
+            let errorMsg = t('notifications.confirm_failed', { code: 'CF' })
             if (error instanceof ApiError) {
               errorMsg = t('notifications.confirm_failed', { code: error.status })
             }
