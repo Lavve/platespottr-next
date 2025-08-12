@@ -19,17 +19,23 @@ const SettingsDialog = () => {
   const { handleClick } = useVibration()
 
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [settingsTab, setSettingsTab] = useState<ISettingsTabs>('user')
+  const [settingsTab, setSettingsTab] = useState<ISettingsTabs>('reset')
 
   const handleCloseDialog = () => {
     handleClick()
     setDialogOpen(false)
-    setSettingsTab('user')
+    setSettingsTab('reset')
   }
 
   if (!isAuthenticated) {
     return null
   }
+
+  const tabs = [
+    { label: <History />, value: 'reset' },
+    { label: <Settings />, value: 'settings' },
+    { label: <PersonOutline />, value: 'user' },
+  ]
 
   return (
     <>
@@ -55,20 +61,20 @@ const SettingsDialog = () => {
             }}
           >
             <Tabs value={settingsTab} variant='fullWidth' onChange={(_, value) => setSettingsTab(value)} sx={{ mb: 2 }}>
-              <Tab label={<PersonOutline />} value='user' />
-              <Tab label={<Settings />} value='settings' />
-              <Tab label={<History />} value='reset' />
+              {tabs.map(tab => (
+                <Tab key={tab.value} label={tab.label} value={tab.value} />
+              ))}
             </Tabs>
 
             <Box>
-              <Collapse in={settingsTab === 'user'} timeout={230}>
-                <UserBlock setDialogOpen={handleCloseDialog} />
+              <Collapse in={settingsTab === 'reset'} timeout={230}>
+                <ResetBlock />
               </Collapse>
               <Collapse in={settingsTab === 'settings'} timeout={230}>
                 <SettingsBlock />
               </Collapse>
-              <Collapse in={settingsTab === 'reset'} timeout={230}>
-                <ResetBlock />
+              <Collapse in={settingsTab === 'user'} timeout={230}>
+                <UserBlock setDialogOpen={handleCloseDialog} />
               </Collapse>
             </Box>
           </DialogContent>

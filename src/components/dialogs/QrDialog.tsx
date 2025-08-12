@@ -53,7 +53,6 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
           disabled={!userSlugValue || !user?.slug}
           startIcon={<QrCode sx={{ fontSize: '1.5rem' }} />}
           onClick={() => setQrOpen(true)}
-          sx={{ fontSize: '1.5rem' }}
         >
           {showText && t('app.show_my_qr')}
         </VibrateButton>

@@ -5,6 +5,7 @@ import {
   Badge,
   Box,
   Button,
+  ButtonGroup,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -21,6 +22,7 @@ import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import QRScannerDialog from '@/components/dialogs/QRScannerDialog'
+import QrDialog from '@/components/dialogs/QrDialog'
 import User from '@/components/user/User'
 import { DISABLE_REFRESH_REQUESTS_SECONDS } from '@/constants/app'
 import { useConfirmFriendRequest } from '@/hooks/useApi'
@@ -232,7 +234,10 @@ const FriendsDialog = () => {
           <DialogHeader title={t('app.friends')} number={badgeCount} />
 
           <DialogContent>
-            <QRScannerDialog />
+            <ButtonGroup fullWidth sx={{ gap: 0.5 }}>
+              <QRScannerDialog />
+              <QrDialog />
+            </ButtonGroup>
 
             {totalFriends > 0 && (
               <>

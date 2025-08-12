@@ -1,13 +1,14 @@
 'use client'
 
 import { CameraAlt } from '@mui/icons-material'
-import { Alert, Box, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
+import { Alert, Box, ButtonGroup, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import jsQR from 'jsqr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
+import QrDialog from '@/components/dialogs/QrDialog'
 import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
 import theme from '@/style/theme'
@@ -165,7 +166,7 @@ const QRScannerDialog = () => {
           alignItems: 'center',
           gap: 0.5,
           px: 1,
-          border: `1px solid ${theme.palette.roadsign.contrastText}`,
+          // border: `1px solid ${theme.palette.roadsign.contrastText}`,
         }}
         disabled={isScanning}
         onClick={() => setDialogOpen(true)}
