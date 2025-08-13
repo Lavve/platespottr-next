@@ -178,7 +178,7 @@
     "account_creation_failed": "Det gick inte att skapa konto. Vänligen försök igen. (Felkod: {code})",
     "invalid_credentials": "Ogiltiga uppgifter. Vänligen försök igen.",
     "request_sent": "Vänförfrågan skickad!",
-    "request_failed": "Det gick inte att skicka vänförfrågan. Vänligen försök igen. (Felkod: {code})",
+    "request_failed": "Det gick inte att skicka vänförfrågan. (Felkod: {code})",
     "friend_added": "{name} har lagts till som vän!",
     "confirm_failed": "Det gick inte att acceptera vänförfrågan. Vänligen försök igen. (Felkod: {code})",
     "friend_removed": "Vän borttagen!",

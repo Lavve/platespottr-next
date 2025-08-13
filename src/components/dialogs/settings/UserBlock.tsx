@@ -1,3 +1,5 @@
+'use client'
+
 import { Delete, Logout } from '@mui/icons-material'
 import { Avatar, Box, Paper, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
@@ -6,28 +8,18 @@ import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DeleteAccountDialog from '@/components/dialogs/DeleteAccountDialog'
 import QrDialog from '@/components/dialogs/QrDialog'
-import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import { relativeDays } from '@/utils/dates'
 
 const UserBlock = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }) => {
   const t = useTranslations()
-  const { user, logout, resetUser } = useUser()
-  const { resetSettings } = useSettings()
+  const { user, logout, isLoggingOut, isLoading } = useUser()
   const [confirmLogoutUserDialogOpen, setConfirmLogoutUserDialogOpen] = useState(false)
-  const [confirmResetAccountDialogOpen, setConfirmResetAccountDialogOpen] = useState(false)
   const [deleteAccountDialogOpen, setDeleteAccountDialogOpen] = useState(false)
 
   const handleLogoutUser = () => {
     logout()
     setConfirmLogoutUserDialogOpen(false)
-    setDialogOpen(false)
-  }
-
-  const handleResetAccount = () => {
-    resetUser()
-    resetSettings()
-    setConfirmResetAccountDialogOpen(false)
     setDialogOpen(false)
   }
 
@@ -74,21 +66,10 @@ const UserBlock = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }
             fullWidth
             startIcon={<Logout />}
             onClick={() => setConfirmLogoutUserDialogOpen(true)}
+            loading={isLoggingOut}
           >
             {t('auth.logout')}
           </VibrateButton>
-
-          {/* Reset Account Button */}
-          {/* <VibrateButton
-      variant='outlined'
-      color='error'
-      size='large'
-      fullWidth
-      startIcon={<RestartAltOutlined />}
-      onClick={() => setConfirmResetAccountDialogOpen(true)}
-    >
-      {t('settings.reset_account')}
-    </VibrateButton> */}
 
           {/* Delete Account Button */}
           <VibrateButton
@@ -98,6 +79,7 @@ const UserBlock = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }
             fullWidth
             startIcon={<Delete />}
             onClick={() => setDeleteAccountDialogOpen(true)}
+            loading={isLoading}
           >
             {t('settings.delete_account')}
           </VibrateButton>
@@ -110,14 +92,7 @@ const UserBlock = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }
         content={t('confirm.logout_content')}
         onConfirm={handleLogoutUser}
         onClose={() => setConfirmLogoutUserDialogOpen(false)}
-      />
-
-      <ConfirmDialog
-        open={confirmResetAccountDialogOpen}
-        title={t('settings.reset_account_title')}
-        content={t('settings.reset_account_content')}
-        onConfirm={handleResetAccount}
-        onClose={() => setConfirmResetAccountDialogOpen(false)}
+        loading={isLoggingOut}
       />
 
       {/* Delete Account Dialog */}

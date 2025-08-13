@@ -12,7 +12,7 @@ import { useSettings } from '@/providers/settingsProvider'
 
 const InstallPromptDialog = ({ isTwaApp }: { isTwaApp: boolean }) => {
   const t = useTranslations()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const { type: installType, promptEvent: installPrompt } = useInstallPrompt()
   const { settings, saveSettings } = useSettings()
   const [isVisible, setIsVisible] = useState(false)
@@ -47,18 +47,20 @@ const InstallPromptDialog = ({ isTwaApp }: { isTwaApp: boolean }) => {
   }
 
   useEffect(() => {
+    if (isTwaApp) return
+
     const checkInstallation = () => {
       const suppressed = !shouldShowInstallPrompt()
 
       if (installType && !suppressed) {
-        handleClick()
+        vibrate()
         setIsVisible(true)
       }
     }
 
     const timer = setTimeout(checkInstallation, 8000)
     return () => clearTimeout(timer)
-  }, [installType, shouldShowInstallPrompt, handleClick])
+  }, [installType, isTwaApp, shouldShowInstallPrompt, vibrate])
 
   const getInstallButtonText = () => {
     if (installType === 'google-play') {

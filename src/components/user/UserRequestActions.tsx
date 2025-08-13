@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import VibrateButton from '@/components/common/VibrateButton'
 import type { IRequestActions } from '@/types/user'
 
-const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestActions) => {
+const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend, loading }: IRequestActions) => {
   const t = useTranslations()
 
   return (
@@ -18,6 +18,7 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
         sx={{ minWidth: 40 }}
         onClick={() => onRemoveFriend?.(friend)}
         title={t('friends.decline_request')}
+        disabled={loading}
       >
         <Close />
       </VibrateButton>
@@ -29,6 +30,7 @@ const UserRequestActions = ({ friend, onAddFriend, onRemoveFriend }: IRequestAct
           sx={{ minWidth: 40, backgroundColor: 'success.dark', color: 'success.contrastText' }}
           onClick={() => onAddFriend?.(friend)}
           title={t('friends.accept_request')}
+          loading={loading}
         >
           <Check />
         </VibrateButton>

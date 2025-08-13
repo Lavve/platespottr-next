@@ -17,7 +17,7 @@ import type { IStatisticsTabs } from '@/types/common'
 
 const StatisticsDialog = () => {
   const t = useTranslations()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const { user } = useUser()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<IStatisticsTabs>('stats')
@@ -25,13 +25,13 @@ const StatisticsDialog = () => {
   const [pendingZoom, setPendingZoom] = useState<{ lat: number; lng: number } | null>(null)
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setDialogOpen(false)
     setSettingsTab('stats')
   }
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: IStatisticsTabs) => {
-    handleClick()
+    vibrate()
 
     if (newValue === 'map') {
       setShouldResetMapZoom(true)

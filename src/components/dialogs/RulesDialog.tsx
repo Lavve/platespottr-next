@@ -31,7 +31,7 @@ import packageJson from '../../../package.json'
 const RulesDialog = () => {
   const t = useTranslations()
   const { settings, saveSettings, isLoadingSettings } = useSettings() // Add isLoadingSettings
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [understood, setUnderstood] = useState(false)
   const initialRuleTimer = useRef<NodeJS.Timeout | null>(null)
@@ -56,7 +56,7 @@ const RulesDialog = () => {
 
       if (shouldBeOpen) {
         setDialogOpen(true)
-        handleClick()
+        vibrate()
       }
     }, 500)
 
@@ -65,10 +65,10 @@ const RulesDialog = () => {
         clearTimeout(initialRuleTimer.current)
       }
     }
-  }, [initialRulesDialogOpen, isLoadingSettings, handleClick])
+  }, [initialRulesDialogOpen, isLoadingSettings, vibrate])
 
   const onCloseRulesDialog = () => {
-    handleClick()
+    vibrate()
     saveSettings({ ...settings, initialRulesDialogOpen: false })
     setDialogOpen(false)
   }
@@ -242,7 +242,7 @@ const RulesDialog = () => {
                       <Checkbox
                         onChange={() => {
                           setUnderstood(!understood)
-                          handleClick()
+                          vibrate()
                         }}
                       />
                     }

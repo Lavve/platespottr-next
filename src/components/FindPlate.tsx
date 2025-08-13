@@ -25,7 +25,7 @@ const FindPlate = () => {
   const addNumberMutation = useAddNumber()
   const { settings } = useSettings()
   const { showError } = useSnackbar()
-  const { handleClick } = useVibration({ pattern: VIBRATES.SUCCESS })
+  const { vibrate } = useVibration({ pattern: VIBRATES.SUCCESS })
   const [isHolding, setIsHolding] = useState(false)
   const [progress, setProgress] = useState(0)
   const [isGettingCoordinates, setIsGettingCoordinates] = useState(false)
@@ -42,24 +42,11 @@ const FindPlate = () => {
     return (user?.numbers?.length ?? initialRandomNumber.current) + 1
   }, [user])
 
-  const updateProgress = () => {
-    if (!startTimeRef.current || !user) return
-
-    const elapsed = Date.now() - startTimeRef.current
-    const newProgress = (elapsed / (HOLD_DURATION_SECONDS * 1000)) * 100
-    setProgress(Math.min(newProgress, 100))
-
-    if (newProgress < 100) {
-      animationRef.current = requestAnimationFrame(updateProgress)
-    } else {
-      handleCompletion()
-    }
-  }
-
   const handleCompletion = async () => {
     if (!user?.id) return
 
     setIsGettingCoordinates(true)
+
     try {
       const latlng = await getUserCoordinates(settings.latlang === 'on')
 
@@ -76,11 +63,25 @@ const FindPlate = () => {
           },
         }
       )
-      handleClick()
+      vibrate()
     } finally {
       setIsGettingCoordinates(false)
     }
     endHold()
+  }
+
+  const updateProgress = () => {
+    if (!startTimeRef.current || !user) return
+
+    const elapsed = Date.now() - startTimeRef.current
+    const newProgress = (elapsed / (HOLD_DURATION_SECONDS * 1000)) * 100
+    setProgress(Math.min(newProgress, 100))
+
+    if (newProgress < 100) {
+      animationRef.current = requestAnimationFrame(updateProgress)
+    } else {
+      handleCompletion()
+    }
   }
 
   const updateReleaseProgress = () => {

@@ -1,6 +1,7 @@
 'use client'
 
 import { Box, Container, Paper, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import Logo from '@/components/common/Logo'
 import AddFriendDialog from '@/components/dialogs/AddFriendDialog'
 import AddNumberDialog from '@/components/dialogs/AddNumberDialog'
@@ -13,6 +14,18 @@ import { useUser } from '@/providers/userProvider'
 
 const Page = ({ isTwaApp }: { isTwaApp: boolean }) => {
   const { user } = useUser()
+
+  useEffect(() => {
+    const onContextMenu = (e: MouseEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      return false
+    }
+    document.addEventListener('contextmenu', onContextMenu)
+    return () => document.removeEventListener('contextmenu', onContextMenu)
+  }, [])
+
+  if (!user) return null
 
   return (
     <>
@@ -46,7 +59,7 @@ const Page = ({ isTwaApp }: { isTwaApp: boolean }) => {
         </Box>
       </Container>
 
-      <Container maxWidth='sm' sx={{ my: 2 }}>
+      <Container maxWidth='md' sx={{ my: 2 }}>
         <PageActionButtons />
       </Container>
     </>

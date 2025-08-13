@@ -178,7 +178,7 @@
     "account_creation_failed": "Failed to create account. Please try again. (Error code: {code})",
     "invalid_credentials": "Invalid credentials. Please try again.",
     "request_sent": "Friend request sent successfully!",
-    "request_failed": "Failed to send friend request. Please try again. (Error code: {code})",
+    "request_failed": "Failed to send friend request. (Error code: {code})",
     "friend_added": "{name} has been added as a friend!",
     "confirm_failed": "Failed to accept friend request. Please try again. (Error code: {code})",
     "friend_removed": "Friend removed successfully!",

@@ -14,7 +14,7 @@ export const useVibration = (options: IVibrationOptions = {}) => {
     typeof navigator !== 'undefined' &&
     'vibrate' in navigator &&
     window.innerWidth <= 830
-  const enabled = settings.vibrate !== 'off' && hasVibrate
+  const enabled = useMemo(() => settings.vibrate !== 'off' && hasVibrate, [settings.vibrate, hasVibrate])
 
   const calculatePattern = useCallback(
     (inputPattern: number | number[]) => {
@@ -33,18 +33,7 @@ export const useVibration = (options: IVibrationOptions = {}) => {
     [settings.vibrate]
   )
 
-  const vibes = useMemo(() => {
-    return calculatePattern(pattern)
-  }, [calculatePattern, pattern])
-
-  const handleClick = useCallback(() => {
-    if (enabled) {
-      vibrate(vibes)
-    }
-  }, [vibes, enabled])
-
   return {
-    handleClick,
     vibrate: (customPattern?: number | number[]) => {
       if (enabled) {
         const processedPattern = calculatePattern(customPattern || pattern)

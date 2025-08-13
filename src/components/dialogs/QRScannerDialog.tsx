@@ -1,22 +1,20 @@
 'use client'
 
 import { CameraAlt } from '@mui/icons-material'
-import { Alert, Box, ButtonGroup, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
+import { Alert, Box, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import jsQR from 'jsqr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
-import QrDialog from '@/components/dialogs/QrDialog'
 import { useVibration } from '@/hooks/useVibration'
 import { useFriends } from '@/providers/friendsProvider'
-import theme from '@/style/theme'
 
 const QRScannerDialog = () => {
   const t = useTranslations()
   const { addFriend } = useFriends()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
   const [scannedName, setScannedName] = useState<string | null>(null)
@@ -141,7 +139,7 @@ const QRScannerDialog = () => {
   }, [dialogOpen])
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setIsScanning(false)
     setScannedName(null)
     setScannedCode(null)

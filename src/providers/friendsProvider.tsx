@@ -49,7 +49,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
     (friendSlug: string) => {
       if (userId) {
         addFriendMutation.mutate(
-          { requesterId: userId, receiverSlug: friendSlug },
+          { requesterId: userId, receiverSlug: friendSlug.toLowerCase() },
           {
             onSuccess: () => {
               showSuccess(t('friends.request_sent'))
@@ -118,7 +118,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       friendList,
       addFriend,
       removeFriend,
-      isLoading: friendsLoading || incomingLoading || outgoingLoading,
+      isLoading: friendsLoading || incomingLoading || outgoingLoading || addFriendMutation.isPending,
       confirmFriendRequest: confirmFriendMutation.mutate,
       isConfirmingFriend: confirmFriendMutation.isPending,
     }),
@@ -133,6 +133,7 @@ const FriendsProvider = ({ children }: IProviderProps) => {
       incomingLoading,
       outgoingLoading,
       confirmFriendMutation,
+      addFriendMutation,
     ]
   )
 

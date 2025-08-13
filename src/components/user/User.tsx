@@ -11,7 +11,7 @@ import { useStatistics } from '@/hooks/useStatistics'
 import { useUser } from '@/providers/userProvider'
 import type { IUserProps } from '@/types/user'
 
-const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
+const User = ({ friend, place, onAddFriend, onRemoveFriend, loading }: IUserProps) => {
   const { user } = useUser()
   const { maxStreak, findsPerDay } = useStatistics(friend.numbers)
   const isSelf = user?.name === friend.name
@@ -63,7 +63,14 @@ const User = ({ friend, place, onAddFriend, onRemoveFriend }: IUserProps) => {
         <UserStatsDisplay friend={friend} maxStreak={maxStreak} findsPerDay={findsPerDay} scale={scale} place={place} />
       )}
 
-      {!place && <UserRequestActions friend={friend} onAddFriend={onAddFriend} onRemoveFriend={onRemoveFriend} />}
+      {!place && (
+        <UserRequestActions
+          friend={friend}
+          onAddFriend={onAddFriend}
+          onRemoveFriend={onRemoveFriend}
+          loading={loading}
+        />
+      )}
     </Paper>
   )
 }

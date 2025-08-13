@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import apiService from '@/services/api'
+import apiService, { ApiError } from '@/services/api'
 import {
   transformApiFriendToAppUser,
   transformApiFriendToAppUserConfirmed,
@@ -126,12 +126,13 @@ export const useAddFriendRequest = () => {
 
   return useMutation({
     mutationFn: ({ requesterId, receiverSlug }: { requesterId: string; receiverSlug: string }) =>
-      apiService.addFriendRequest(requesterId, receiverSlug),
+      apiService.addFriendRequest(requesterId, receiverSlug.toLowerCase()),
     onSuccess: (_, { requesterId }) => {
       queryClient.invalidateQueries({ queryKey: ['friends', requesterId] })
       queryClient.invalidateQueries({ queryKey: ['friend-requests', 'outgoing', requesterId] })
-      // FIXED: Also invalidate incoming requests for the receiver
-      // Note: We don't have the receiver's ID here, so this might need adjustment
+    },
+    onError: (error, variables) => {
+      console.error('Failed to add friend request:', error, variables)
     },
   })
 }

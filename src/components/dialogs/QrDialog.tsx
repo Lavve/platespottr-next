@@ -13,7 +13,7 @@ import { useUser } from '@/providers/userProvider'
 
 const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   const t = useTranslations()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const { user } = useUser()
   const [qrOpen, setQrOpen] = useState(false)
   const { isSupported, isActive, requestWakeLock, releaseWakeLock } = useScreenWakeLock()
@@ -38,7 +38,7 @@ const QrDialog = ({ showText = true }: { showText?: boolean }) => {
   }, [qrOpen, isSupported, isActive, requestWakeLock, releaseWakeLock])
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setQrOpen(false)
   }
 

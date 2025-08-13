@@ -38,7 +38,7 @@ import type { IUser } from '@/types/user'
 const FriendsDialog = () => {
   const t = useTranslations()
   const { showSuccess, showError } = useSnackbar()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const [friendToRemove, setFriendToRemove] = useState<IUser | null>(null)
   const { friendList, friendRequests, awaitingFriends, removeFriend, isLoading } = useFriends()
   const queryClient = useQueryClient()
@@ -151,7 +151,7 @@ const FriendsDialog = () => {
   }
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setDialogOpen(false)
   }
 
@@ -282,6 +282,7 @@ const FriendsDialog = () => {
                       friend={friend}
                       onRemoveFriend={() => handleRemoveFriend(friend)}
                       onAddFriend={() => handleAddFriend(friend)}
+                      loading={confirmFriendMutation.isPending || isLoading}
                     />
                   ))}
                 </Box>
@@ -337,6 +338,7 @@ const FriendsDialog = () => {
         onConfirm={handleConfirmRemoveFriend}
         title={t('confirm.remove_title')}
         content={t('confirm.remove_content', { name: friendToRemove?.name ?? '' })}
+        loading={isLoading}
       />
     </>
   )

@@ -8,17 +8,15 @@ const VibrateIconButton = ({
   vibrationPattern = 5,
   disableVibration = false,
   children,
-  onClick,
   ...buttonProps
 }: IVibrateIconButtonProps) => {
-  const { handleClick } = useVibration({
+  const { vibrate } = useVibration({
     pattern: vibrationPattern,
     enabled: !disableVibration,
   })
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    handleClick()
-    onClick?.(event)
+  const handleButtonClick = () => {
+    vibrate()
   }
 
   return (

@@ -1,3 +1,5 @@
+'use client'
+
 import { Delete, History } from '@mui/icons-material'
 import { Paper } from '@mui/material'
 import { useTranslations } from 'next-intl'
@@ -19,6 +21,8 @@ const ResetBlock = () => {
   const [confirmResetLastDialogOpen, setConfirmResetLastDialogOpen] = useState(false)
 
   const handleResetLastPlate = () => {
+    setConfirmResetLastDialogOpen(false)
+
     if (user?.id) {
       removeLastNumberMutation.mutate(user.id, {
         onError: error => {
@@ -31,10 +35,11 @@ const ResetBlock = () => {
         },
       })
     }
-    setConfirmResetLastDialogOpen(false)
   }
 
   const handleResetAllPlates = () => {
+    setConfirmResetAllDialogOpen(false)
+
     if (user?.id) {
       removeAllNumbersMutation.mutate(user.id, {
         onError: error => {
@@ -47,7 +52,6 @@ const ResetBlock = () => {
         },
       })
     }
-    setConfirmResetAllDialogOpen(false)
   }
 
   return (
@@ -59,6 +63,7 @@ const ResetBlock = () => {
           size='large'
           startIcon={<History />}
           fullWidth
+          loading={removeLastNumberMutation.isPending}
           disabled={!user?.numbers?.length}
           onClick={() => setConfirmResetLastDialogOpen(true)}
         >
@@ -70,6 +75,7 @@ const ResetBlock = () => {
           size='large'
           startIcon={<Delete />}
           fullWidth
+          loading={removeAllNumbersMutation.isPending}
           disabled={!user?.numbers?.length}
           onClick={() => setConfirmResetAllDialogOpen(true)}
         >
@@ -83,6 +89,7 @@ const ResetBlock = () => {
         content={t('confirm.reset_last_plate_content', { number: user?.numbers?.length ? user.numbers.length - 1 : 0 })}
         onClose={() => setConfirmResetLastDialogOpen(false)}
         onConfirm={handleResetLastPlate}
+        loading={removeLastNumberMutation.isPending}
       />
 
       <ConfirmDialog
@@ -91,6 +98,7 @@ const ResetBlock = () => {
         content={t('confirm.reset_all_data_content')}
         onClose={() => setConfirmResetAllDialogOpen(false)}
         onConfirm={handleResetAllPlates}
+        loading={removeAllNumbersMutation.isPending}
       />
     </>
   )

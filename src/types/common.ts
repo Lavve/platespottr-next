@@ -25,6 +25,7 @@ export interface IConfirmDialogProps {
   content: string
   confirmText?: string
   cancelText?: string
+  loading?: boolean
   onClose: () => void
   onConfirm: () => void
 }

@@ -6,7 +6,16 @@ import VibrateButton from '@/components/common/VibrateButton'
 import DialogHeader from '@/components/dialogs/DialogHeader'
 import type { IConfirmDialogProps } from '@/types/common'
 
-const ConfirmDialog = ({ open, title, content, confirmText, cancelText, onClose, onConfirm }: IConfirmDialogProps) => {
+const ConfirmDialog = ({
+  open,
+  title,
+  content,
+  confirmText,
+  cancelText,
+  onClose,
+  onConfirm,
+  loading,
+}: IConfirmDialogProps) => {
   const t = useTranslations()
 
   if (!open) return null
@@ -29,10 +38,10 @@ const ConfirmDialog = ({ open, title, content, confirmText, cancelText, onClose,
       </DialogContent>
 
       <DialogActions>
-        <VibrateButton size='large' variant='outlined' color='primary' onClick={onClose}>
+        <VibrateButton size='large' variant='outlined' color='primary' onClick={onClose} disabled={loading}>
           {cancelText || t('common.cancel')}
         </VibrateButton>
-        <VibrateButton size='large' color='primary' variant='contained' onClick={onConfirm} autoFocus>
+        <VibrateButton size='large' color='primary' variant='contained' onClick={onConfirm} autoFocus loading={loading}>
           {confirmText || t('confirm.confirm')}
         </VibrateButton>
       </DialogActions>

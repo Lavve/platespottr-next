@@ -16,13 +16,13 @@ import type { ISettingsTabs } from '@/types/common'
 const SettingsDialog = () => {
   const t = useTranslations()
   const { isAuthenticated } = useUser()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<ISettingsTabs>('reset')
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setDialogOpen(false)
     setSettingsTab('reset')
   }

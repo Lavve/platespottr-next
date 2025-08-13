@@ -112,7 +112,7 @@ const DeleteAccountDialog = ({ open, onClose }: IDeleteAccountDialogProps) => {
           color='error'
           size='large'
           onClick={handleDeleteAccount}
-          disabled={deleteUserMutation.isPending}
+          loading={deleteUserMutation.isPending}
         >
           {deleteUserMutation.isPending ? t('settings.deleting_account') : t('settings.delete_account')}
         </Button>

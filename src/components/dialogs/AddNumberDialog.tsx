@@ -18,6 +18,7 @@ import { getUserCoordinates } from '@/utils/getUserCoordinates'
 const AddNumberDialog = () => {
   const { isAddPlateDialogOpen, clearQuery } = useQueryNavigation()
   const [dialogOpen, setDialogOpen] = useState(isAddPlateDialogOpen)
+  const [loadingNextNumber, setLoadingNextNumber] = useState(false)
   const t = useTranslations()
   const { user } = useUser()
   const { friendsAll } = useFriends()
@@ -36,13 +37,18 @@ const AddNumberDialog = () => {
   }, [friendsAll, t, user?.numbers])
 
   const handleAddPlate = useCallback(async () => {
-    clearQuery()
     if (!user?.id) return
+    setLoadingNextNumber(true)
     const latlng = await getUserCoordinates(settings.latlang === 'on')
 
     addNumberMutation.mutate(
       { userId: user.id, latlng: latlng ?? undefined },
       {
+        onSuccess: () => {
+          setDialogOpen(false)
+          clearQuery()
+          setLoadingNextNumber(false)
+        },
         onError: error => {
           console.error(error)
           let errorMsg = t('notifications.add_number_failed', { code: 'AN' })
@@ -50,10 +56,12 @@ const AddNumberDialog = () => {
             errorMsg = t('notifications.add_number_failed', { code: error.status })
           }
           showError(errorMsg)
+          setDialogOpen(false)
+          clearQuery()
+          setLoadingNextNumber(false)
         },
       }
     )
-    setDialogOpen(false)
   }, [clearQuery, user?.id, addNumberMutation, showError, t, settings.latlang])
 
   const handleClose = useCallback(() => {
@@ -75,10 +83,23 @@ const AddNumberDialog = () => {
       </DialogContent>
 
       <DialogActions>
-        <VibrateButton size='large' variant='outlined' color='primary' onClick={handleClose}>
+        <VibrateButton
+          size='large'
+          variant='outlined'
+          color='primary'
+          onClick={handleClose}
+          disabled={loadingNextNumber}
+        >
           {t('common.cancel')}
         </VibrateButton>
-        <VibrateButton size='large' variant='contained' color='primary' onClick={handleAddPlate} autoFocus>
+        <VibrateButton
+          size='large'
+          variant='contained'
+          color='primary'
+          onClick={handleAddPlate}
+          autoFocus
+          loading={loadingNextNumber}
+        >
           {t('common.add')}
         </VibrateButton>
       </DialogActions>

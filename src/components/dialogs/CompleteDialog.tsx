@@ -13,11 +13,11 @@ import type { IUser } from '@/types/user'
 const CompleteDialog = ({ user }: { user: IUser | null }) => {
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
   const t = useTranslations()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const ref = useRef<FireworksHandlers>(null)
 
   const handleClose = () => {
-    handleClick()
+    vibrate()
     setIsCompleteDialogOpen(false)
   }
 

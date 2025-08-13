@@ -18,7 +18,7 @@ const TopListDialog = () => {
   const t = useTranslations()
   const { user } = useUser()
   const { friendList } = useFriends()
-  const { handleClick } = useVibration()
+  const { vibrate } = useVibration()
   const { calculateMaxStreak, calculateFindsPerDay } = useStatistics()
   const [sortBy, setSortBy] = useState<ISortBy>('plates')
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -65,11 +65,11 @@ const TopListDialog = () => {
   const handleTabChange = (e: React.SyntheticEvent, value: ISortBy) => {
     e.preventDefault()
     setSortBy(value)
-    handleClick()
+    vibrate()
   }
 
   const handleCloseDialog = () => {
-    handleClick()
+    vibrate()
     setSortBy('plates')
     setDialogOpen(false)
   }

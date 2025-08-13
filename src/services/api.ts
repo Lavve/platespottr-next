@@ -80,7 +80,7 @@ class ApiService {
   async getUser(userId?: string, slug?: string, details = false): Promise<UserResponse> {
     const params = new URLSearchParams()
     if (userId) params.append('userId', userId)
-    if (slug) params.append('slug', slug)
+    if (slug) params.append('slug', slug.toLowerCase())
     if (details) params.append('details', 'true')
 
     return this.request<UserResponse>(`/user.php?${params.toString()}`)
@@ -97,7 +97,7 @@ class ApiService {
   async addFriendRequest(requesterId: string, receiverSlug: string): Promise<MessageResponse> {
     return this.request<MessageResponse>('/add-friend.php', {
       method: 'POST',
-      body: JSON.stringify({ requesterId, receiverSlug }),
+      body: JSON.stringify({ requesterId, receiverSlug: receiverSlug.toLowerCase() }),
     })
   }
 

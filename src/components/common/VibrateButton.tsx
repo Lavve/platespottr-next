@@ -4,20 +4,14 @@ import { Button } from '@mui/material'
 import { useVibration } from '@/hooks/useVibration'
 import type { IVibrateButtonProps } from '@/types/common'
 
-const VibrateButton = ({
-  vibrationPattern = 5,
-  disableVibration = false,
-  onClick,
-  ...buttonProps
-}: IVibrateButtonProps) => {
-  const { handleClick } = useVibration({
+const VibrateButton = ({ vibrationPattern = 5, disableVibration = false, ...buttonProps }: IVibrateButtonProps) => {
+  const { vibrate } = useVibration({
     pattern: vibrationPattern,
     enabled: !disableVibration,
   })
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    handleClick()
-    onClick?.(event)
+  const handleButtonClick = () => {
+    vibrate()
   }
 
   return <Button onClick={handleButtonClick} {...buttonProps} />

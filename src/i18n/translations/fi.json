@@ -178,7 +178,7 @@
     "account_creation_failed": "Tilin luominen epäonnistui. Yritä uudelleen. (Virhekoodi: {code})",
     "invalid_credentials": "Virheelliset tiedot. Yritä uudelleen.",
     "request_sent": "Kaveripyyntö lähetetty onnistuneesti!",
-    "request_failed": "Kaveripyynnön lähettäminen epäonnistui. Yritä uudelleen. (Virhekoodi: {code})",
+    "request_failed": "Kaveripyynnön lähettäminen epäonnistui. (Virhekoodi: {code})",
     "friend_added": "{name} on lisätty kaveriksi!",
     "confirm_failed": "Kaveripyynnön hyväksyminen epäonnistui. Yritä uudelleen. (Virhekoodi: {code})",
     "friend_removed": "Kaveri poistettu onnistuneesti!",

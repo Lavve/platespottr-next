@@ -21,6 +21,7 @@ export interface IUserProps {
   place?: number
   onAddFriend?: (friend: IUser) => void
   onRemoveFriend?: (friend: IUser) => void
+  loading?: boolean
 }
 
 export interface IUserContext {
@@ -68,6 +69,7 @@ export interface IUserStatsDisplay {
 
 export interface IRequestActions {
   friend: IUserProps['friend']
+  loading?: boolean
   onAddFriend?: (friend: IUserProps['friend']) => void
   onRemoveFriend?: (friend: IUserProps['friend']) => void
 }
