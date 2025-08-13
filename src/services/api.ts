@@ -3,6 +3,7 @@ import type {
   IncomingRequestsResponse,
   MessageResponse,
   OutgoingRequestsResponse,
+  SettingsResponse,
   StatusResponse,
   UserResponse,
 } from '@/types/api'
@@ -150,6 +151,18 @@ class ApiService {
     return this.request<MessageResponse>('/user-numbers.php', {
       method: 'DELETE',
       body: JSON.stringify({ userId, removeAll: true }),
+    })
+  }
+
+  // Settings management
+  async getSettings(userId: string): Promise<SettingsResponse> {
+    return this.request<SettingsResponse>(`/settings.php?user_id=${userId}`)
+  }
+
+  async saveSettings(userId: string, settings: string): Promise<MessageResponse> {
+    return this.request<MessageResponse>('/settings.php', {
+      method: 'POST',
+      body: JSON.stringify({ user_id: userId, settings }),
     })
   }
 }

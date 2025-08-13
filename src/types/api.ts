@@ -1,5 +1,7 @@
 // API types for external API communication
 
+import type { ISettings } from '@/types/settings'
+
 export interface ApiNumber {
   found_at: string
   lat: string | null
@@ -59,4 +61,11 @@ export interface MessageResponse {
 export interface StatusResponse {
   success: boolean
   status?: string
+}
+
+export interface SettingsResponse {
+  success: boolean
+  settings: ISettings
+  created_at: string
+  updated_at: string
 }

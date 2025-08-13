@@ -18,10 +18,10 @@ export type ISettings = {
 
 export type ISettingsContext = {
   settings: ISettings
-  saveSettings: (settings: ISettings) => void
-  setTheme: (choice: ThemeMode) => void
+  isLoadingSettings: boolean
+  setTheme: (choice: ThemeMode) => ISettings
   resetSettings: () => void
   removeSettings: () => void
-  isLoadingSettings?: boolean
-  settingsError?: Error | null
+  saveSettings: (settings: ISettings) => void
+  syncSettingsToApi: () => Promise<void>
 }

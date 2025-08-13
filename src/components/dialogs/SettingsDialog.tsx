@@ -10,6 +10,7 @@ import ResetBlock from '@/components/dialogs/settings/ResetBlock'
 import SettingsBlock from '@/components/dialogs/settings/SettingsBlock'
 import UserBlock from '@/components/dialogs/settings/UserBlock'
 import { useVibration } from '@/hooks/useVibration'
+import { useSettings } from '@/providers/settingsProvider'
 import { useUser } from '@/providers/userProvider'
 import type { ISettingsTabs } from '@/types/common'
 
@@ -17,12 +18,13 @@ const SettingsDialog = () => {
   const t = useTranslations()
   const { isAuthenticated } = useUser()
   const { vibrate } = useVibration()
-
+  const { syncSettingsToApi } = useSettings()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<ISettingsTabs>('reset')
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = async () => {
     vibrate()
+    await syncSettingsToApi()
     setDialogOpen(false)
     setSettingsTab('reset')
   }

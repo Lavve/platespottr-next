@@ -197,3 +197,22 @@ export const useRemoveAllNumbers = () => {
     },
   })
 }
+
+// Settings hooks
+export const useGetSettings = (userId: string, enabled = true) => {
+  return useQuery({
+    queryKey: ['settings', userId],
+    queryFn: () => {
+      return apiService.getSettings(userId)
+    },
+    enabled: enabled && !!userId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+
+export const useSaveSettings = () => {
+  return useMutation({
+    mutationFn: ({ userId, settings }: { userId: string; settings: string }) =>
+      apiService.saveSettings(userId, settings),
+  })
+}

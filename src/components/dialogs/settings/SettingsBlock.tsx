@@ -12,7 +12,7 @@ import {
 } from '@mui/icons-material'
 import { Box, ButtonGroup, FormControl, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import VibrateButton from '@/components/common/VibrateButton'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import { countries, languages } from '@/constants/settings'
@@ -26,19 +26,22 @@ const SettingsBlock = () => {
   const t = useTranslations()
   const { user, saveUser } = useUser()
   const { settings, saveSettings, setTheme } = useSettings()
+  const [localSettings, setLocalSettings] = useState(settings)
   const [country, setCountry] = useState<Country>(settings.country)
   const [confirmChangeCountryDialogOpen, setConfirmChangeCountryDialogOpen] = useState(false)
   const hasGeolocationDefined = typeof navigator !== 'undefined' && 'geolocation' in navigator
 
   const handleChangeTheme = (themeChoice: ThemeMode) => {
     if (settings.themeChoice !== themeChoice) {
-      setTheme(themeChoice)
+      const newSettings = setTheme(themeChoice)
+      setLocalSettings(newSettings)
     }
   }
 
   const handleChangeVibrate = (vibrate: Vibrate) => {
     if (settings.vibrate !== vibrate) {
-      saveSettings({ ...settings, vibrate })
+      // saveSettings({ ...settings, vibrate })
+      setLocalSettings(prev => ({ ...prev, vibrate }))
     }
   }
 
@@ -46,25 +49,30 @@ const SettingsBlock = () => {
     if (latlang === 'on') {
       try {
         if (!hasGeolocationDefined || settings.latlang !== 'off') {
-          saveSettings({ ...settings, latlang: 'off' })
+          // saveSettings({ ...settings, latlang: 'off' })
+          setLocalSettings(prev => ({ ...prev, latlang: 'off' }))
           return
         }
 
         const permissionStatus = await navigator.permissions.query({ name: 'geolocation' as PermissionName })
 
         if (permissionStatus.state === 'granted') {
-          saveSettings({ ...settings, latlang: 'on' })
+          // saveSettings({ ...settings, latlang: 'on' })
+          setLocalSettings(prev => ({ ...prev, latlang: 'on' }))
         } else if (permissionStatus.state === 'denied') {
-          saveSettings({ ...settings, latlang: 'off' })
+          // saveSettings({ ...settings, latlang: 'off' })
+          setLocalSettings(prev => ({ ...prev, latlang: 'off' }))
         } else if (permissionStatus.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(
             () => {
               if (settings.latlang !== latlang) {
-                saveSettings({ ...settings, latlang })
+                // saveSettings({ ...settings, latlang })
+                setLocalSettings(prev => ({ ...prev, latlang }))
               }
             },
             () => {
-              saveSettings({ ...settings, latlang: 'off' })
+              // saveSettings({ ...settings, latlang: 'off' })
+              setLocalSettings(prev => ({ ...prev, latlang: 'off' }))
             },
             { timeout: 10000, enableHighAccuracy: false }
           )
@@ -74,14 +82,16 @@ const SettingsBlock = () => {
       }
     } else {
       if (settings.latlang !== latlang) {
-        saveSettings({ ...settings, latlang })
+        // saveSettings({ ...settings, latlang })
+        setLocalSettings(prev => ({ ...prev, latlang }))
       }
     }
   }
 
   const handleChangeLanguage = (language: Language) => {
     if (settings.language !== language) {
-      saveSettings({ ...settings, language })
+      // saveSettings({ ...settings, language })
+      setLocalSettings(prev => ({ ...prev, language }))
     }
     setUserLocale(language as Language)
   }
@@ -93,11 +103,18 @@ const SettingsBlock = () => {
 
   const handleConfirmChangeCountry = (country: Country) => {
     if (settings.country !== country) {
-      saveSettings({ ...settings, country })
+      // saveSettings({ ...settings, country })
+      setLocalSettings(prev => ({ ...prev, country }))
     }
     saveUser({ ...user, numbers: [] } as IUser)
     setConfirmChangeCountryDialogOpen(false)
   }
+
+  useEffect(() => {
+    if (JSON.stringify(localSettings) !== JSON.stringify(settings)) {
+      saveSettings(localSettings)
+    }
+  }, [localSettings, settings, saveSettings])
 
   return (
     <>
