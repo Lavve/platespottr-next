@@ -80,20 +80,19 @@ const MapBlock = ({
   }
 
   const getTileLayer = () => {
-    const tileLayer = {
+    // dark
+    // url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    // url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+    // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png',
+    // light
+    // url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    // url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
+    // url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+
+    return {
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    }
-    if (settings.theme === 'dark') {
-      return {
-        ...tileLayer,
-        url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      }
-    } else {
-      return {
-        ...tileLayer,
-        url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-      }
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+      url: `https://tiles.stadiamaps.com/tiles/alidade_smooth${settings.theme === 'dark' ? '_dark' : ''}/{z}/{x}/{y}{r}.png`,
     }
   }
 
